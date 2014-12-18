@@ -1,0 +1,21 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.TWWSIN6TIJDQU8EY" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FormSample\Views\ContactUsPage.cs">
+    <Files>
+      <File FileName="FormSample\Views\HomePage.cs" Line="1" Column="1" />
+      <File FileName="FormSample\Views\ContactUsPage.cs" Line="31" Column="31" />
+      <File FileName="FormSample\Views\MainPage.cs" Line="12" Column="12" />
+      <File FileName="d:\FormSample-new-master\FormSample\Views\ContractorPage.cs" Line="1" Column="1" />
+      <File FileName="d:\FormSample-new-master\FormSample\Services\DataService.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="D:\FormSample-new-master\FormSample\Views\HomePage.cs" line="149" column="11" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="FormSample\Services\DataService.cs" line="52" offsetX="431" offsetY="816" expression="cust" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.FormSample.Droid AndroidDeviceId-Debug="TWWSIN6TIJDQU8EY" />
+</Properties>

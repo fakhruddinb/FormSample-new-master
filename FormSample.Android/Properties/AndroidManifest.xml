@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="FormSample.Android" android:versionCode="1" android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="15" />
+	<application android:label="FormSample.Android" android:icon="@drawable/logo_large_c9y13k30"></application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+</manifest>
