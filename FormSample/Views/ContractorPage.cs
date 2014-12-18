@@ -78,9 +78,9 @@ namespace FormSample.Views
 			//additionalInfo.Text = contractor.AdditionalInformation;
 
            var chkInvite = new CheckBox();
-           chkInvite.SetBinding(CheckBox.CheckedProperty, ContractorViewModel.isCheckedPropertyName);
+           chkInvite.SetBinding(CheckBox.CheckedProperty,ContractorViewModel.isCheckedPropertyName);
            chkInvite.DefaultText = "I Agree to the terms and condition";
-           chkInvite.IsVisible = true;
+           //chkInvite.IsVisible = true;
 
            Button btnSubmitContractor = new Button
            {
