@@ -117,10 +117,10 @@ namespace FormSample.ViewModel
                 {
                     errorMessage = errorMessage + "Agency name is required.\n";
                 }
-                if (!this.IsChecked)
-                {
-                    errorMessage = errorMessage + "terms & condition must be checked.";
-                }
+//                if (!this.IsChecked)
+//                {
+//                    errorMessage = errorMessage + "terms & condition must be checked.";
+//                }
 
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
