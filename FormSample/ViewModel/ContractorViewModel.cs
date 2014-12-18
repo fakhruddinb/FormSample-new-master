@@ -94,9 +94,9 @@ namespace FormSample.ViewModel
            set { this.ChangeAndNotify(ref contractorAdditionalInfo, value, ContractorAdditionalInfoPropertyName); }
        }
 
-       public const string isCheckedPropertyName = "IsChecked";
+       public const string isCheckedPropertyName = "IsCheckedProperty";
        private bool isChecked = false;
-       public bool IsChecked
+		public bool IsCheckedProperty
        {
            get { return this.isChecked; }
            set { this.ChangeAndNotify(ref this.isChecked, value, isCheckedPropertyName); }
@@ -137,10 +137,10 @@ namespace FormSample.ViewModel
                    errorMessage = errorMessage + "Lastname is required.\n";
                }
 
-//               if (!this.IsChecked)
-//               {
-//                   errorMessage = errorMessage + "terms & condition must be checked.";
-//               }
+				if (!this.IsCheckedProperty)
+               {
+                   errorMessage = errorMessage + "terms & condition must be checked.";
+               }
 
                if (!string.IsNullOrEmpty(errorMessage))
                {
