@@ -9,6 +9,8 @@ namespace FormSample
 	{
 		public MainPage()
 		{
+
+
 			var menuPage = new MenuPage();
 			menuPage.Menu.ItemSelected += (sender, e) =>
 			{
@@ -19,14 +21,28 @@ namespace FormSample
 			this.NavigateTo("Home");
 		}
 
+		protected override void OnAppearing ()
+		{
+			base.OnAppearing ();
+
+		}
+
+		public async void ShowLoginPage()
+		{
+			if (string.IsNullOrWhiteSpace(Settings.GeneralSettings))
+			{
+				var page = new LoginPage();
+				await Navigation.PushModalAsync(page);
+			}
+		}
+
 		public void NavigateTo(string item)
 		{
 			Page page = new HomePage();
 			switch (item)
 			{
-			case "Home":
-				page = new HomePage();
-				break;
+
+
 			case "Refer a contractor":
 				page = new ContractorPage ();
 				break;
@@ -51,10 +67,14 @@ namespace FormSample
             case "Weekly pay chart":
                 page = new ChartPage();
                 break;
-			case "Logout":
+			case "Log out":
 				Settings.GeneralSettings = string.Empty;
 				// page = new LoginPage();
 				break;
+			default:
+				page = new HomePage();
+				break;
+
 			}
 
 			this.Detail = new NavigationPage(page);

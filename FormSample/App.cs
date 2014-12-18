@@ -47,8 +47,8 @@ namespace FormSample
 			Page page = null;
             try
             {
-				page = new MainPage();
-				RootPage = new MainPage();
+				RootPage= new MainPage();
+				page  = RootPage;
             }
             catch (Exception ex)
             {

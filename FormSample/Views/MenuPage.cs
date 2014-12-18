@@ -201,7 +201,7 @@ namespace FormSample
 			Icon = "slideout.png";
             var itemList = new List<string> 
             { "Home", "Refer a contractor", "My contractors","Amend my details","Terms and conditions",
-                "About us","Contact us","Take home pay calculator","Weekly pay chart"};
+                "About us","Contact us","Take home pay calculator","Weekly pay chart","Log out"};
             Menu = new ListView() { ItemsSource = itemList };
 
             Content = new StackLayout

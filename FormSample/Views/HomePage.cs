@@ -15,18 +15,11 @@ namespace FormSample.Views
 
         int count = 1;
 
-		public async void ShowLoginPage()
-		{
-			if (string.IsNullOrWhiteSpace(Settings.GeneralSettings))
-			{
-				var page = new LoginPage();
-				await Navigation.PushModalAsync(page);
-			}
-		}
+
         public HomePage()
         {
             // var t = this.IsNetworkAvailable();
-            this.ShowLoginPage();
+            // this.ShowLoginPage();
 			Label lblTitle = new Label{Text = "Home",BackgroundColor= Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
