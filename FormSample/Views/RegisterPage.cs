@@ -62,10 +62,10 @@ namespace FormSample
             phoneText.SetBinding(Entry.TextProperty, AgentViewModel.PhonePropertyName);
             phoneText.Keyboard = Keyboard.Telephone;
 
-            var chkInvite = new CheckBox();
-            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName);
-            chkInvite.DefaultText = "I Agree to the terms and condition";
-            chkInvite.IsVisible = true;
+//            var chkInvite = new CheckBox();
+//            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName);
+//            chkInvite.DefaultText = "I Agree to the terms and condition";
+//            chkInvite.IsVisible = true;
 
             Button btnRegister = new Button
             {
