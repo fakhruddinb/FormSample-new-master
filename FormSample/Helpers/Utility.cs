@@ -11,8 +11,12 @@ namespace FormSample.Helpers
 {
     public static class Utility
     {
-		public static string phoneNo = "08082717377";
-		public static string email = "agency@churchill-knight.co.uk";
+		public static string PHONENO = "08082717377";
+		public static string EMAIL = "agency@churchill-knight.co.uk";
+		public static string GOOGLEPLUSURL = "https://plus.google.com/u/0/+Churchill-Knight/about";
+		public static string LINKEDINURL = "http://www.linkedin.com/company/churchill-knight-&-associates-ltd?trk=hb_tab_compy_id_1398435";
+		public static string LATITUDE = "51.5000";
+		public static string LONGITUDE = "0.1167";
 
         public static bool IsValidEmailAddress(string email)
         {
@@ -20,6 +24,7 @@ namespace FormSample.Helpers
             Match emailAddressMatch = Regex.Match(email, pattern);
             return emailAddressMatch.Success;
         }
+
 		public interface INetworkService
 		{
 			bool IsReachable();
@@ -32,6 +37,16 @@ namespace FormSample.Helpers
 		public interface IEmailService
 		{
 			void OpenEmail (string email);
+		}
+
+		public interface IUrlService
+		{
+			void OpenUrl (string url);
+		}
+
+		public interface IMapService
+		{
+			void OpenMap ();
 		}
     }
 }
