@@ -12,10 +12,9 @@ namespace FormSample.Views
     public class LoginPage : ContentPage
     {
 
-
         public LoginPage()
         {
-            Contractor c = new Contractor();
+            //Contractor c = new Contractor();
             BindingContext = new LoginViewModel(Navigation);
 
             BackgroundColor = Color.FromHex("232323");
