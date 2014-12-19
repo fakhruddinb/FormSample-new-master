@@ -9,22 +9,19 @@ namespace FormSample
 	{
 		public MainPage()
 		{
+			this.ShowLoginPage ();
 
-
-			var menuPage = new MenuPage();
-			menuPage.Menu.ItemSelected += (sender, e) =>
-			{
-				NavigateTo(e.SelectedItem as string);
-			};
-			Master = menuPage;
-
-			this.NavigateTo("Home");
+				var menuPage = new MenuPage ();
+				menuPage.Menu.ItemSelected += (sender, e) => {
+					NavigateTo (e.SelectedItem as string);
+				};
+				Master = menuPage;
+				this.NavigateTo ("Home");
 		}
 
 		protected override void OnAppearing ()
 		{
 			base.OnAppearing ();
-
 		}
 
 		public async void ShowLoginPage()
@@ -42,19 +39,15 @@ namespace FormSample
 			switch (item)
 			{
 
-
 			case "Refer a contractor":
 				page = new ContractorPage ();
 				break;
 			case "My contractors":
 				page = new MyContractorPage ();
 				break;
-				//case "Amend details":
-				//    master.Detail = new NavigationPage(new ChartPage()) { BarBackgroundColor = App.NavTint };
-				//    break;
-				//case "Terms & Conditions":
-				//    master.Detail = new NavigationPage(new ChartPage()) { BarBackgroundColor = App.NavTint };
-				//    break;
+			case "Amend my details":
+				page = new AmendDetailsPage ();
+				    break;
 			case "About us":
 				page = new AboutusPage ();
 				break;
