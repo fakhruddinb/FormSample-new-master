@@ -63,7 +63,7 @@ namespace FormSample
             phoneText.Keyboard = Keyboard.Telephone;
 
             var chkInvite = new CheckBox();
-            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName);
+            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName,BindingMode.TwoWay);
             chkInvite.DefaultText = "I Agree to the terms and condition";
             chkInvite.IsVisible = true;
 
