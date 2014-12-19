@@ -211,7 +211,7 @@ namespace FormSample.ViewModel
 
         public async Task DeleteContractor(int id)
         {
-            db.DeleteItem(id);
+            db.DeleteContractor(id);
             //var deletedCustomer = await this.ds.DeleteCustomer(id);
             //var tmp = deletedCustomer;
             await this.BindContractor();
