@@ -62,10 +62,10 @@ namespace FormSample
             phoneText.SetBinding(Entry.TextProperty, AgentViewModel.PhonePropertyName);
             phoneText.Keyboard = Keyboard.Telephone;
 
-//            var chkInvite = new CheckBox();
-//            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName);
-//            chkInvite.DefaultText = "I Agree to the terms and condition";
-//            chkInvite.IsVisible = true;
+            var chkInvite = new CheckBox();
+            chkInvite.SetBinding(CheckBox.CheckedProperty, AgentViewModel.isCheckedPropertyName);
+            chkInvite.DefaultText = "I Agree to the terms and condition";
+            chkInvite.IsVisible = true;
 
             Button btnRegister = new Button
             {
@@ -90,7 +90,7 @@ namespace FormSample
                 Padding = new Thickness(20, 0, 10, 0),
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 Orientation = StackOrientation.Vertical,
-				Children = {label, emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, btnRegister, loginButton, downloadButton, contactUsButton },
+				Children = {label, emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, chkInvite, btnRegister, loginButton, downloadButton, contactUsButton },
                 BackgroundColor = Color.Gray
             };
             return new ScrollView{Content= nameLayout};
