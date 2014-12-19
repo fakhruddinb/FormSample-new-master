@@ -152,7 +152,8 @@ namespace FormSample.ViewModel
         {
             try
             {
-                await navigation.PushAsync(new RegisterPage());
+				await navigation.PushModalAsync(new RegisterPage());
+                //await navigation.PushAsync(new RegisterPage());
             }
             catch (Exception ex)
             {
@@ -191,8 +192,8 @@ namespace FormSample.ViewModel
 		protected async Task ExecuteContactUsCommand()
 		{
 			try{
-
-                await navigation.PushAsync(new ContactUsPage());
+				App.RootPage.NavigateTo("Contact us");
+               // await navigation.PushAsync(new ContactUsPage());
 			}
 			catch {
 			}
