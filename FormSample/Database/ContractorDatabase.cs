@@ -38,13 +38,19 @@ namespace FormSample
 			}
 		}
 
-		public int DeleteItem(int id)
+		public int DeleteContractor(int id)
 		{
 			lock (locker) {
 				return database.Delete<Contractor>(id);
 			}
 		}
 
+		public int DeleteAllContractor(string agentEmail)
+		{
+			lock (locker) {
+				return database.Delete<Contractor> (agentEmail);
+			}
+		}
 	}
 }
 
