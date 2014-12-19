@@ -117,10 +117,10 @@ namespace FormSample.ViewModel
                 {
                     errorMessage = errorMessage + "Agency name is required.\n";
                 }
-//                if (!this.IsChecked)
-//                {
-//                    errorMessage = errorMessage + "terms & condition must be checked.";
-//                }
+                if (!this.IsChecked)
+                {
+                    errorMessage = errorMessage + "terms & condition must be checked.";
+                }
 
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
@@ -151,7 +151,6 @@ namespace FormSample.ViewModel
                             this.CreateDatabase(result);
                             Settings.GeneralSettings = this.Email;
                         }
-
 
 						await navigation.PopAsync();
 
@@ -229,6 +228,67 @@ namespace FormSample.ViewModel
             {
             }
         }
+
+		private Command updateCommand;
+		public const string UpdateCommandPropertyName = "UpdateCommand";
+		public Command UpdateCommand
+		{
+			get{ 
+				return updateCommand ?? (updateCommand = new Command (async() => await ExecuteUpdateCommand ()));
+			}
+		}
+
+		protected async Task ExecuteUpdateCommand()
+		{
+			try{
+
+				bool isValid = true;
+				string errorMessage = string.Empty;
+
+				if (string.IsNullOrWhiteSpace(this.FirstName))
+				{
+					errorMessage = errorMessage + "Firstname is required.\n";
+				}
+
+				if (string.IsNullOrWhiteSpace(this.LastName))
+				{
+					errorMessage = errorMessage + "Lastname is required.\n";
+				}
+
+				if (string.IsNullOrWhiteSpace(this.AgencyName))
+				{
+					errorMessage = errorMessage + "Agency name is required.\n";
+				}
+
+				if (!string.IsNullOrEmpty(errorMessage))
+				{
+					isValid = false;
+					MessagingCenter.Send(this, "msg", errorMessage);
+				}
+				else
+				{
+						var a = new Agent()
+						{
+							Id = this.Id,
+							Email = this.Email,
+							FirstName = this.FirstName,
+							LastName = this.LastName,
+							Phone = this.Phone,
+							AgencyName = this.AgencyName
+						};
+
+						var result = await dataService.UpdateAgent(a);
+						if (result != null && !string.IsNullOrWhiteSpace(this.Email))
+						{
+							//this.CreateDatabase(result);
+							Settings.GeneralSettings = this.Email;
+						}
+						await navigation.PopAsync();
+				}
+			}
+			catch {
+			}
+		}
         /// <summary>
         /// The execute submit command.
         /// </summary>
@@ -240,6 +300,11 @@ namespace FormSample.ViewModel
             d.SaveItem(responseFromServer); ;
         }
 
+		public async void BindAgent()
+		{
+			Agent obj = new Agent ();
+			obj  =  await dataService.GetAgent(Settings.GeneralSettings);
+		}
 
     }
 
