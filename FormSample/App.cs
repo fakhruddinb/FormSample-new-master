@@ -44,12 +44,18 @@ namespace FormSample
 
 		public static MainPage RootPage{ get; set;}
 
+
+		public static async Task gotoLogin ()
+		{
+			await Navigation.PushModalAsync (new LoginPage ());
+		}
+
         public static Page GetMainPage()
         {
 			Page page = null;
             try
             {
-				RootPage= new MainPage();
+			RootPage= new MainPage();
 				page  = RootPage;
 				//page = new NavigationPage(new StepperDemoPage()); 
             }

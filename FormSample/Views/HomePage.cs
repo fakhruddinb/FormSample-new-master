@@ -15,11 +15,9 @@ namespace FormSample.Views
 
         int count = 1;
 
-
         public HomePage()
         {
             // var t = this.IsNetworkAvailable();
-            // this.ShowLoginPage();
 			Label lblTitle = new Label{Text = "Home",BackgroundColor= Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
@@ -195,5 +193,6 @@ namespace FormSample.Views
             layout.Children.Add(contactUsButton);
             Content = layout;
         }
+
     }
 }

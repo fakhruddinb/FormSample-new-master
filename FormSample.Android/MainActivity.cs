@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using FormSample.Helpers;
 
 namespace FormSample.Droid
 {
@@ -23,6 +24,14 @@ namespace FormSample.Droid
 
             SetPage(App.GetMainPage());
         }
+
+		public override void OnBackPressed ()
+		{
+			if (string.IsNullOrWhiteSpace (Settings.GeneralSettings)) {
+				return;
+			}
+			base.OnBackPressed ();
+		}
     }
 }
 

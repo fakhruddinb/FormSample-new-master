@@ -104,7 +104,7 @@ namespace FormSample
 
         protected override void OnDisappearing()
         {
-            base.OnDisappearing();
+				base.OnDisappearing();
             MessagingCenter.Unsubscribe<AgentViewModel, string>(this, "msg");
         }
     }

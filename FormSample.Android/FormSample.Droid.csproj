@@ -90,6 +90,12 @@
     <Reference Include="OxyPlot.XamarinFormsAndroid">
       <HintPath>..\packages\OxyPlot.XamarinForms.2014.1.546\lib\MonoAndroid10\OxyPlot.XamarinFormsAndroid.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfChart.Android">
+      <HintPath>..\Components\SyncfusionEssentialStudio-12.3.0.38-trial\lib\android\Syncfusion.SfChart.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfChart.XForms.Android">
+      <HintPath>..\Components\SyncfusionEssentialStudio-12.3.0.38-trial\lib\android\Syncfusion.SfChart.XForms.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseUrlAndroid.cs" />
@@ -104,6 +110,7 @@
     <Compile Include="EmailService.cs" />
     <Compile Include="UrlService.cs" />
     <Compile Include="MapService.cs" />
+    <Compile Include="Services\NetworkReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -124,6 +131,7 @@
     <AndroidResource Include="Resources\drawable\slideout2x.png" />
     <AndroidResource Include="Resources\drawable\Google.png" />
     <AndroidResource Include="Resources\drawable\LinkedIn.png" />
+    <AndroidResource Include="Resources\drawable\s960.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -162,4 +170,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

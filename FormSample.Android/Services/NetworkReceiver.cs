@@ -81,12 +81,13 @@ namespace FormSample.Droid.Services
 					ContractorDataService contractordataservice = new ContractorDataService();
 
 					IEnumerable<Contractor> list = contractor.GetContractors(Settings.GeneralSettings);
-					if(list !=null && list.Count()>0)
+					if(list != null && list.Count() > 0)
 					{
 						foreach(Contractor item in list)
 						{
 							contractordataservice.AddContractor(item);
 						}
+
 						contractor.DeleteAllContractor(Settings.GeneralSettings);
 					}
 					//TODO: write/call methods to upload / download data from/to server

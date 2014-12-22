@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using FormSample.ViewModel;
 using FormSample.Helpers;
+using System.Threading.Tasks;
 
 namespace FormSample
 {
@@ -10,6 +11,7 @@ namespace FormSample
 
 		private AgentViewModel agentViewModel;
 		private DataService dataService;
+
 		public AmendDetailsPage ()
 		{
 			agentViewModel = new AgentViewModel (Navigation);
@@ -89,7 +91,7 @@ namespace FormSample
 				BackgroundColor = Color.Gray
 			};
 			return new ScrollView{Content= nameLayout};
-
+			//agentObj =  BindAgent ();
 		}
 
 		protected override void OnAppearing()
@@ -104,10 +106,11 @@ namespace FormSample
 			MessagingCenter.Unsubscribe<ContractorViewModel, string>(this, "msg");
 		}
 
-		private async void BindAgent()
+		private async Task<Agent> BindAgent()
 		{
 			Agent obj = new Agent ();
 			obj  =  await dataService.GetAgent(Settings.GeneralSettings);
+			return obj;
 		}
 	}
 }

@@ -21,5 +21,19 @@ namespace FormSample
         
     }
 
+	public class PayTable
+	{
+		[PrimaryKey, AutoIncrement]
+		[JsonIgnore]
+		public int Id { get; set; }
+
+		public double TaxablePay{ get; set; }
+
+		[JsonProperty(PropertyName = "TakeHome_Limited")]
+		public double TakeHomeLimited {get;set;}
+
+		[JsonProperty(PropertyName = "Takehome_Umbrella")]
+		public double TakeHomeUmbrella { get; set; }
+	}
 }
 

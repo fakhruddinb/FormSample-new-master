@@ -171,7 +171,7 @@ namespace FormSample.ViewModel
 //						md.Master = new MenuPage(md);
 //						md.Detail = new NavigationPage(page) { BarBackgroundColor = Color.Gray };
 //						await navigation.PushAsync(md);
-						await navigation.PushAsync(new MyContractorPage());
+						App.RootPage.NavigateTo("My contractors");
 					}
                }
            }

@@ -8,6 +8,12 @@ namespace FormSample.Views
     {
 		public ContactUsPage()
 		{
+			var layout = this.AssignValues ();
+			this.Content = layout;
+		}
+
+		public ScrollView AssignValues()
+		{
             //this.Title = "Contact us";
 			Label lblTitle = new Label{Text = "Contact us",BackgroundColor= Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
@@ -127,7 +133,9 @@ namespace FormSample.Views
 				Children = { lblTitle,label, grid, downloadButton }
 				//Children = { label, phoneNumberImage,callPhoneNo,agencyImage, contactMapImage, agencyImage, contactMapImage, downloadButton }
             };
-            this.Content = new ScrollView { Content = layout };
+           return new ScrollView { Content = layout };
 		}
+
+
     }
 }

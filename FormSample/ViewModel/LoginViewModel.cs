@@ -192,8 +192,10 @@ namespace FormSample.ViewModel
 		protected async Task ExecuteContactUsCommand()
 		{
 			try{
-				App.RootPage.NavigateTo("Contact us");
-               // await navigation.PushAsync(new ContactUsPage());
+				 App.RootPage.NavigateTo("Contact us");
+				//await navigation.PopModalAsync();
+				//await navigation.PushModalAsync(new ContactUsPage());
+				//await navigation.PushAsync(new ContactUsPage());
 			}
 			catch {
 			}

@@ -69,7 +69,6 @@ namespace FormSample
 				break;
 
 			}
-
 			this.Detail = new NavigationPage(page);
 			this.IsPresented = false;
 		}

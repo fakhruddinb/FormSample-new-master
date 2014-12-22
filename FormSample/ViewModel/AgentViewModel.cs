@@ -181,7 +181,8 @@ namespace FormSample.ViewModel
         {
             try
             {
-                await navigation.PushAsync(new LoginPage());
+				await navigation.PushModalAsync(new LoginPage());
+               // await navigation.PushAsync(new LoginPage());
             }
             catch { }
         }

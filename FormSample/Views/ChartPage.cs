@@ -1,4 +1,8 @@
-﻿namespace FormSample
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Syncfusion.SfChart.XForms;
+
+namespace FormSample
 {
 	using OxyPlot;
 	using OxyPlot.Axes;
@@ -7,73 +11,209 @@
 	using Xamarin.Forms;
 	public class ChartPage : ContentPage
 	{
+		SfChart chart1; 
+		List<DailyRateCalcuationTable> dailyRate;
+		DailyRateDataModel model;
+
 		public ChartPage ()
 		{
-			this.Content = this.GeneratePieChart();
+			this.BackgroundColor = Color.White;
+
+			dailyRate = new List<DailyRateCalcuationTable>();
+			model = new DailyRateDataModel();
+
+			Label header = new Label
+			{
+				Text = "Pay Chart", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
+				TextColor = Color.White,
+				VerticalOptions = LayoutOptions.Center,
+				XAlign = TextAlignment.Center, // Center the text in the blue box.
+				YAlign = TextAlignment.Center,
+				HeightRequest = 30
+			};
+
+			Label description = new Label
+			{
+				Text="Please find the helpful guide below to show how much difference a Limited company option could make to " +
+					"your contractor's take home pay.",
+				TextColor = Color.Black,
+				HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand
+			};
+
+			var grid = new Grid
+			{
+				ColumnSpacing = 2
+			};
+			grid.Children.Add(new Label { Text = "Daily Rate", BackgroundColor=Color.Maroon, TextColor=Color.White }, 0, 0); // Left, First element
+			grid.Children.Add(new Label { Text = "Limited Company" , BackgroundColor=Color.Maroon, TextColor=Color.White }, 1, 0);
+			grid.Children.Add(new Label { Text = "Umbrella Company" , BackgroundColor=Color.Maroon, TextColor=Color.White }, 2, 0);
+
+			ListView list= new ListView();
+
+			list.ItemTemplate = new DataTemplate(typeof(DailyRateCell));
+			list.ItemsSource = GenerateDailyRateTable();
+			chart1= new SfChart();
+			GenerateChart();
+
+			var layout = new StackLayout
+			{
+				Children = { header, description,grid, list, chart1 },
+				VerticalOptions = LayoutOptions.FillAndExpand,
+
+			};
+			Content = layout;
 		}
-		public ScrollView GeneratePieChart()
+
+		private List<DailyRateCalcuationTable> GenerateDailyRateTable()
 		{
-			var pieChart = new OxyPlotView()
-			{
-				Model = CreatePieChart(),
-				VerticalOptions = LayoutOptions.Fill,
-				HorizontalOptions = LayoutOptions.Fill,
-			};
 
-			var pieChart2 = new OxyPlotView()
+			FormSample.PayTableDatabase d = new  FormSample.PayTableDatabase();
+			for (double rate = 100; rate <= 500; rate += 50)
 			{
-				Model = CreatePieChart2(),
-				VerticalOptions = LayoutOptions.Fill,
-				HorizontalOptions = LayoutOptions.Fill,
-			};
-			var nameLayout = new ScrollView()
-			{
-				Content = new StackLayout()
+				double weeklyExpense = 50;
+				var grossPay = rate * 5;
+				var taxablePay = grossPay - weeklyExpense;
+				double takeHomePayLimited = 0;
+				var payData = d.GetPayTableTaxablePay(250); //TODO: taxable pay
+				if (payData != null)
 				{
-					// WidthRequest = 320,
-					Padding = new Thickness(0, 20, 0, 0),
-					HorizontalOptions = LayoutOptions.Start,
-					VerticalOptions = LayoutOptions.Fill,
-					Orientation = StackOrientation.Vertical,
-					Children = { pieChart, pieChart2 },
-					BackgroundColor = Color.Gray
-				},
-			};
+					var netPay = payData.TakeHomeLimited;
+					takeHomePayLimited = netPay + weeklyExpense;
+					var percentLimited = (takeHomePayLimited / grossPay) * 100;
+				}
 
+				double takeHomeUmbrella = 0;
+				payData = d.GetPayTableTaxablePay(grossPay);
+				if (payData != null)
+				{
+					takeHomeUmbrella = payData.TakeHomeUmbrella;
+					var percentUmbrella = (takeHomeUmbrella / grossPay) * 100;
+
+				}
+
+				dailyRate.Add(new DailyRateCalcuationTable(){ 
+					DailyRate = rate,
+					LimitedCompany = takeHomePayLimited,
+					UmbrellaCompany= takeHomeUmbrella
+				});
+				model.SetLimitedCompanyData("Limited", takeHomePayLimited);
+				model.SetUmbrellaCompanyData("Umbrella", takeHomeUmbrella);
+			}
+			return dailyRate;
+		}
+		private void GenerateChart()
+		{
+			chart1.Title=new ChartTitle(){Text="Your weekly pay"};
+			chart1.Title.Font = Font.OfSize("Arial", 10);
+			chart1.WidthRequest = 200;
+			chart1.HeightRequest = 200;
+
+			//Initializing Primary Axis
+			Syncfusion.SfChart.XForms.CategoryAxis primaryAxis=new Syncfusion.SfChart.XForms.CategoryAxis();
+			primaryAxis.Title = new ChartAxisTitle(){Text= "Daily Rate"};;
+			chart1.PrimaryAxis=primaryAxis;
+
+			//Initializing Secondary Axis
+			Syncfusion.SfChart.XForms.NumericalAxis secondaryAxis=new Syncfusion.SfChart.XForms.NumericalAxis();
+			secondaryAxis.Title= new ChartAxisTitle(){Text="Temperature"};
+			chart1.SecondaryAxis=secondaryAxis;
+
+			chart1.Series.Add(new Syncfusion.SfChart.XForms.ColumnSeries()
+				{
+					ItemsSource = model.limitedCompanyTax,
+					YAxis=new NumericalAxis(){OpposedPosition=true,ShowMajorGridLines = false},
+					IsVisibleOnLegend =true  ,
+				});
+			chart1.Series.Add(new Syncfusion.SfChart.XForms.ColumnSeries()
+				{
+					ItemsSource = model.umbrallaCompanyTax,
+					YAxis=new NumericalAxis(){OpposedPosition=true,ShowMajorGridLines = false},
+					IsVisibleOnLegend =true
+				});
+			//Adding Chart Legend for the Chart
+			chart1.Legend = new ChartLegend() 
+			{ 
+				IsVisible = true, 
+				DockPosition= Syncfusion.SfChart.XForms.LegendPlacement.Bottom ,
+				LabelStyle = new ChartLegendLabelStyle(){Font = Font.OfSize("Arial", 10) }
+			};
+		}
+	}
+
+	public class DailyRateCalcuationTable
+	{
+		public double DailyRate {get;set;}
+		public double LimitedCompany {get;set;}
+		public double UmbrellaCompany { get; set; }
+	}
+
+	public class DailyRateDataModel
+	{
+		public ObservableCollection<ChartDataPoint> dailyRate;
+		public ObservableCollection<ChartDataPoint> limitedCompanyTax;
+		public ObservableCollection<ChartDataPoint> umbrallaCompanyTax;
+
+		public DailyRateDataModel()
+		{
+			dailyRate =new ObservableCollection<ChartDataPoint>();
+			limitedCompanyTax = new ObservableCollection<ChartDataPoint>();
+			umbrallaCompanyTax = new ObservableCollection<ChartDataPoint>();
+
+		}
+		public void SetLimitedCompanyData(string title, double value)
+		{
+			this.limitedCompanyTax.Add(new ChartDataPoint(title,value));
+		}
+
+		public void SetUmbrellaCompanyData(string title, double value)
+		{
+			this.umbrallaCompanyTax.Add(new ChartDataPoint(title, value));
+		}
+	}
+
+	public class DailyRateCell : ViewCell
+	{
+		public DailyRateCell()
+		{
+
+			var nameLayout = CreateLayout();
+			var viewLayout = new StackLayout()
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children = { nameLayout }
+			};
+			viewLayout.BackgroundColor = MyContractorPage.counter % 2 == 0 ? Color.Silver: Color.Gray ;
+			MyContractorPage.counter++;
+			View = viewLayout;
+		}
+		private StackLayout CreateLayout()
+		{
+			var nameLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
+			nameLabel.SetBinding(Label.TextProperty, new Binding("DailyRate"));
+			nameLabel.WidthRequest = 100;
+			nameLabel.TextColor = Color.Black;
+
+			var limitedCompanyLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
+			limitedCompanyLabel.SetBinding(Label.TextProperty, new Binding("LimitedCompany"));
+			limitedCompanyLabel.TextColor = Color.Black;
+
+			var UmbrellaCompanyLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
+			UmbrellaCompanyLabel.SetBinding(Label.TextProperty, new Binding("UmbrellaCompany"));
+			UmbrellaCompanyLabel.TextColor = Color.Black;
+
+
+
+
+			var nameLayout = new StackLayout()
+			{
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				Orientation = StackOrientation.Horizontal,
+				Children = { nameLabel, limitedCompanyLabel, UmbrellaCompanyLabel }
+			};
 			return nameLayout;
 		}
 
-		private static PlotModel CreatePieChart()
-		{
-			var model = new PlotModel { Title = "World population by continent" };
-
-			var ps = new PieSeries { StrokeThickness = 2.0, InsideLabelPosition = 0.8, AngleSpan = 360, StartAngle = 0 };
-
-			ps.Slices.Add(new PieSlice("Africa", 1030) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Americas", 929) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Asia", 4157));
-			ps.Slices.Add(new PieSlice("Europe", 739) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Oceania", 35) { IsExploded = true });
-
-			model.Series.Add(ps);
-			return model;
-		}
-
-		private static PlotModel CreatePieChart2()
-		{
-			var model = new PlotModel { Title = "Cricket world cup" };
-
-			var ps = new PieSeries { StrokeThickness = 2.0, InsideLabelPosition = 0.8, AngleSpan = 360, StartAngle = 0 };
-
-			ps.Slices.Add(new PieSlice("India", 1030) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Aus", 929) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Srilanka", 4157));
-			ps.Slices.Add(new PieSlice("England", 739) { IsExploded = true });
-			ps.Slices.Add(new PieSlice("Pakistan", 35) { IsExploded = true });
-
-			model.Series.Add(ps);
-			return model;
-		}
 	}
+
 }
 

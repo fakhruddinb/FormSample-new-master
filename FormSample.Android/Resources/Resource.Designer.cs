@@ -69,6 +69,15 @@ namespace FormSample.Droid
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f010002
+			public const int axisTitle = 2130771970;
+			
+			// aapt resource value: 0x7f010000
+			public const int labelColor = 2130771968;
+			
+			// aapt resource value: 0x7f010001
+			public const int labelSize = 2130771969;
+			
 			static Attribute()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -205,10 +214,13 @@ namespace FormSample.Droid
 			public const int Paychart = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int slideout = 2130837519;
+			public const int s960 = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int slideout2x = 2130837520;
+			public const int slideout = 2130837520;
+			
+			// aapt resource value: 0x7f020011
+			public const int slideout2x = 2130837521;
 			
 			static Drawable()
 			{
@@ -223,17 +235,53 @@ namespace FormSample.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080001
-			public const int MyButton = 2131230721;
+			// aapt resource value: 0x7f08000d
+			public const int MyButton = 2131230733;
 			
-			// aapt resource value: 0x7f080003
-			public const int calendar_grid = 2131230723;
+			// aapt resource value: 0x7f080006
+			public const int axisLayout = 2131230726;
+			
+			// aapt resource value: 0x7f08000f
+			public const int calendar_grid = 2131230735;
 			
 			// aapt resource value: 0x7f080000
 			public const int calendar_view = 2131230720;
 			
+			// aapt resource value: 0x7f080003
+			public const int chartAreaLayout = 2131230723;
+			
 			// aapt resource value: 0x7f080002
-			public const int title = 2131230722;
+			public const int chartTitle = 2131230722;
+			
+			// aapt resource value: 0x7f080004
+			public const int gridLineLayout = 2131230724;
+			
+			// aapt resource value: 0x7f08000b
+			public const int iconView = 2131230731;
+			
+			// aapt resource value: 0x7f08000c
+			public const int label = 2131230732;
+			
+			// aapt resource value: 0x7f080008
+			public const int legendHeader = 2131230728;
+			
+			// aapt resource value: 0x7f08000a
+			public const int legendItemsLayout = 2131230730;
+			
+			// aapt resource value: 0x7f080009
+			public const int legendScrollView = 2131230729;
+			
+			// aapt resource value: 0x7f080007
+			public const int legendViewGroup = 2131230727;
+			
+			// aapt resource value: 0x7f080001
+			public const int rootLayout = 2131230721;
+			
+			// aapt resource value: 0x7f080005
+			public const int seriesLayout = 2131230725;
+			
+			// aapt resource value: 0x7f08000e
+			public const int title = 2131230734;
 			
 			static Id()
 			{
@@ -252,16 +300,25 @@ namespace FormSample.Droid
 			public const int calendar_picker = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int dialog = 2130903041;
+			public const int chart_layout = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Main = 2130903042;
+			public const int chart_legend = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int month = 2130903043;
+			public const int chart_legend_item = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int week = 2130903044;
+			public const int dialog = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int Main = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int month = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int week = 2130903047;
 			
 			static Layout()
 			{
@@ -276,11 +333,14 @@ namespace FormSample.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f060007
+			public const int ApplicationName = 2131099655;
+			
 			// aapt resource value: 0x7f060006
-			public const int ApplicationName = 2131099654;
+			public const int Hello = 2131099654;
 			
 			// aapt resource value: 0x7f060005
-			public const int Hello = 2131099653;
+			public const int app_name = 2131099653;
 			
 			// aapt resource value: 0x7f060001
 			public const int day_name_format = 2131099649;
@@ -310,6 +370,9 @@ namespace FormSample.Droid
 		public partial class Style
 		{
 			
+			// aapt resource value: 0x7f070004
+			public const int AppTheme = 2131165188;
+			
 			// aapt resource value: 0x7f070001
 			public const int CalendarCell = 2131165185;
 			
@@ -328,6 +391,33 @@ namespace FormSample.Droid
 			}
 			
 			private Style()
+			{
+			}
+		}
+		
+		public partial class Styleable
+		{
+			
+			public static int[] ChartAxis = new int[] {
+					2130771968,
+					2130771969,
+					2130771970};
+			
+			// aapt resource value: 2
+			public const int ChartAxis_axisTitle = 2;
+			
+			// aapt resource value: 0
+			public const int ChartAxis_labelColor = 0;
+			
+			// aapt resource value: 1
+			public const int ChartAxis_labelSize = 1;
+			
+			static Styleable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Styleable()
 			{
 			}
 		}
