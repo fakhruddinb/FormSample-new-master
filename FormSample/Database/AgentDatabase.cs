@@ -25,6 +25,11 @@ namespace FormSample
 			return database.Table<Agent>().FirstOrDefault(x => x.Id == id);
 		}
 
+		public Agent GetAgentByEmail (string emailId) 
+		{
+			return database.Table<Agent>().FirstOrDefault(x => x.Email == emailId);
+		}
+
 		public int SaveItem (Agent item) 
 		{
 			lock (locker) {

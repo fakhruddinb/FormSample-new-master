@@ -202,25 +202,31 @@ namespace FormSample.Droid
 			public const int LinkedIn = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int logo_large_c9y13k30 = 2130837515;
+			public const int logo = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int MyContractors = 2130837516;
+			public const int logo_large_c9y13k30 = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int PayCalculator = 2130837517;
+			public const int menu_icon = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int Paychart = 2130837518;
+			public const int MyContractors = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int s960 = 2130837519;
+			public const int PayCalculator = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int slideout = 2130837520;
+			public const int Paychart = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public const int slideout2x = 2130837521;
+			public const int s960 = 2130837521;
+			
+			// aapt resource value: 0x7f020012
+			public const int slideout = 2130837522;
+			
+			// aapt resource value: 0x7f020013
+			public const int slideout2x = 2130837523;
 			
 			static Drawable()
 			{

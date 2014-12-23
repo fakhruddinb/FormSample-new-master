@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Xamarin.Forms;
 using FormSample.Droid;
+using FormSample.Helpers;
 
 [assembly: Dependency(typeof(SQLite_Android))]
 namespace FormSample.Droid
@@ -18,7 +19,11 @@ namespace FormSample.Droid
         {
             var sqliteFilename = "TodoSQLite.db3";
             string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal); // Documents folder
-            var path = Path.Combine(documentsPath, sqliteFilename);
+			var finalPath = Path.Combine (documentsPath, Settings.GeneralSettings);
+			if (!Directory.Exists (finalPath)) {
+				Directory.CreateDirectory (finalPath);
+			}
+			var path = Path.Combine(finalPath, sqliteFilename);
 
             //			// This is where we copy in the prepopulated database
             //			Console.WriteLine (path);

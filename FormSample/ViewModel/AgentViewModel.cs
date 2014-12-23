@@ -2,6 +2,8 @@
 using FormSample.ViewModel;
 using System.Threading.Tasks;
 using FormSample.Helpers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace FormSample.ViewModel
 {
@@ -12,12 +14,13 @@ namespace FormSample.ViewModel
     public class AgentViewModel : BaseViewModel
     {
         private DataService dataService;
-
+		private UploadService uploadService;
         private INavigation navigation;
         public AgentViewModel(INavigation navigation)
         {
             this.navigation = navigation;
             this.dataService = new DataService();
+			this.uploadService = new UploadService ();
         }
 
         public const string IdPropertyName = "Id";
@@ -129,7 +132,12 @@ namespace FormSample.ViewModel
                 }
                 else
                 {
-                    if (await this.dataService.GetAgent(this.Email)!=null)
+					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
+					if(!x)
+					{
+						MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
+					}
+					else if (await this.dataService.GetAgent(this.Email)!=null)
                     {
                         MessagingCenter.Send(this, "msg", "Email already exist.");
                     }
@@ -150,21 +158,20 @@ namespace FormSample.ViewModel
                         {
                             this.CreateDatabase(result);
                             Settings.GeneralSettings = this.Email;
+							await uploadService.UpdatePaytableDataFromService();
                         }
+						// var p = new MainPage();
 
-						await navigation.PopAsync();
-
+						await navigation.PushAsync(new MainPage());
+						//App.RootPage.NavigateTo("Home");
                     }
                 }
             }
             catch (Exception ex)
             {
-
+				MessagingCenter.Send(this, "msg", "Something went wrong while creating account. please try after sometime..");
             }
-            //if (await this.dataService.IsValidUser(this.Username, this.Password))
-            //{
-
-            //}
+          
         }
 
         private Command gotoLoginCommand;
@@ -283,6 +290,7 @@ namespace FormSample.ViewModel
 						{
 							//this.CreateDatabase(result);
 							Settings.GeneralSettings = this.Email;
+
 						}
 						await navigation.PopAsync();
 				}
@@ -306,6 +314,8 @@ namespace FormSample.ViewModel
 			Agent obj = new Agent ();
 			obj  =  await dataService.GetAgent(Settings.GeneralSettings);
 		}
+
+
 
     }
 

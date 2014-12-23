@@ -11,9 +11,17 @@ namespace FormSample
 
 		private AgentViewModel agentViewModel;
 		private DataService dataService;
+		Entry firstName ;
+		Entry lastName;
+		Entry email;
+		Entry phone;
+		Entry agencyName;
+		int id;
 
 		public AmendDetailsPage ()
 		{
+			this.BackgroundColor = Color.White;
+
 			agentViewModel = new AgentViewModel (Navigation);
 			dataService = new DataService ();
 			var layout = this.AssignValues();
@@ -24,47 +32,52 @@ namespace FormSample
 		{
 			BindingContext = new AgentViewModel (Navigation);
 
+
 			var label = new Label
 			{
 				Text = "Amend Details",
 				Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
+				BackgroundColor = Color.Black,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
 				YAlign = TextAlignment.Center, // Center the text in the blue box.
 			};
 
-			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.Black};
 			firstNameLabel.Text = "First Name";
 
-			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.Black };
 			lastNameLabel.Text = "Last Name";
 
-			var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
-			firstName.SetBinding(Entry.TextProperty, AgentViewModel.FirstNamePropertyName);
+			this.firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			//firstName.SetBinding(Entry.TextProperty, new Binding(AgentViewModel.FirstNamePropertyName));
 
-			var lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
-			lastName.SetBinding(Entry.TextProperty, AgentViewModel.LastNamePropertyName);
 
-			var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			this.lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			// lastName.SetBinding(Entry.TextProperty, AgentViewModel.LastNamePropertyName,BindingMode.TwoWay);
+
+			var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.Black };
 			emailLabel.Text = "Email";
 
-			var emailText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
-			emailText.SetBinding(Entry.TextProperty, AgentViewModel.AgentEmailPropertyName);
-			emailText.IsEnabled = false;
+			this.email= new Entry { HorizontalOptions = LayoutOptions.FillAndExpand  };
+			// emailText.SetBinding(Entry.TextProperty, AgentViewModel.AgentEmailPropertyName,BindingMode.TwoWay);
+			this.email.IsEnabled = false;
 
-			var agencyLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var agencyLabel = new Label { HorizontalOptions = LayoutOptions.Fill , TextColor=Color.Black};
 			agencyLabel.Text = "Agency";
 
-			var agencyText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
-			agencyText.SetBinding(Entry.TextProperty, AgentViewModel.AgencyNamePropertyName);
+			this.agencyName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			//agencyText.SetBinding(Entry.TextProperty, AgentViewModel.AgencyNamePropertyName,BindingMode.TwoWay);
 
-			var phoneLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var phoneLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.Black };
 			phoneLabel.Text = "Phone number";
 
-			var phoneText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-			phoneText.SetBinding(Entry.TextProperty, AgentViewModel.PhonePropertyName);
-			phoneText.Keyboard = Keyboard.Telephone;
+			this.phone = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
+			//phoneText.SetBinding(Entry.TextProperty, AgentViewModel.PhonePropertyName,BindingMode.TwoWay);
+			this.phone.Keyboard = Keyboard.Telephone;
+			this.BindAgent();
+
 
 
 			Button btnUpdate = new Button
@@ -73,7 +86,12 @@ namespace FormSample
 				BackgroundColor = Color.FromHex("22498a"),
 				Text = "Update"
 			};
-			btnUpdate.SetBinding(Button.CommandProperty, AgentViewModel.UpdateCommandPropertyName);
+			btnUpdate.Clicked += async (object sender, EventArgs e) => 
+			{
+				await  ExecuteUpdateCommand();
+			};
+
+			//  btnUpdate.SetBinding(Button.CommandProperty, AgentViewModel.UpdateCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
 			downloadButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoDownloadCommandPropertyName);
@@ -83,34 +101,93 @@ namespace FormSample
 
 			var nameLayout = new StackLayout()
 			{
-				WidthRequest = 320,
-				Padding = new Thickness(20, 0, 10, 0),
-				HorizontalOptions = LayoutOptions.StartAndExpand,
+				// WidthRequest = 320,
+				//Padding = new Thickness(0, 0, 0, 0),
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Vertical,
-				Children = {label, emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, btnUpdate, downloadButton, contactUsButton },
-				BackgroundColor = Color.Gray
+				Children = 
+				{ label, emailLabel, email, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, 
+					agencyName, phoneLabel, phone, btnUpdate, downloadButton, contactUsButton },
+
 			};
 			return new ScrollView{Content= nameLayout};
 			//agentObj =  BindAgent ();
 		}
 
-		protected override void OnAppearing()
+
+		private void BindAgent()
 		{
-			base.OnAppearing();
-			MessagingCenter.Subscribe<ContractorViewModel, string>(this, "msg", (sender, args) => this.DisplayAlert("Message", args, "OK"));
+			AgentDatabase d = new AgentDatabase();
+			var agentToUpdate = d.GetAgentByEmail(Settings.GeneralSettings);
+			if (agentToUpdate != null)
+			{
+				id = agentToUpdate.Id;
+
+				firstName.Text = agentToUpdate.FirstName;
+				lastName.Text = agentToUpdate.LastName;
+				email.Text = agentToUpdate.Email;
+				agencyName.Text = agentToUpdate.AgencyName;
+				phone.Text = agentToUpdate.Phone;
+			}
 		}
 
-		protected override void OnDisappearing()
+		private async Task ExecuteUpdateCommand()
 		{
-			base.OnDisappearing();
-			MessagingCenter.Unsubscribe<ContractorViewModel, string>(this, "msg");
-		}
+			try{
 
-		private async Task<Agent> BindAgent()
+				bool isValid = true;
+				string errorMessage = string.Empty;
+
+				if (string.IsNullOrWhiteSpace(this.firstName.Text))
+				{
+					errorMessage = errorMessage + "Firstname is required.\n";
+				}
+
+				if (string.IsNullOrWhiteSpace(this.lastName.Text))
+				{
+					errorMessage = errorMessage + "Lastname is required.\n";
+				}
+
+				if (string.IsNullOrWhiteSpace(this.agencyName.Text))
+				{
+					errorMessage = errorMessage + "Agency name is required.\n";
+				}
+
+				if (!string.IsNullOrEmpty(errorMessage))
+				{
+					isValid = false;
+					await this.DisplayAlert("Message", errorMessage, "OK");
+				}
+				else
+				{
+					var a = new Agent()
+					{
+						Id = this.id,
+						Email = this.email.Text,
+						FirstName = this.firstName.Text,
+						LastName = this.lastName.Text,
+						Phone = this.phone.Text,
+						AgencyName = this.agencyName.Text
+					};
+
+					var networkService = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
+					if (networkService)
+					{
+						await dataService.UpdateAgent(a);
+					}
+
+					UpdateAgent(a);
+
+					App.RootPage.NavigateTo("Home");
+				}
+			}
+			catch {
+			}
+		}
+		private void UpdateAgent(Agent agentToUpdate)
 		{
-			Agent obj = new Agent ();
-			obj  =  await dataService.GetAgent(Settings.GeneralSettings);
-			return obj;
+			AgentDatabase agent = new AgentDatabase();
+			agent.SaveItem(agentToUpdate);
 		}
 	}
 }

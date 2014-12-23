@@ -3,6 +3,7 @@ using SQLite.Net;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Linq;
+using FormSample.Helpers;
 
 namespace FormSample
 {
@@ -51,6 +52,8 @@ namespace FormSample
 				return database.Delete<Contractor> (agentEmail);
 			}
 		}
+
+
 	}
 }
 

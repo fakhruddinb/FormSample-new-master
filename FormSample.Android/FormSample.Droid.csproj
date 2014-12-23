@@ -126,18 +126,27 @@
     <AndroidResource Include="Resources\drawable\ContactMap.jpg" />
     <AndroidResource Include="Resources\drawable\ContactPhoneNumber.jpg" />
     <AndroidResource Include="Resources\drawable\homeheader.jpg" />
-    <AndroidResource Include="Resources\drawable\logo_large_c9y13k30.png" />
-    <AndroidResource Include="Resources\drawable\slideout.png" />
-    <AndroidResource Include="Resources\drawable\slideout2x.png" />
     <AndroidResource Include="Resources\drawable\Google.png" />
     <AndroidResource Include="Resources\drawable\LinkedIn.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_icon.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\menu_icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_icon.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\logo_large_c9y13k30.png" />
     <AndroidResource Include="Resources\drawable\s960.png" />
+    <AndroidResource Include="Resources\drawable\slideout.png" />
+    <AndroidResource Include="Resources\drawable\slideout2x.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Images\Accountancy.jpg" />
@@ -172,5 +181,10 @@
   -->
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Resources\drawable-hdpi\" />
+    <Folder Include="Resources\drawable-ldpi\" />
+    <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Resources\drawable-xhdpi\" />
+    <Folder Include="Resources\drawable-xxhdpi\" />
   </ItemGroup>
 </Project>

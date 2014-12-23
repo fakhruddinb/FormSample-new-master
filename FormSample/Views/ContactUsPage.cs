@@ -15,7 +15,7 @@ namespace FormSample.Views
 		public ScrollView AssignValues()
 		{
             //this.Title = "Contact us";
-			Label lblTitle = new Label{Text = "Contact us",BackgroundColor= Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
+			Label lblTitle = new Label{Text = "Contact us",BackgroundColor= Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -130,6 +130,7 @@ namespace FormSample.Views
                 Orientation = StackOrientation.Vertical,
                 Padding = 0,
                 HorizontalOptions = LayoutOptions.Fill,
+				BackgroundColor = Color.Gray,
 				Children = { lblTitle,label, grid, downloadButton }
 				//Children = { label, phoneNumberImage,callPhoneNo,agencyImage, contactMapImage, agencyImage, contactMapImage, downloadButton }
             };

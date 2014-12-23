@@ -17,14 +17,10 @@ namespace FormSample
         {
 			contractorViewModel = new ContractorViewModel();
             counter = 1;
-			BackgroundColor = Color.White;
-           var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
-            if (!x)
-            {
-				DisplayAlert("Message", "Could not connect to the internet.", "OK");
-            }
 
-			var label = new Label{ Text = "My contractor", BackgroundColor = Color.Black,Font = Font.SystemFontOfSize(NamedSize.Medium),
+          
+
+			var label = new Label{ Text = "My contractor",BackgroundColor = Color.Gray,Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -47,6 +43,7 @@ namespace FormSample
             var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
 
             var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
+			contactUsButton.SetBinding (Button.CommandProperty, ContractorViewModel.GotoContactUsCommandPropertyName);
 
             var nameLayOut = new StackLayout
             {
@@ -76,7 +73,7 @@ namespace FormSample
 					if(result != null)
 					{
                    await this.contractorViewModel.DeleteContractor(contractor.Id);
-                    listView.ItemsSource = this.contractorViewModel.contractorList;
+						listView.ItemsSource = this.contractorViewModel.contractorList;
 					}
                 }
 
@@ -88,9 +85,14 @@ namespace FormSample
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-			await this.contractorViewModel.BindContractor ();
-            listView.ItemTemplate = new DataTemplate(typeof(ContractorCell));
-			listView.ItemsSource = this.contractorViewModel.contractorList;;
+			var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
+			if (!x) {
+				await DisplayAlert ("Message", "Could not connect to the internet.", "OK");
+			} else {
+				await this.contractorViewModel.BindContractor ();
+				listView.ItemTemplate = new DataTemplate (typeof(ContractorCell));
+				listView.ItemsSource = this.contractorViewModel.contractorList;
+			}
         }
 
        

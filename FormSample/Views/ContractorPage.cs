@@ -33,6 +33,7 @@ namespace FormSample.Views
            var label = new Label
            {
                Text = "Refer a contractor",
+				BackgroundColor= Color.Gray,
                Font = Font.SystemFontOfSize(NamedSize.Medium),
                TextColor = Color.White,
                VerticalOptions = LayoutOptions.Center,
@@ -40,29 +41,29 @@ namespace FormSample.Views
                YAlign = TextAlignment.Center // Center the text in the blue box.
            };
 
-           var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
            firstNameLabel.Text = "First Name";
 
            var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
 			firstName.SetBinding (Entry.TextProperty, ContractorViewModel.ContractorFirstNamePropertyName);
            //firstName.Text = contractor.FirstName;
 
-           var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
            lastNameLabel.Text = "Last Name";
 
            var lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
 			lastName.SetBinding (Entry.TextProperty, ContractorViewModel.ContractorLastNamePropertyName);
            //lastName.Text = contractor.LastName;
 
-           var phoneNoLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var phoneNoLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
            phoneNoLabel.Text = "Phone";
 
-           var phoneNo = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			var phoneNo = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
 			phoneNo.SetBinding (Entry.TextProperty, ContractorViewModel.ContractorPhonePropertyName);
             phoneNo.Keyboard = Keyboard.Telephone;
 			//phoneNo.Text = contractor.Phone;
 
-           var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
            emailLabel.Text = "Email";
 
            var email = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
@@ -70,7 +71,7 @@ namespace FormSample.Views
             email.Keyboard = Keyboard.Email;
 			//email.Text = contractor.Email;
 
-           var additionalInfoLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var additionalInfoLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
            additionalInfoLabel.Text = "Additional Information";
 
            var additionalInfo = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
@@ -91,8 +92,10 @@ namespace FormSample.Views
            btnSubmitContractor.SetBinding(Button.CommandProperty,ContractorViewModel.SubmitCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor =  Color.FromHex("f7941d"), TextColor = Color.White };
-            var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-          
+           
+			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
+			contactUsButton.SetBinding (Button.CommandProperty, ContractorViewModel.GotoContactUsCommandPropertyName);
+
 			var nameLayout = new StackLayout()
            {
                WidthRequest = 320,

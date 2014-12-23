@@ -49,7 +49,7 @@ namespace FormSample.Views
 
 			var label = new Label
 			{ 
-				Text = "Take home pay calculator", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
+				Text = "Take home pay calculator", BackgroundColor = Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -332,24 +332,23 @@ namespace FormSample.Views
 
 		}
 
-		private async Task GetDataFromService()
-		{
-			var service = new PayTableDataService ();
-			var  result = await service.GetPayTableData (Settings.GeneralSettings);
-			var p = result.ToList ();
-			if (p != null) {
-				AddPayData (p);
-			}
-		}
-
-		private void AddPayData(List<PayTable> payDataList)
-		{
-			FormSample.PayTableDatabase d = new PayTableDatabase ();
-			foreach (var payData in payDataList) {
-				d.SaveItem (payData);
-
-			}
-		}
+//		private async Task GetDataFromService()
+//		{
+//			var service = new PayTableDataService ();
+//			var  result = await service.GetPayTableData (Settings.GeneralSettings);
+//			var p = result.ToList ();
+//			if (p != null) {
+//				AddPayData (p);
+//			}
+//		}
+//
+//		private void AddPayData(List<PayTable> payDataList)
+//		{
+//			FormSample.PayTableDatabase d = new PayTableDatabase ();
+//			foreach (var payData in payDataList) {
+//				d.SaveItem (payData);
+//			}
+//		}
 
 
 		private void GenerateSyncFusionchartLimited(string title)

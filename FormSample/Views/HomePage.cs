@@ -18,17 +18,17 @@ namespace FormSample.Views
         public HomePage()
         {
             // var t = this.IsNetworkAvailable();
-			Label lblTitle = new Label{Text = "Home",BackgroundColor= Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
+			Label lblTitle = new Label{Text = "Home",BackgroundColor = Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
 				YAlign = TextAlignment.Center
 			};
-            this.BackgroundColor = Color.White;
             var layout = new StackLayout
             {
                 Orientation = StackOrientation.Vertical,
-                Padding = new Thickness(0, 0, 0, 0)
+                Padding = new Thickness(0, 0, 0, 0),
+				BackgroundColor = Color.Gray
             };
             var grid = new Grid
             {
@@ -183,10 +183,7 @@ namespace FormSample.Views
 				App.RootPage.NavigateTo("Contact us");
 				//this.Navigation.PushAsync(new ContactUsPage());
             };
-            ////grid.Children.Add(gridButton, 0, 3); // Left, Third element
-            ////grid.Children.Add(new Label { Text = " " }, 1, 3);
-            // layout.Children.Add(gridButton);
-            // layout.Children.Add(grid);
+        
 			layout.Children.Add (lblTitle);
             layout.Children.Add(new ScrollView { VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.Fill, Content = grid });
             layout.Children.Add(downloadButton);

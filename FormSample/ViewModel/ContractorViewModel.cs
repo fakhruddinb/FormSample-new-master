@@ -112,6 +112,14 @@ namespace FormSample.ViewModel
            }
        }
 
+		private Command gotoContactUsCommand;
+		public const string GotoContactUsCommandPropertyName = "GotoContactUsCommand";
+		public Command GotoContactUsCommand
+		{
+			get{ 
+				return gotoContactUsCommand ?? (gotoContactUsCommand = new Command(async () => App.RootPage.NavigateTo("Contact Us")));
+			}
+		}
        protected async Task ExecuteSubmitCommand1()
        {
            try
@@ -161,17 +169,19 @@ namespace FormSample.ViewModel
                        AdditionalInformation = this.ContractorAdditionalInfo,
 						InsertDate = DateTime.Now
                    };
-
+					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
+					if(!x)
+					{
+						this.CreateContractor(obj);
+						App.RootPage.NavigateTo("Home");
+					}
+					else
+					{
 					var result= await contractorDataService.AddContractor(obj);
 					if (result != null)
 					{
-						this.CreateContractor(result);
-//						var page = new MyContractorPage();
-//						var md = new MasterDetailPage();
-//						md.Master = new MenuPage(md);
-//						md.Detail = new NavigationPage(page) { BarBackgroundColor = Color.Gray };
-//						await navigation.PushAsync(md);
-						App.RootPage.NavigateTo("My contractors");
+							App.RootPage.NavigateTo("Home");
+					}
 					}
                }
            }
@@ -196,7 +206,8 @@ namespace FormSample.ViewModel
 			try
 			{
 				var result = await contractorDataService.DeleteAllContractor(Settings.GeneralSettings);
-				navigation.PushAsync(new HomePage());
+				App.RootPage.NavigateTo("Home");
+				//navigation.PushAsync(new HomePage());
 			}
 			catch
 			{

@@ -198,7 +198,7 @@ namespace FormSample
         public MenuPage()
         {
             Title = "Mobile Recruiter";
-			Icon = "slideout.png";
+			Icon = "slideout2x";
             var itemList = new List<string> 
             { "Home", "Refer a contractor", "My contractors","Amend my details","Terms and conditions",
                 "About us","Contact us","Take home pay calculator","Weekly pay chart","Log out"};

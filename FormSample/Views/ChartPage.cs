@@ -17,14 +17,14 @@ namespace FormSample
 
 		public ChartPage ()
 		{
-			this.BackgroundColor = Color.White;
+			//this.BackgroundColor = Color.White;
 
 			dailyRate = new List<DailyRateCalcuationTable>();
 			model = new DailyRateDataModel();
 
 			Label header = new Label
 			{
-				Text = "Pay Chart", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Medium),
+				Text = "Pay Chart", BackgroundColor = Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -59,6 +59,7 @@ namespace FormSample
 			{
 				Children = { header, description,grid, list, chart1 },
 				VerticalOptions = LayoutOptions.FillAndExpand,
+				BackgroundColor = Color.Gray
 
 			};
 			Content = layout;
@@ -96,8 +97,8 @@ namespace FormSample
 					LimitedCompany = takeHomePayLimited,
 					UmbrellaCompany= takeHomeUmbrella
 				});
-				model.SetLimitedCompanyData("Limited", takeHomePayLimited);
-				model.SetUmbrellaCompanyData("Umbrella", takeHomeUmbrella);
+				model.SetLimitedCompanyData(rate.ToString(), takeHomePayLimited);
+				model.SetUmbrellaCompanyData(rate.ToString(), takeHomeUmbrella);
 			}
 			return dailyRate;
 		}
@@ -113,22 +114,24 @@ namespace FormSample
 			primaryAxis.Title = new ChartAxisTitle(){Text= "Daily Rate"};;
 			chart1.PrimaryAxis=primaryAxis;
 
-			//Initializing Secondary Axis
-			Syncfusion.SfChart.XForms.NumericalAxis secondaryAxis=new Syncfusion.SfChart.XForms.NumericalAxis();
-			secondaryAxis.Title= new ChartAxisTitle(){Text="Temperature"};
-			chart1.SecondaryAxis=secondaryAxis;
+//			//Initializing Secondary Axis
+//			Syncfusion.SfChart.XForms.NumericalAxis secondaryAxis=new Syncfusion.SfChart.XForms.NumericalAxis();
+//			secondaryAxis.Title= new ChartAxisTitle(){Text="Temperature"};
+//			chart1.SecondaryAxis=secondaryAxis;
 
 			chart1.Series.Add(new Syncfusion.SfChart.XForms.ColumnSeries()
 				{
 					ItemsSource = model.limitedCompanyTax,
-					YAxis=new NumericalAxis(){OpposedPosition=true,ShowMajorGridLines = false},
+					YAxis=new NumericalAxis(){IsVisible=false },
 					IsVisibleOnLegend =true  ,
+					Label="Limited"
 				});
 			chart1.Series.Add(new Syncfusion.SfChart.XForms.ColumnSeries()
 				{
 					ItemsSource = model.umbrallaCompanyTax,
-					YAxis=new NumericalAxis(){OpposedPosition=true,ShowMajorGridLines = false},
-					IsVisibleOnLegend =true
+					YAxis=new NumericalAxis(){IsVisible=false },
+					IsVisibleOnLegend =true,
+					Label="Umbrella"
 				});
 			//Adding Chart Legend for the Chart
 			chart1.Legend = new ChartLegend() 
@@ -149,13 +152,13 @@ namespace FormSample
 
 	public class DailyRateDataModel
 	{
-		public ObservableCollection<ChartDataPoint> dailyRate;
+		// public ObservableCollection<ChartDataPoint> dailyRate;
 		public ObservableCollection<ChartDataPoint> limitedCompanyTax;
 		public ObservableCollection<ChartDataPoint> umbrallaCompanyTax;
 
 		public DailyRateDataModel()
 		{
-			dailyRate =new ObservableCollection<ChartDataPoint>();
+			// dailyRate =new ObservableCollection<ChartDataPoint>();
 			limitedCompanyTax = new ObservableCollection<ChartDataPoint>();
 			umbrallaCompanyTax = new ObservableCollection<ChartDataPoint>();
 

@@ -19,43 +19,43 @@ namespace FormSample
         {
             BindingContext = new AgentViewModel(Navigation);
 
-
             var label = new Label
             {
                 Text = "Registration",
+				BackgroundColor = Color.Gray,
                 Font = Font.SystemFontOfSize(NamedSize.Large),
-                TextColor = Color.White,
+				TextColor = Color.White,
                 VerticalOptions = LayoutOptions.Center,
                 XAlign = TextAlignment.Center, // Center the text in the blue box.
                 YAlign = TextAlignment.Center, // Center the text in the blue box.
             };
 
-            var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.FromHex("373737")};
             firstNameLabel.Text = "First Name";
 
-            var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737")};
             lastNameLabel.Text = "Last Name";
 
-            var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
             firstName.SetBinding(Entry.TextProperty, AgentViewModel.FirstNamePropertyName);
 
-            var lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			var lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
             lastName.SetBinding(Entry.TextProperty, AgentViewModel.LastNamePropertyName);
 
-            var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737")};
             emailLabel.Text = "Email";
 
-            var emailText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			var emailText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
             emailText.SetBinding(Entry.TextProperty, AgentViewModel.AgentEmailPropertyName);
             emailText.Keyboard = Keyboard.Email;
 
-            var agencyLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var agencyLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
             agencyLabel.Text = "Agency";
 
             var agencyText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
             agencyText.SetBinding(Entry.TextProperty, AgentViewModel.AgencyNamePropertyName);
 
-            var phoneLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
+			var phoneLabel = new Label { HorizontalOptions = LayoutOptions.Fill,TextColor=Color.FromHex("373737") };
             phoneLabel.Text = "Phone number";
 
             var phoneText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
@@ -91,7 +91,7 @@ namespace FormSample
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 Orientation = StackOrientation.Vertical,
 				Children = {label, emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, chkInvite, btnRegister, loginButton, downloadButton, contactUsButton },
-                BackgroundColor = Color.Gray
+				BackgroundColor = Color.Gray
             };
             return new ScrollView{Content= nameLayout};
         }
@@ -99,7 +99,7 @@ namespace FormSample
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            MessagingCenter.Subscribe<AgentViewModel,string>(this,"msg",(sender, args)=>this.DisplayAlert("Message",args,"OK"));
+            MessagingCenter.Subscribe<AgentViewModel,string>(this,"msg",async (sender, args)=> await this.DisplayAlert("Message",args,"OK"));
         }
 
         protected override void OnDisappearing()

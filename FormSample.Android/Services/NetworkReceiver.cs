@@ -77,20 +77,9 @@ namespace FormSample.Droid.Services
 				if (this.networkService.IsReachable())
 				{
 					LogHandler.LogDebug("Downloading Started : " + DateTime.Now.ToShortTimeString());
-					ContractorDatabase contractor = new ContractorDatabase();
-					ContractorDataService contractordataservice = new ContractorDataService();
-
-					IEnumerable<Contractor> list = contractor.GetContractors(Settings.GeneralSettings);
-					if(list != null && list.Count() > 0)
-					{
-						foreach(Contractor item in list)
-						{
-							contractordataservice.AddContractor(item);
-						}
-
-						contractor.DeleteAllContractor(Settings.GeneralSettings);
-					}
-					//TODO: write/call methods to upload / download data from/to server
+					UploadService uploadservice = new UploadService();
+					uploadservice.UploadContractorData();
+					uploadservice.UploadAgentDetail();
 					LogHandler.LogDebug("Uploading Started : " + DateTime.Now.ToShortTimeString());
 					return StartCommandResult.Sticky;
 				}

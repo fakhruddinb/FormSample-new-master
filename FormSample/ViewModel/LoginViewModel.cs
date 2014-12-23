@@ -16,12 +16,14 @@ namespace FormSample.ViewModel
     public class LoginViewModel : BaseViewModel
     {
         private DataService dataService;
+		private UploadService uploadService;
 
         private INavigation navigation;
         public LoginViewModel(INavigation navigation)
         {
             this.navigation = navigation;
             this.dataService = new DataService();
+			this.uploadService = new UploadService ();
         }
 
         public const string UsernamePropertyName = "Username";
@@ -116,15 +118,22 @@ namespace FormSample.ViewModel
 					{
                         MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
                     }
-                   else if (await this.dataService.GetAgent(this.Username) == null)
-                    {
-                        MessagingCenter.Send(this, "msg", "Invalid user.");
-                    }
+					else
+					{
+					var agent = await this.dataService.GetAgent(this.Username);
+					if (agent == null)
+					{
+						MessagingCenter.Send(this, "msg", "Invalid user.");
+					}
+					 
                     else
                     {
                         Settings.GeneralSettings = this.Username;
+						this.AddAgentToLocalDatabase(agent);
+						await uploadService.UpdatePaytableDataFromService();
 						await navigation.PopModalAsync();
                     }
+					}
 				}
 				else
 				{
@@ -201,6 +210,15 @@ namespace FormSample.ViewModel
 			}
 		}
 
+		private void AddAgentToLocalDatabase(Agent responseFromServer)
+		{
+			FormSample.AgentDatabase d = new AgentDatabase();
+			var existingAgent = d.GetAgentByEmail(responseFromServer.Email);
+			if(existingAgent==null)
+			{ 
+				d.SaveItem(responseFromServer); 
+			}
+		}
       
     }
 }

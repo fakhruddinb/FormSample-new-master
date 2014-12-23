@@ -17,47 +17,57 @@ namespace FormSample.Views
             //Contractor c = new Contractor();
             BindingContext = new LoginViewModel(Navigation);
 
-            BackgroundColor = Color.FromHex("232323");
+			BackgroundColor = Color.Gray;
 
             var layout = new StackLayout { Padding = 5 };
 
             var label = new Label
                             {
                                 Text = "Sign in",
+				BackgroundColor = Color.Gray,
                                 Font = Font.SystemFontOfSize(NamedSize.Large),
-                                TextColor = Color.White,
+								TextColor = Color.White,
                                 VerticalOptions = LayoutOptions.Center,
                                 XAlign = TextAlignment.Center, // Center the text in the blue box.
                                 YAlign = TextAlignment.Center, // Center the text in the blue box.
                             };
 
             layout.Children.Add(label);
+			var userNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.FromHex("373737")};
+			userNameLabel.Text = "Email";
 
-            var username = new Entry { Placeholder = "Username",TextColor=Color.White };
+			var username = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
             username.SetBinding(Entry.TextProperty, LoginViewModel.UsernamePropertyName);
             username.Keyboard = Keyboard.Email;
-            layout.Children.Add(username);
+          
 
-            var password = new Entry { Placeholder = "Password", TextColor = Color.White };
+			var passwordLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.FromHex("373737")};
+			passwordLabel.Text = "Password";
+
+			var password = new Entry {HorizontalOptions = LayoutOptions.FillAndExpand };
             password.SetBinding(Entry.TextProperty, LoginViewModel.PasswordPropertyName);
             password.IsPassword = true;
-            layout.Children.Add(password);
+         
 
-            var forgotPassword = new Button { Text = "I have forgetton my password", TextColor = Color.Blue };
+			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
 			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
 
-            var button = new Button { Text = "Sign In", TextColor = Color.FromHex("22498a"), BackgroundColor = Color.Blue, };
+			var button = new Button { Text = "Sign In",BackgroundColor = Color.FromHex("22498a"),};
             button.SetBinding(Button.CommandProperty, LoginViewModel.LoginCommandPropertyName);
 
-            var registerButton = new Button { Text = "I don't have a recruiter account..", BackgroundColor = Color.FromHex("3b73b9"), TextColor = Color.White };
+			var registerButton = new Button { Text = "I don't have a recruiter account..", BackgroundColor=Color.FromHex("3b73b9")};
             registerButton.SetBinding(Button.CommandProperty, LoginViewModel.GoToRegisterCommandPropertyName);
 
-            var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
+			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d")};
             downloadButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoDownloadCommandPropertyName);
 
-            var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
+			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
             contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);
 
+			layout.Children.Add (userNameLabel);
+			layout.Children.Add(username);
+			layout.Children.Add (passwordLabel);
+			layout.Children.Add(password);
             layout.Children.Add(forgotPassword);
             layout.Children.Add(button);
             layout.Children.Add(registerButton);
@@ -70,7 +80,7 @@ namespace FormSample.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            MessagingCenter.Subscribe<LoginViewModel, string>(this, "msg", (sender, args) => this.DisplayAlert("Message", args, "OK"));
+            MessagingCenter.Subscribe<LoginViewModel, string>(this, "msg", async (sender, args) => await this.DisplayAlert("Message", args, "OK"));
         }
 
         protected override void OnDisappearing()
