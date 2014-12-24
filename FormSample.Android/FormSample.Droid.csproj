@@ -96,6 +96,9 @@
     <Reference Include="Syncfusion.SfChart.XForms.Android">
       <HintPath>..\Components\SyncfusionEssentialStudio-12.3.0.38-trial\lib\android\Syncfusion.SfChart.XForms.Android.dll</HintPath>
     </Reference>
+    <Reference Include="AndHUD">
+      <HintPath>..\Components\AndHUD-1.3.1\lib\android\AndHUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseUrlAndroid.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="UrlService.cs" />
     <Compile Include="MapService.cs" />
     <Compile Include="Services\NetworkReceiver.cs" />
+    <Compile Include="Services\ProgressService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -144,6 +148,7 @@
     <AndroidResource Include="Resources\drawable\s960.png" />
     <AndroidResource Include="Resources\drawable\slideout.png" />
     <AndroidResource Include="Resources\drawable\slideout2x.png" />
+    <AndroidResource Include="Resources\drawable\menu_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -186,5 +191,11 @@
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="AndHUD">
+      <Version>1.3.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

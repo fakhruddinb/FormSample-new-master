@@ -7,16 +7,18 @@ namespace FormSample
 {
 	public class MainPage : MasterDetailPage
 	{
+		MenuPage menuPage;
 		public MainPage()
 		{
 			this.ShowLoginPage ();
-
-				var menuPage = new MenuPage ();
+			//var menuPage = new MenuPage ();
+			menuPage = new MenuPage ();
 				menuPage.Menu.ItemSelected += (sender, e) => {
 					NavigateTo (e.SelectedItem as string);
 				};
 				Master = menuPage;
 				this.NavigateTo ("Home");
+
 		}
 
 		protected override void OnAppearing ()
@@ -36,6 +38,7 @@ namespace FormSample
 		public void NavigateTo(string item)
 		{
 			Page page = new HomePage();
+			menuPage.Menu.SelectedItem = item;
 			switch (item)
 			{
 
@@ -44,6 +47,7 @@ namespace FormSample
 				break;
 			case "My contractors":
 				page = new MyContractorPage ();
+
 				break;
 			case "Amend my details":
 				page = new AmendDetailsPage ();
@@ -65,6 +69,7 @@ namespace FormSample
 				// page = new LoginPage();
 				break;
 			default:
+				menuPage.Menu.SelectedItem = item;
 				page = new HomePage();
 				break;
 

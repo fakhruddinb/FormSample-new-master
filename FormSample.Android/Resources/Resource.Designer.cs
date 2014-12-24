@@ -26,6 +26,43 @@ namespace FormSample.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::AndroidHUD.Resource.Attribute.ahBarColor = global::FormSample.Droid.Resource.Attribute.ahBarColor;
+			global::AndroidHUD.Resource.Attribute.ahBarLength = global::FormSample.Droid.Resource.Attribute.ahBarLength;
+			global::AndroidHUD.Resource.Attribute.ahBarWidth = global::FormSample.Droid.Resource.Attribute.ahBarWidth;
+			global::AndroidHUD.Resource.Attribute.ahCircleColor = global::FormSample.Droid.Resource.Attribute.ahCircleColor;
+			global::AndroidHUD.Resource.Attribute.ahDelayMillis = global::FormSample.Droid.Resource.Attribute.ahDelayMillis;
+			global::AndroidHUD.Resource.Attribute.ahRadius = global::FormSample.Droid.Resource.Attribute.ahRadius;
+			global::AndroidHUD.Resource.Attribute.ahRimColor = global::FormSample.Droid.Resource.Attribute.ahRimColor;
+			global::AndroidHUD.Resource.Attribute.ahRimWidth = global::FormSample.Droid.Resource.Attribute.ahRimWidth;
+			global::AndroidHUD.Resource.Attribute.ahSpinSpeed = global::FormSample.Droid.Resource.Attribute.ahSpinSpeed;
+			global::AndroidHUD.Resource.Attribute.ahText = global::FormSample.Droid.Resource.Attribute.ahText;
+			global::AndroidHUD.Resource.Attribute.ahTextColor = global::FormSample.Droid.Resource.Attribute.ahTextColor;
+			global::AndroidHUD.Resource.Attribute.ahTextSize = global::FormSample.Droid.Resource.Attribute.ahTextSize;
+			global::AndroidHUD.Resource.Drawable.ic_errorstatus = global::FormSample.Droid.Resource.Drawable.ic_errorstatus;
+			global::AndroidHUD.Resource.Drawable.ic_successstatus = global::FormSample.Droid.Resource.Drawable.ic_successstatus;
+			global::AndroidHUD.Resource.Drawable.roundedbg = global::FormSample.Droid.Resource.Drawable.roundedbg;
+			global::AndroidHUD.Resource.Drawable.roundedbgdark = global::FormSample.Droid.Resource.Drawable.roundedbgdark;
+			global::AndroidHUD.Resource.Id.loadingImage = global::FormSample.Droid.Resource.Id.loadingImage;
+			global::AndroidHUD.Resource.Id.loadingProgressBar = global::FormSample.Droid.Resource.Id.loadingProgressBar;
+			global::AndroidHUD.Resource.Id.loadingProgressWheel = global::FormSample.Droid.Resource.Id.loadingProgressWheel;
+			global::AndroidHUD.Resource.Id.textViewStatus = global::FormSample.Droid.Resource.Id.textViewStatus;
+			global::AndroidHUD.Resource.Layout.loading = global::FormSample.Droid.Resource.Layout.loading;
+			global::AndroidHUD.Resource.Layout.loadingimage = global::FormSample.Droid.Resource.Layout.loadingimage;
+			global::AndroidHUD.Resource.Layout.loadingprogress = global::FormSample.Droid.Resource.Layout.loadingprogress;
+			global::AndroidHUD.Resource.String.library_name = global::FormSample.Droid.Resource.String.library_name;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel = global::FormSample.Droid.Resource.Styleable.ProgressWheel;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarColor = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahBarColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarLength = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahBarLength;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarWidth = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahBarWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahCircleColor = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahCircleColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahDelayMillis = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahDelayMillis;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRadius = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahRadius;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimColor = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahRimColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimWidth = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahRimWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahSpinSpeed = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahSpinSpeed;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahText;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
 			global::OxyPlot.XamarinFormsAndroid.Resource.String.library_name = global::FormSample.Droid.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::FormSample.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::FormSample.Droid.Resource.String.Hello;
@@ -68,6 +105,42 @@ namespace FormSample.Droid
 		
 		public partial class Attribute
 		{
+			
+			// aapt resource value: 0x7f010006
+			public const int ahBarColor = 2130771974;
+			
+			// aapt resource value: 0x7f01000e
+			public const int ahBarLength = 2130771982;
+			
+			// aapt resource value: 0x7f01000d
+			public const int ahBarWidth = 2130771981;
+			
+			// aapt resource value: 0x7f01000b
+			public const int ahCircleColor = 2130771979;
+			
+			// aapt resource value: 0x7f01000a
+			public const int ahDelayMillis = 2130771978;
+			
+			// aapt resource value: 0x7f01000c
+			public const int ahRadius = 2130771980;
+			
+			// aapt resource value: 0x7f010007
+			public const int ahRimColor = 2130771975;
+			
+			// aapt resource value: 0x7f010008
+			public const int ahRimWidth = 2130771976;
+			
+			// aapt resource value: 0x7f010009
+			public const int ahSpinSpeed = 2130771977;
+			
+			// aapt resource value: 0x7f010003
+			public const int ahText = 2130771971;
+			
+			// aapt resource value: 0x7f010004
+			public const int ahTextColor = 2130771972;
+			
+			// aapt resource value: 0x7f010005
+			public const int ahTextSize = 2130771973;
 			
 			// aapt resource value: 0x7f010002
 			public const int axisTitle = 2130771970;
@@ -196,37 +269,49 @@ namespace FormSample.Droid
 			public const int homeheader = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int Icon = 2130837513;
+			public const int ic_errorstatus = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int LinkedIn = 2130837514;
+			public const int ic_successstatus = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int logo = 2130837515;
+			public const int Icon = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int logo_large_c9y13k30 = 2130837516;
+			public const int LinkedIn = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int menu_icon = 2130837517;
+			public const int logo = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int MyContractors = 2130837518;
+			public const int logo_large_c9y13k30 = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int PayCalculator = 2130837519;
+			public const int menu_icon = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int Paychart = 2130837520;
+			public const int MyContractors = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public const int s960 = 2130837521;
+			public const int PayCalculator = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public const int slideout = 2130837522;
+			public const int Paychart = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public const int slideout2x = 2130837523;
+			public const int roundedbg = 2130837523;
+			
+			// aapt resource value: 0x7f020014
+			public const int roundedbgdark = 2130837524;
+			
+			// aapt resource value: 0x7f020015
+			public const int s960 = 2130837525;
+			
+			// aapt resource value: 0x7f020016
+			public const int slideout = 2130837526;
+			
+			// aapt resource value: 0x7f020017
+			public const int slideout2x = 2130837527;
 			
 			static Drawable()
 			{
@@ -241,14 +326,14 @@ namespace FormSample.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f08000d
-			public const int MyButton = 2131230733;
+			// aapt resource value: 0x7f080011
+			public const int MyButton = 2131230737;
 			
 			// aapt resource value: 0x7f080006
 			public const int axisLayout = 2131230726;
 			
-			// aapt resource value: 0x7f08000f
-			public const int calendar_grid = 2131230735;
+			// aapt resource value: 0x7f080013
+			public const int calendar_grid = 2131230739;
 			
 			// aapt resource value: 0x7f080000
 			public const int calendar_view = 2131230720;
@@ -280,6 +365,15 @@ namespace FormSample.Droid
 			// aapt resource value: 0x7f080007
 			public const int legendViewGroup = 2131230727;
 			
+			// aapt resource value: 0x7f08000f
+			public const int loadingImage = 2131230735;
+			
+			// aapt resource value: 0x7f08000d
+			public const int loadingProgressBar = 2131230733;
+			
+			// aapt resource value: 0x7f080010
+			public const int loadingProgressWheel = 2131230736;
+			
 			// aapt resource value: 0x7f080001
 			public const int rootLayout = 2131230721;
 			
@@ -287,7 +381,10 @@ namespace FormSample.Droid
 			public const int seriesLayout = 2131230725;
 			
 			// aapt resource value: 0x7f08000e
-			public const int title = 2131230734;
+			public const int textViewStatus = 2131230734;
+			
+			// aapt resource value: 0x7f080012
+			public const int title = 2131230738;
 			
 			static Id()
 			{
@@ -318,13 +415,22 @@ namespace FormSample.Droid
 			public const int dialog = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int Main = 2130903045;
+			public const int loading = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int month = 2130903046;
+			public const int loadingimage = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int week = 2130903047;
+			public const int loadingprogress = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int Main = 2130903048;
+			
+			// aapt resource value: 0x7f030009
+			public const int month = 2130903049;
+			
+			// aapt resource value: 0x7f03000a
+			public const int week = 2130903050;
 			
 			static Layout()
 			{
@@ -417,6 +523,56 @@ namespace FormSample.Droid
 			
 			// aapt resource value: 1
 			public const int ChartAxis_labelSize = 1;
+			
+			public static int[] ProgressWheel = new int[] {
+					2130771971,
+					2130771972,
+					2130771973,
+					2130771974,
+					2130771975,
+					2130771976,
+					2130771977,
+					2130771978,
+					2130771979,
+					2130771980,
+					2130771981,
+					2130771982};
+			
+			// aapt resource value: 3
+			public const int ProgressWheel_ahBarColor = 3;
+			
+			// aapt resource value: 11
+			public const int ProgressWheel_ahBarLength = 11;
+			
+			// aapt resource value: 10
+			public const int ProgressWheel_ahBarWidth = 10;
+			
+			// aapt resource value: 8
+			public const int ProgressWheel_ahCircleColor = 8;
+			
+			// aapt resource value: 7
+			public const int ProgressWheel_ahDelayMillis = 7;
+			
+			// aapt resource value: 9
+			public const int ProgressWheel_ahRadius = 9;
+			
+			// aapt resource value: 4
+			public const int ProgressWheel_ahRimColor = 4;
+			
+			// aapt resource value: 5
+			public const int ProgressWheel_ahRimWidth = 5;
+			
+			// aapt resource value: 6
+			public const int ProgressWheel_ahSpinSpeed = 6;
+			
+			// aapt resource value: 0
+			public const int ProgressWheel_ahText = 0;
+			
+			// aapt resource value: 1
+			public const int ProgressWheel_ahTextColor = 1;
+			
+			// aapt resource value: 2
+			public const int ProgressWheel_ahTextSize = 2;
 			
 			static Styleable()
 			{

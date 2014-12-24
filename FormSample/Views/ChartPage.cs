@@ -24,7 +24,7 @@ namespace FormSample
 
 			Label header = new Label
 			{
-				Text = "Pay Chart", BackgroundColor = Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
+				Text = "Pay Chart", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -42,24 +42,37 @@ namespace FormSample
 
 			var grid = new Grid
 			{
-				ColumnSpacing = 2
+				ColumnSpacing = 20
 			};
 			grid.Children.Add(new Label { Text = "Daily Rate", BackgroundColor=Color.Maroon, TextColor=Color.White }, 0, 0); // Left, First element
 			grid.Children.Add(new Label { Text = "Limited Company" , BackgroundColor=Color.Maroon, TextColor=Color.White }, 1, 0);
 			grid.Children.Add(new Label { Text = "Umbrella Company" , BackgroundColor=Color.Maroon, TextColor=Color.White }, 2, 0);
 
-			ListView list= new ListView();
+			ListView list= new ListView{};
 
 			list.ItemTemplate = new DataTemplate(typeof(DailyRateCell));
 			list.ItemsSource = GenerateDailyRateTable();
 			chart1= new SfChart();
+
+			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
+			downloadButton.Clicked += delegate
+			{
+				//TODO: add downlink location
+			};
+
+			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
+			contactUsButton.Clicked += delegate
+			{
+				App.RootPage.NavigateTo("Contact us");
+			};
+
 			GenerateChart();
 
 			var layout = new StackLayout
 			{
-				Children = { header, description,grid, list, chart1 },
+				Children = { header, description,grid, list, chart1,downloadButton,contactUsButton },
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				BackgroundColor = Color.Gray
+				//BackgroundColor = Color.Gray
 
 			};
 			Content = layout;
@@ -75,7 +88,7 @@ namespace FormSample
 				var grossPay = rate * 5;
 				var taxablePay = grossPay - weeklyExpense;
 				double takeHomePayLimited = 0;
-				var payData = d.GetPayTableTaxablePay(250); //TODO: taxable pay
+				var payData = d.GetPayTableTaxablePay(taxablePay); //TODO: taxable pay
 				if (payData != null)
 				{
 					var netPay = payData.TakeHomeLimited;
@@ -183,7 +196,7 @@ namespace FormSample
 			var viewLayout = new StackLayout()
 			{
 				Orientation = StackOrientation.Horizontal,
-				Children = { nameLayout }
+				Children = { nameLayout },
 			};
 			viewLayout.BackgroundColor = MyContractorPage.counter % 2 == 0 ? Color.Silver: Color.Gray ;
 			MyContractorPage.counter++;
@@ -193,19 +206,18 @@ namespace FormSample
 		{
 			var nameLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			nameLabel.SetBinding(Label.TextProperty, new Binding("DailyRate"));
-			nameLabel.WidthRequest = 100;
+			nameLabel.WidthRequest = 130;
 			nameLabel.TextColor = Color.Black;
 
 			var limitedCompanyLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			limitedCompanyLabel.SetBinding(Label.TextProperty, new Binding("LimitedCompany"));
+			limitedCompanyLabel.WidthRequest = 130;
 			limitedCompanyLabel.TextColor = Color.Black;
 
 			var UmbrellaCompanyLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			UmbrellaCompanyLabel.SetBinding(Label.TextProperty, new Binding("UmbrellaCompany"));
+			UmbrellaCompanyLabel.WidthRequest = 130;
 			UmbrellaCompanyLabel.TextColor = Color.Black;
-
-
-
 
 			var nameLayout = new StackLayout()
 			{

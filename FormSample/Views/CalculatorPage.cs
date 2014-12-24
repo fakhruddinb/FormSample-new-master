@@ -44,12 +44,12 @@ namespace FormSample.Views
 			takeHomePayumbrellaLabel = new Label{XAlign = TextAlignment.Center};
 			percentageumbrellaLabel =  new Label{BackgroundColor = Color.Gray, XAlign = TextAlignment.Center };
 
-			this.BackgroundColor = Color.White;
+			//this.BackgroundColor = Color.White;
 			labelAfterChart = new Label(){ TextColor = Color.Black};
 
 			var label = new Label
 			{ 
-				Text = "Take home pay calculator", BackgroundColor = Color.Gray, Font = Font.SystemFontOfSize(NamedSize.Medium),
+				Text = "Take home pay calculator", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -112,6 +112,7 @@ namespace FormSample.Views
 			layout.Children.Add(contactUsButton);
 
 			Content = new ScrollView { Content = layout };
+
 		}
 
 		protected override void OnAppearing()
@@ -164,18 +165,18 @@ namespace FormSample.Views
 			var upButton = new Button()
 			{
 				Text = "+",
-				TextColor = Color.White,
+				TextColor = Color.Red,
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 20
+				WidthRequest = 30
 			};
 			var downButton = new Button()
 			{
 				Text = "-",
-				TextColor = Color.White,
+				TextColor = Color.Red,
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 20
+				WidthRequest = 30
 			};
 			upButton.Clicked += async (object sender, EventArgs e) =>   
 			{
@@ -271,7 +272,7 @@ namespace FormSample.Views
 			var taxablePay = grossPay - weeklyExpense;
 			var allData = d.GetPayTables().ToList();
 
-			var payData = d.GetPayTableTaxablePay(250); //TODO: replace it with taxablePay variable.
+			var payData = d.GetPayTableTaxablePay(taxablePay); //TODO: replace it with taxablePay variable.
 			if (payData != null)
 			{
 				var netPay = payData.TakeHomeLimited;

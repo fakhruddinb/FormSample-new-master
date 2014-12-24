@@ -14,8 +14,8 @@ namespace FormSample
             //this.Title = "About Churchill Knight & Associate Ltd.";
 			var lblTitle = new Label {
 				Text = "About Churchill Knight & Associate Ltd.",
-				BackgroundColor = Color.Gray,
-				Font = Font.SystemFontOfSize(NamedSize.Medium),
+				BackgroundColor = Color.Black,
+				Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -35,6 +35,11 @@ namespace FormSample
 			var downloadButton = new Button{Text = "Download terms and conditions",BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
 
 			var contactUsButton = new Button{Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White};
+
+			contactUsButton.Clicked += delegate
+			{
+				App.RootPage.NavigateTo("Contact us");
+			};
 
             var layout = new StackLayout()
             {

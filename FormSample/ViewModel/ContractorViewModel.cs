@@ -112,14 +112,6 @@ namespace FormSample.ViewModel
            }
        }
 
-		private Command gotoContactUsCommand;
-		public const string GotoContactUsCommandPropertyName = "GotoContactUsCommand";
-		public Command GotoContactUsCommand
-		{
-			get{ 
-				return gotoContactUsCommand ?? (gotoContactUsCommand = new Command(async () => App.RootPage.NavigateTo("Contact Us")));
-			}
-		}
        protected async Task ExecuteSubmitCommand1()
        {
            try

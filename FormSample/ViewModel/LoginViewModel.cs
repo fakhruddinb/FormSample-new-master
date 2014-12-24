@@ -15,6 +15,7 @@ namespace FormSample.ViewModel
 
     public class LoginViewModel : BaseViewModel
     {
+		private IProgressService progressService;
         private DataService dataService;
 		private UploadService uploadService;
 
@@ -24,6 +25,7 @@ namespace FormSample.ViewModel
             this.navigation = navigation;
             this.dataService = new DataService();
 			this.uploadService = new UploadService ();
+			progressService = DependencyService.Get<IProgressService>();
         }
 
         public const string UsernamePropertyName = "Username";
@@ -98,6 +100,7 @@ namespace FormSample.ViewModel
         {
             try
             {
+				this.progressService.Show();
 				bool isValid = true;
 				string errorMessage = string.Empty;
 				if(string.IsNullOrWhiteSpace(this.Username))
@@ -116,6 +119,7 @@ namespace FormSample.ViewModel
 					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
 					if (!x)
 					{
+						progressService.Dismiss();
                         MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
                     }
 					else
@@ -131,6 +135,7 @@ namespace FormSample.ViewModel
                         Settings.GeneralSettings = this.Username;
 						this.AddAgentToLocalDatabase(agent);
 						await uploadService.UpdatePaytableDataFromService();
+						progressService.Dismiss();
 						await navigation.PopModalAsync();
                     }
 					}
@@ -139,11 +144,13 @@ namespace FormSample.ViewModel
 				{
 					isValid = false;
 					MessagingCenter.Send(this,"msg",errorMessage);
+					progressService.Dismiss();
 				}
+
             }
             catch (Exception ex)
             {
-
+				progressService.Dismiss();
             }
         }
 

@@ -28,7 +28,7 @@ namespace FormSample
 		{
 			var nameLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			nameLabel.SetBinding(Label.TextProperty, new Binding("FirstName"));
-			nameLabel.WidthRequest = 200;
+			nameLabel.WidthRequest = 100;
 			nameLabel.TextColor = Color.Black;
 
 			var referDateLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };

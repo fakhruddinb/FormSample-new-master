@@ -45,6 +45,7 @@ namespace FormSample
 			// If not call dataservce to get paytable data and dump into local db.
 			FormSample.PayTableDatabase d = new PayTableDatabase ();
 			var payTableData = d.GetPayTables ().ToList ();
+
 			if (!payTableData.Any ()) {
 				var service = new PayTableDataService ();
 				var result = await service.GetPayTableData (Settings.GeneralSettings);
