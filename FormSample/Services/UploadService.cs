@@ -46,14 +46,17 @@ namespace FormSample
 			FormSample.PayTableDatabase d = new PayTableDatabase ();
 			var payTableData = d.GetPayTables ().ToList ();
 
-			if (!payTableData.Any ()) {
+			if (payTableData.Any ()) {
+				d.DeleteAll ();
+			}
+			//if (!payTableData.Any ()) {
 				var service = new PayTableDataService ();
 				var result = await service.GetPayTableData (Settings.GeneralSettings);
 				var p = result.ToList ();
 				if (p != null) {
 					AddPayData (p);
 				}
-			}
+			//}
 		}
 
 		private void AddPayData(List<PayTable> payDataList)

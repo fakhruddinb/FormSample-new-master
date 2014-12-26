@@ -8,9 +8,11 @@ namespace FormSample
     public class RegisterPage : ContentPage
     {
         DataService service = new DataService();
+		private ILoginManager ilm;
 
-        public RegisterPage()
+		public RegisterPage(ILoginManager ilm)
         {
+			this.ilm = ilm;
             var layout = this.AssignValues();
             this.Content = layout;
         }
@@ -98,7 +100,7 @@ namespace FormSample
 
 		public ScrollView AssignValues()
 		{
-			BindingContext = new AgentViewModel(Navigation);
+			BindingContext = new AgentViewModel(Navigation,this.ilm);
 
 
 			var label = new Label

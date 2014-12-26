@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FormSample.Helpers;
 
 namespace FormSample.Views
 {
@@ -77,10 +78,12 @@ namespace FormSample.Views
 //
 //        }
 
-		public LoginPage()
+		ILoginManager ilm;
+		public LoginPage(ILoginManager ilm)
 		{
+			this.ilm = ilm;
 			//Contractor c = new Contractor();
-			BindingContext = new LoginViewModel(Navigation);
+			BindingContext = new LoginViewModel(Navigation,ilm);
 
 			var layout = new StackLayout { };
 
@@ -123,7 +126,10 @@ namespace FormSample.Views
 			registerButton.SetBinding(Button.CommandProperty, LoginViewModel.GoToRegisterCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d")};
-			downloadButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoDownloadCommandPropertyName);
+			downloadButton.Clicked += delegate {
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
+			};
+			//downloadButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoDownloadCommandPropertyName);
 
 			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
 			contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);

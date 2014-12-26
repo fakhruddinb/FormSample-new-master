@@ -30,8 +30,9 @@ namespace FormSample
 		{
 			if (string.IsNullOrWhiteSpace(Settings.GeneralSettings))
 			{
-				var page = new LoginPage();
-				await Navigation.PushModalAsync(page);
+				App.Logout ();
+//				var page = new LoginPage();
+//				await Navigation.PushModalAsync(page);
 			}
 		}
 
@@ -52,6 +53,11 @@ namespace FormSample
 			case "Amend my details":
 				page = new AmendDetailsPage ();
 				    break;
+
+			case "Terms and conditions":
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+				break;
+
 			case "About us":
 				page = new AboutusPage ();
 				break;
@@ -66,7 +72,7 @@ namespace FormSample
                 break;
 			case "Log out":
 				Settings.GeneralSettings = string.Empty;
-				// page = new LoginPage();
+				App.Logout ();
 				break;
 			default:
 				menuPage.Menu.SelectedItem = item;

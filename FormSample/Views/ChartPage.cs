@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Syncfusion.SfChart.XForms;
+using FormSample.Helpers;
 
 namespace FormSample
 {
@@ -57,7 +58,7 @@ namespace FormSample
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
 			downloadButton.Clicked += delegate
 			{
-				//TODO: add downlink location
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
@@ -216,7 +217,7 @@ namespace FormSample
 
 			var UmbrellaCompanyLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			UmbrellaCompanyLabel.SetBinding(Label.TextProperty, new Binding("UmbrellaCompany"));
-			UmbrellaCompanyLabel.WidthRequest = 130;
+			UmbrellaCompanyLabel.WidthRequest = 80;
 			UmbrellaCompanyLabel.TextColor = Color.Black;
 
 			var nameLayout = new StackLayout()

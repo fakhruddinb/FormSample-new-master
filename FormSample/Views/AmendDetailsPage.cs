@@ -8,7 +8,7 @@ namespace FormSample
 {
 	public class AmendDetailsPage : ContentPage
 	{
-
+		private IProgressService progressService;
 		private AgentViewModel agentViewModel;
 		private DataService dataService;
 		Entry firstName ;
@@ -20,8 +20,9 @@ namespace FormSample
 
 		public AmendDetailsPage ()
 		{
-			agentViewModel = new AgentViewModel (Navigation);
+			//agentViewModel = new AgentViewModel (Navigation);
 			dataService = new DataService ();
+			progressService = DependencyService.Get<IProgressService> ();
 			var layout = this.AssignValues();
 			this.Content = layout;
 		}
@@ -114,7 +115,7 @@ namespace FormSample
 
 		public ScrollView AssignValues()
 		{
-			BindingContext = new AgentViewModel (Navigation);
+			//BindingContext = new AgentViewModel (Navigation);
 
 
 			var label = new Label
@@ -229,6 +230,7 @@ namespace FormSample
 		{
 			try{
 
+				progressService.Show();
 				bool isValid = true;
 				string errorMessage = string.Empty;
 
@@ -250,6 +252,7 @@ namespace FormSample
 				if (!string.IsNullOrEmpty(errorMessage))
 				{
 					isValid = false;
+					progressService.Dismiss();
 					await this.DisplayAlert("Message", errorMessage, "OK");
 				}
 				else
@@ -271,7 +274,7 @@ namespace FormSample
 					}
 
 					UpdateAgent(a);
-
+					progressService.Dismiss();
 					App.RootPage.NavigateTo("Home");
 
 				}

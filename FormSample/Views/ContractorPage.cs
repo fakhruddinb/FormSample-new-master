@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FormSample.Helpers;
 
 namespace FormSample.Views
 {
@@ -107,7 +108,7 @@ namespace FormSample.Views
 //           };
 //			return new ScrollView{Content= nameLayout};
 //       }
-		public ScrollView AssignValues()
+		public StackLayout AssignValues()
 		{
 			// BindingContext = new ContractorViewModel(Navigation);
 			BindingContext = new ContractorViewModel();
@@ -177,6 +178,9 @@ namespace FormSample.Views
 			btnSubmitContractor.SetBinding(Button.CommandProperty,ContractorViewModel.SubmitCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor =  Color.FromHex("f7941d"), TextColor = Color.White };
+			downloadButton.Clicked += delegate {
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
+			};
 
 			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
 
@@ -191,14 +195,27 @@ namespace FormSample.Views
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
-				Children = { firstNameLabel, firstName, lastNameLabel, lastName, phoneNoLabel, phoneNo, emailLabel, email, additionalInfoLabel, additionalInfo, chkInvite, btnSubmitContractor, downloadButton, contactUsButton },
+				//HorizontalOptions = LayoutOptions.Fill,
+				//Orientation = StackOrientation.Vertical,
+				Children = { firstNameLabel, firstName, lastNameLabel, lastName, phoneNoLabel, phoneNo, emailLabel, email, additionalInfoLabel, additionalInfo, chkInvite}
+			};
+
+			var scrollableContentLayout = new ScrollView (){ 
+				Content = cotrolStakeLayout
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				Padding = new Thickness(10, 0, 10, 0),
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				Children= {btnSubmitContractor, downloadButton, contactUsButton }
 			};
 
 			var nameLayout = new StackLayout()
 			{
-				Children = {labelStakeLayout,cotrolStakeLayout }
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				Children = {labelStakeLayout,scrollableContentLayout,buttonLayout }
 			};
-			return new ScrollView{Content= nameLayout};
+			return new StackLayout{Children= {nameLayout}};
 		}
 
         protected override void OnAppearing()

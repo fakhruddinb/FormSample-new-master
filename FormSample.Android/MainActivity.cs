@@ -13,24 +13,54 @@ namespace FormSample.Droid
 
     using Xamarin.Forms.Platform.Android;
 
-	[Activity(Label = "Form Sample", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class MainActivity : AndroidActivity
+	[Activity(Label = "Mobile Recruiter", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
+	public class MainActivity : AndroidActivity,ILoginManager
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            Xamarin.Forms.Forms.Init(this, bundle);
 
-            SetPage(App.GetMainPage());
+            Xamarin.Forms.Forms.Init(this, bundle);
+			// SetPage(App.GetMainPage());
+
+			var metrics = Resources.DisplayMetrics;
+
+			int widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+			int heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+
+			Utility.DEVICEHEIGHT = heightInDp;
+			Utility.DEVICEWIDTH = widthInDp;
+
+			if (string.IsNullOrWhiteSpace (Settings.GeneralSettings)) {
+				SetPage (App.GetLoginPage (this));
+			} else {
+				SetPage(App.GetMainPage(this));
+			}
         }
+
+		private int ConvertPixelsToDp(float pixelValue)
+		{
+			var dp = (int) ((pixelValue)/Resources.DisplayMetrics.Density);
+			return dp;
+		}
 
 		public override void OnBackPressed ()
 		{
-			if (string.IsNullOrWhiteSpace (Settings.GeneralSettings)) {
-				return;
-			}
+//			if (string.IsNullOrWhiteSpace (Settings.GeneralSettings)) {
+//				return;
+//			}
 			base.OnBackPressed ();
+		}
+
+		public void ShowMainPage ()
+		{
+			SetPage (App.GetMainPage (this)); 
+		}
+
+		public void ShowLoginPage() 
+		{
+			SetPage (App.GetLoginPage (this)); 
 		}
     }
 }

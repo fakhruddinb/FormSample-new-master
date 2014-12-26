@@ -83,9 +83,10 @@ namespace FormSample
 //
 //        }
 
-
+		private IProgressService progressService;
 		public MyContractorPage()
 		{
+			progressService = DependencyService.Get<IProgressService> ();
 			contractorViewModel = new ContractorViewModel();
 			counter = 1;
 
@@ -115,9 +116,11 @@ namespace FormSample
 			btnClearAllContractor.SetBinding (Button.CommandProperty, ContractorViewModel.GotoDeleteAllContractorCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
+			downloadButton.Clicked += delegate {
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
+			};
 
 			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-
 			contactUsButton.Clicked += delegate
 			{
 				App.RootPage.NavigateTo("Contact us");
@@ -153,10 +156,12 @@ namespace FormSample
 				var answer = await DisplayAlert("Confirm", "Do you wish to clear this item", "Yes", "No");
 				if (answer)
 				{
+					progressService.Show();
 					var result = await dataService.DeleteContractor(contractor.Id, Settings.GeneralSettings);
 					if(result != null)
 					{
 						await this.contractorViewModel.DeleteContractor(contractor.Id);
+						progressService.Dismiss();
 						listView.ItemsSource = this.contractorViewModel.contractorList;
 					}
 				}
@@ -168,13 +173,24 @@ namespace FormSample
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+			try
+			{
 			var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
 			if (!x) {
+				progressService.Dismiss ();
 				await DisplayAlert ("Message", "Could not connect to the internet.", "OK");
 			} else {
+				progressService.Show ();
 				await this.contractorViewModel.BindContractor ();
 				listView.ItemTemplate = new DataTemplate (typeof(ContractorCell));
 				listView.ItemsSource = this.contractorViewModel.contractorList;
+				//progressService.Dismiss ();
+				}
+			}
+			catch(Exception ex) {
+				progressService.Dismiss ();
+				DisplayAlert ("Message", "Something went wrong. please try again letter...", "OK");
 			}
         }
 

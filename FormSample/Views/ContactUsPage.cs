@@ -147,17 +147,34 @@ namespace FormSample.Views
 				YAlign = TextAlignment.Center
 			};
 
-
-
 			Label label = new Label() { Text = "To speak with a member of our dedicated team:" };
 			double width = 350;
 			double height = 150;
 
+//			var grid = new Grid
+//			{
+//				RowSpacing = 5,
+//				ColumnSpacing = 0
+//			};
+
 			var grid = new Grid
 			{
-				RowSpacing = 5,
-				ColumnSpacing = 0
-			};
+				RowSpacing = 10,
+				//ColumnSpacing = 10,
+				RowDefinitions = 
+				{
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+				},
+				ColumnDefinitions = 
+				{
+					new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+					//new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
+				}
+				};
 
 			var phoneNumberImage = new Image()
 			{
@@ -252,13 +269,8 @@ namespace FormSample.Views
 			grid.Children.Add (linkdinText, 0, 4);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-
-			var controlStakeLayout = new StackLayout (){
-				Padding = new Thickness(10, 0, 10, 0),
-				VerticalOptions = LayoutOptions.FillAndExpand, 
-				HorizontalOptions = LayoutOptions.Fill,
-				Orientation = StackOrientation.Vertical,
-				Children = {label, new ScrollView{ Content = grid},downloadButton}
+			downloadButton.Clicked += delegate {
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
 			var labelStakeLayout = new StackLayout ()
@@ -266,9 +278,26 @@ namespace FormSample.Views
 				Children = {lblTitle}
 			};
 
+
+			var labelBeforeGridLayout = new StackLayout (){ 
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				HorizontalOptions = LayoutOptions.Fill,
+				Children = {label}
+			};
+
+			var controlStakeLayout = new StackLayout (){
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				HorizontalOptions = LayoutOptions.Fill,
+				Orientation = StackOrientation.Vertical,
+				Children = {new ScrollView{ Content = grid},downloadButton}
+			};
+
 			var layout = new StackLayout
 			{
-				Children = { labelStakeLayout,controlStakeLayout}
+				Children = { labelStakeLayout,labelBeforeGridLayout,controlStakeLayout}
 			};
 
 			return new StackLayout { Children = {layout} };

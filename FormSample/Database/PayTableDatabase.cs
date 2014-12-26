@@ -48,6 +48,13 @@ namespace FormSample
 				return database.Delete<PayTable>(id);
 			}
 		}
+
+		public int DeleteAll()
+		{
+			lock (locker) {
+				return database.DeleteAll<PayTable> ();
+			}
+		}
 	}
 }
 

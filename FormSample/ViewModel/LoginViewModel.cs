@@ -18,14 +18,16 @@ namespace FormSample.ViewModel
 		private IProgressService progressService;
         private DataService dataService;
 		private UploadService uploadService;
-
+		ILoginManager ilm;
         private INavigation navigation;
-        public LoginViewModel(INavigation navigation)
+
+		public LoginViewModel(INavigation navigation,ILoginManager ilm)
         {
             this.navigation = navigation;
             this.dataService = new DataService();
 			this.uploadService = new UploadService ();
 			progressService = DependencyService.Get<IProgressService>();
+			this.ilm = ilm;
         }
 
         public const string UsernamePropertyName = "Username";
@@ -108,6 +110,12 @@ namespace FormSample.ViewModel
 					errorMessage = errorMessage + "Username is required.\n";
 
 				}
+
+				else if (!Utility.IsValidEmailAddress(this.Username))
+				{
+					errorMessage = errorMessage + "Please enter valid email address.\n";
+				}
+
 				if(string.IsNullOrWhiteSpace(this.Password))
 				{
 					errorMessage = errorMessage + "Password is required.";
@@ -127,6 +135,7 @@ namespace FormSample.ViewModel
 					var agent = await this.dataService.GetAgent(this.Username);
 					if (agent == null)
 					{
+						progressService.Dismiss();
 						MessagingCenter.Send(this, "msg", "Invalid user.");
 					}
 					 
@@ -136,15 +145,16 @@ namespace FormSample.ViewModel
 						this.AddAgentToLocalDatabase(agent);
 						await uploadService.UpdatePaytableDataFromService();
 						progressService.Dismiss();
-						await navigation.PopModalAsync();
+						ilm.ShowMainPage();
+						//await navigation.PopModalAsync();
                     }
 					}
 				}
 				else
 				{
 					isValid = false;
-					MessagingCenter.Send(this,"msg",errorMessage);
 					progressService.Dismiss();
+					MessagingCenter.Send(this,"msg",errorMessage);
 				}
 
             }
@@ -168,8 +178,9 @@ namespace FormSample.ViewModel
         {
             try
             {
-				await navigation.PushModalAsync(new RegisterPage());
+				//await navigation.PushModalAsync(new RegisterPage());
                 //await navigation.PushAsync(new RegisterPage());
+				MessagingCenter.Send(this, "Create");
             }
             catch (Exception ex)
             {

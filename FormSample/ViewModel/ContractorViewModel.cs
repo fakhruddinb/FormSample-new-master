@@ -17,6 +17,7 @@ namespace FormSample.ViewModel
 
    public class ContractorViewModel :BaseViewModel
     {
+		private IProgressService progressService;
        private ContractorDataService contractorDataService;
        public ObservableCollection<Contractor> contractorList { get; set; }
        private ContractorDatabase db;
@@ -26,6 +27,7 @@ namespace FormSample.ViewModel
        {
           // this.navigation = navigation;
            this.contractorDataService = new ContractorDataService();
+			progressService = DependencyService.Get<IProgressService> ();
            db = new ContractorDatabase();
            contractorList = new ObservableCollection<Contractor>();
            // BindContractor();
@@ -118,6 +120,7 @@ namespace FormSample.ViewModel
            {
                bool isValid = true;
                string errorMessage = string.Empty;
+				this.progressService.Show();
 
                if (string.IsNullOrEmpty(this.ContractorEmail))
                {
@@ -145,6 +148,7 @@ namespace FormSample.ViewModel
                if (!string.IsNullOrEmpty(errorMessage))
                {
                    isValid = false;
+					this.progressService.Dismiss();
                    MessagingCenter.Send(this, "msg", errorMessage);
                }
                else
@@ -165,6 +169,7 @@ namespace FormSample.ViewModel
 					if(!x)
 					{
 						this.CreateContractor(obj);
+						progressService.Dismiss();
 						App.RootPage.NavigateTo("Home");
 					}
 					else
@@ -172,6 +177,7 @@ namespace FormSample.ViewModel
 					var result= await contractorDataService.AddContractor(obj);
 					if (result != null)
 					{
+							progressService.Dismiss();
 							App.RootPage.NavigateTo("Home");
 					}
 					}
@@ -179,7 +185,7 @@ namespace FormSample.ViewModel
            }
            catch (Exception ex)
            {
-
+				progressService.Dismiss();
            }
        }
 
@@ -197,7 +203,9 @@ namespace FormSample.ViewModel
 		{
 			try
 			{
+				progressService.Show();
 				var result = await contractorDataService.DeleteAllContractor(Settings.GeneralSettings);
+				progressService.Dismiss();
 				App.RootPage.NavigateTo("Home");
 				//navigation.PushAsync(new HomePage());
 			}

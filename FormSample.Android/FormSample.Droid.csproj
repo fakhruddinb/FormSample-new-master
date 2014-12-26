@@ -115,6 +115,7 @@
     <Compile Include="MapService.cs" />
     <Compile Include="Services\NetworkReceiver.cs" />
     <Compile Include="Services\ProgressService.cs" />
+    <Compile Include="ButtonFixRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

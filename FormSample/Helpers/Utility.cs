@@ -15,8 +15,11 @@ namespace FormSample.Helpers
 		public static string EMAIL = "agency@churchill-knight.co.uk";
 		public static string GOOGLEPLUSURL = "https://plus.google.com/u/0/+Churchill-Knight/about";
 		public static string LINKEDINURL = "http://www.linkedin.com/company/churchill-knight-&-associates-ltd?trk=hb_tab_compy_id_1398435";
+		public static string PDFURL = "http://www.sandypointrv.ca/uploads/content/maps/documents/phase-1-lot-plans.pdf";
 		public static string LATITUDE = "51.5000";
 		public static string LONGITUDE = "0.1167";
+		public static int DEVICEWIDTH;
+		public static int DEVICEHEIGHT;
 
         public static bool IsValidEmailAddress(string email)
         {
@@ -43,6 +46,7 @@ namespace FormSample.Helpers
 		{
 			void OpenUrl (string url);
 		}
+
 
 		public interface IMapService
 		{

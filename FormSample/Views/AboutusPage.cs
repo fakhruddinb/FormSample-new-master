@@ -1,4 +1,6 @@
-﻿
+﻿using FormSample.Helpers;
+
+
 namespace FormSample
 {
     using Xamarin.Forms;
@@ -33,6 +35,11 @@ namespace FormSample
             browser.VerticalOptions = LayoutOptions.FillAndExpand;
             // Content = browser;
 			var downloadButton = new Button{Text = "Download terms and conditions",BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
+			downloadButton.Clicked += delegate
+			{
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+				//downloadButton.Text = string.Format("Thanks! {0} clicks.", count++);
+			};
 
 			var contactUsButton = new Button{Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White};
 

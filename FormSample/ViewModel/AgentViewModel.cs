@@ -13,14 +13,19 @@ namespace FormSample.ViewModel
 
     public class AgentViewModel : BaseViewModel
     {
+		private IProgressService progressService;
         private DataService dataService;
 		private UploadService uploadService;
         private INavigation navigation;
-        public AgentViewModel(INavigation navigation)
+		public ILoginManager ilm { get; set; }
+
+		public AgentViewModel(INavigation navigation, ILoginManager ilm )
         {
             this.navigation = navigation;
             this.dataService = new DataService();
 			this.uploadService = new UploadService ();
+			progressService = DependencyService.Get<IProgressService> ();
+			this.ilm = ilm;
         }
 
         public const string IdPropertyName = "Id";
@@ -94,6 +99,7 @@ namespace FormSample.ViewModel
         {
             try
             {
+				this.progressService.Show();
                 bool isValid = true;
                 string errorMessage = string.Empty;
 
@@ -128,6 +134,7 @@ namespace FormSample.ViewModel
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
                     isValid = false;
+					this.progressService.Dismiss();
                     MessagingCenter.Send(this, "msg", errorMessage);
                 }
                 else
@@ -135,10 +142,12 @@ namespace FormSample.ViewModel
 					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
 					if(!x)
 					{
+						this.progressService.Dismiss();
 						MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
 					}
 					else if (await this.dataService.GetAgent(this.Email)!=null)
                     {
+						this.progressService.Dismiss();
                         MessagingCenter.Send(this, "msg", "Email already exist.");
                     }
                     else
@@ -162,8 +171,10 @@ namespace FormSample.ViewModel
                         }
 						// var p = new MainPage();
 
-						await navigation.PushAsync(new MainPage());
+						//await navigation.PushAsync(new MainPage());
 						//App.RootPage.NavigateTo("Home");
+						this.progressService.Dismiss();
+						ilm.ShowMainPage();
                     }
                 }
             }
@@ -188,8 +199,9 @@ namespace FormSample.ViewModel
         {
             try
             {
-				await navigation.PushModalAsync(new LoginPage());
+				//await navigation.PushModalAsync(new LoginPage());
                // await navigation.PushAsync(new LoginPage());
+				MessagingCenter.Send (this, "Login");
             }
             catch { }
         }
@@ -209,7 +221,7 @@ namespace FormSample.ViewModel
         {
             try
             {
-
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
             }
             catch
             {
@@ -236,68 +248,69 @@ namespace FormSample.ViewModel
             {
             }
         }
+//
+//		private Command updateCommand;
+//		public const string UpdateCommandPropertyName = "UpdateCommand";
+//		public Command UpdateCommand
+//		{
+//			get{ 
+//				return updateCommand ?? (updateCommand = new Command (async() => await ExecuteUpdateCommand ()));
+//			}
+//		}
+//
+//		protected async Task ExecuteUpdateCommand()
+//		{
+//			try{
+//
+//				bool isValid = true;
+//				string errorMessage = string.Empty;
+//
+//				if (string.IsNullOrWhiteSpace(this.FirstName))
+//				{
+//					errorMessage = errorMessage + "Firstname is required.\n";
+//				}
+//
+//				if (string.IsNullOrWhiteSpace(this.LastName))
+//				{
+//					errorMessage = errorMessage + "Lastname is required.\n";
+//				}
+//
+//				if (string.IsNullOrWhiteSpace(this.AgencyName))
+//				{
+//					errorMessage = errorMessage + "Agency name is required.\n";
+//				}
+//
+//				if (!string.IsNullOrEmpty(errorMessage))
+//				{
+//					isValid = false;
+//					MessagingCenter.Send(this, "msg", errorMessage);
+//				}
+//				else
+//				{
+//						var a = new Agent()
+//						{
+//							Id = this.Id,
+//							Email = this.Email,
+//							FirstName = this.FirstName,
+//							LastName = this.LastName,
+//							Phone = this.Phone,
+//							AgencyName = this.AgencyName
+//						};
+//
+//						var result = await dataService.UpdateAgent(a);
+//						if (result != null && !string.IsNullOrWhiteSpace(this.Email))
+//						{
+//							//this.CreateDatabase(result);
+//							Settings.GeneralSettings = this.Email;
+//
+//						}
+//						await navigation.PopAsync();
+//				}
+//			}
+//			catch {
+//			}
+//		}
 
-		private Command updateCommand;
-		public const string UpdateCommandPropertyName = "UpdateCommand";
-		public Command UpdateCommand
-		{
-			get{ 
-				return updateCommand ?? (updateCommand = new Command (async() => await ExecuteUpdateCommand ()));
-			}
-		}
-
-		protected async Task ExecuteUpdateCommand()
-		{
-			try{
-
-				bool isValid = true;
-				string errorMessage = string.Empty;
-
-				if (string.IsNullOrWhiteSpace(this.FirstName))
-				{
-					errorMessage = errorMessage + "Firstname is required.\n";
-				}
-
-				if (string.IsNullOrWhiteSpace(this.LastName))
-				{
-					errorMessage = errorMessage + "Lastname is required.\n";
-				}
-
-				if (string.IsNullOrWhiteSpace(this.AgencyName))
-				{
-					errorMessage = errorMessage + "Agency name is required.\n";
-				}
-
-				if (!string.IsNullOrEmpty(errorMessage))
-				{
-					isValid = false;
-					MessagingCenter.Send(this, "msg", errorMessage);
-				}
-				else
-				{
-						var a = new Agent()
-						{
-							Id = this.Id,
-							Email = this.Email,
-							FirstName = this.FirstName,
-							LastName = this.LastName,
-							Phone = this.Phone,
-							AgencyName = this.AgencyName
-						};
-
-						var result = await dataService.UpdateAgent(a);
-						if (result != null && !string.IsNullOrWhiteSpace(this.Email))
-						{
-							//this.CreateDatabase(result);
-							Settings.GeneralSettings = this.Email;
-
-						}
-						await navigation.PopAsync();
-				}
-			}
-			catch {
-			}
-		}
         /// <summary>
         /// The execute submit command.
         /// </summary>
@@ -308,14 +321,6 @@ namespace FormSample.ViewModel
             //var t = d.GetAgents();
             d.SaveItem(responseFromServer); ;
         }
-
-		public async void BindAgent()
-		{
-			Agent obj = new Agent ();
-			obj  =  await dataService.GetAgent(Settings.GeneralSettings);
-		}
-
-
 
     }
 

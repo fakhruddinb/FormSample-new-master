@@ -200,21 +200,46 @@ namespace FormSample.Views
 
 		public ScrollView AssignValues()
 		{
-			// var t = this.IsNetworkAvailable();
-			Label lblTitle = new Label{Text = "Home",BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
+				Label lblTitle = new Label{Text = "Home",BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
 				YAlign = TextAlignment.Center
 			};
 
+			//double imagewidth = (Utility.DEVICEWIDTH-10)*50/ 100;
+			//double imageHeight = Utility.DEVICEHEIGHT;
+//
+//			//double padding = Utility.DEVICEWIDTH*2.5/ 100;
+//
+//			var grid = new Grid
+//			{
+//				RowSpacing = 10,
+//				ColumnSpacing = 10
+//				//ColumnSpacing = Utility.DEVICEWIDTH*2.4 / 100
+//			};
+//
+			//double width = imagewidth;
+			double width = 175;
+			double height = 150;
+
 			var grid = new Grid
 			{
 				RowSpacing = 10,
-				ColumnSpacing = 10
-			};
-			double width = 175;
-			double height = 150;
+				ColumnSpacing = 10,
+				RowDefinitions = 
+				{
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = GridLength.Auto },
+					new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+				},
+				ColumnDefinitions = 
+				{
+					new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)},
+					new ColumnDefinition { Width =  new GridLength(1, GridUnitType.Star) },
+				}
+				};
+
 			Image imgReferContractor = new Image()
 			{
 				WidthRequest = width,
@@ -352,9 +377,13 @@ namespace FormSample.Views
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
 			downloadButton.Clicked += delegate
 			{
-				downloadButton.Text = string.Format("Thanks! {0} clicks.", count++);
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+				//downloadButton.Text = string.Format("Thanks! {0} clicks.", count++);
 			};
 
+//			downloadButton.Clicked += (object sender, EventArgs e) => {
+//
+//			};
 			var contactUsButton = new Button { Text = "Contact us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
 			contactUsButton.SetBinding (Button.CommandProperty, HomeViewModel.GotoContactUsCommandPropertyName);
 //			contactUsButton.Clicked += (object sender, EventArgs e) => 
@@ -365,23 +394,26 @@ namespace FormSample.Views
 
 			var labelStakeLayout = new StackLayout (){ 
 				//Children = {lblTitle,new ScrollView { VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.Fill, Content = grid }}
-				Children = {lblTitle,grid }
+				Children = {lblTitle}
 			};
 
 			var controlStakeLayout = new StackLayout () {
-				Padding = new Thickness(10, 0, 10, 0),
+				//Padding = new Thickness(padding,0,padding,0),
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
-				Children = {downloadButton,contactUsButton }
+				Children = {grid,downloadButton,contactUsButton }
 			};
 
 			var layout = new StackLayout
 			{
+				//Padding = new Thickness(5,0,5,0),
 				Children = {labelStakeLayout,controlStakeLayout}
 			};
 
-			return new ScrollView{ Content = layout};
+			return new ScrollView{ Content= layout};
 		}
     }
 }

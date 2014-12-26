@@ -82,7 +82,7 @@ namespace FormSample.Views
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
 			downloadButton.Clicked += delegate
 			{
-				//TODO: add downlink location
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
@@ -133,10 +133,9 @@ namespace FormSample.Views
 			{
 				Text = "Daily Rate",
 				TextColor = Color.Black,
-
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
-				// WidthRequest = 100
+				WidthRequest = 100
 			};
 			this.txtDailyRate = new Entry
 			{
@@ -151,12 +150,13 @@ namespace FormSample.Views
 			{
 				Text = "Weekly Expenses",
 				TextColor = Color.Black,
-				HorizontalOptions = LayoutOptions.End,
+				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
+				WidthRequest = 100
 			};
 			this.txtWeeklyExpense = new Entry
 			{
-				Text = "25",
+				Text = "0",
 				TextColor = Color.White,
 				BackgroundColor = Color.Green,
 				WidthRequest = 100,
@@ -165,18 +165,18 @@ namespace FormSample.Views
 			var upButton = new Button()
 			{
 				Text = "+",
-				TextColor = Color.Red,
+				TextColor = Color.White,
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 30
+				WidthRequest = 40
 			};
 			var downButton = new Button()
 			{
 				Text = "-",
-				TextColor = Color.Red,
+				TextColor = Color.White,
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 30
+				WidthRequest = 40
 			};
 			upButton.Clicked += async (object sender, EventArgs e) =>   
 			{
@@ -202,7 +202,7 @@ namespace FormSample.Views
 				TextColor = Color.White,
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 20
+				WidthRequest = 40
 			};
 			var downWeeklyButton = new Button()
 			{
@@ -211,7 +211,7 @@ namespace FormSample.Views
 
 				BackgroundColor = Color.Gray,
 				HeightRequest = 20,
-				WidthRequest = 20
+				WidthRequest = 40
 			};
 			upWeeklyButton.Clicked += async (object sender, EventArgs e) =>  
 			{
@@ -273,17 +273,24 @@ namespace FormSample.Views
 			var allData = d.GetPayTables().ToList();
 
 			var payData = d.GetPayTableTaxablePay(taxablePay); //TODO: replace it with taxablePay variable.
-			if (payData != null)
+
+		if (payData != null)
 			{
-				var netPay = payData.TakeHomeLimited;
+//			var netPay = 0.00;
+//			if (payData != null) {
+//				netPay = payData.TakeHomeLimited;
+//			}
+			var netPay = payData.TakeHomeLimited;
 				var takeHomePayLimited = netPay + weeklyExpense;
 				var percentLimited = (takeHomePayLimited / grossPay) * 100;
 				var expense = 100 - percentLimited;
+			//var expenseLimited = 100 - percentLimited;
 
 				limitedCompanyModel = new DataModel();
 				limitedCompanyModel.SetLimitedCompanyData("Take home", percentLimited);
 				limitedCompanyModel.SetLimitedCompanyData("Expense", expense);
-				GenerateSyncFusionchartLimited("Pay break down - Limited Company");
+			//limitedCompanyModel.SetLimitedCompanyData("Expense", expenseLimited);	
+			GenerateSyncFusionchartLimited("Pay break down - Limited Company");
 
 
 				Label limitedCompany = new Label()
