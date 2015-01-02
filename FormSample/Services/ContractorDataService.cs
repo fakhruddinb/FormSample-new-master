@@ -10,7 +10,7 @@ namespace FormSample
 {
    public class ContractorDataService
     {
-       private string contractorDataUrl = "http://134.213.136.240:1081/api/contractors";
+       private string contractorDataUrl = "http://134.213.136.240:1082/api/contractors";
 //TODO Add connect and read timeout for web service communication
        public List<Contractor> filteredContractorList { get; set; }
 

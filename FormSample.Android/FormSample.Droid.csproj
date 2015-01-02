@@ -90,6 +90,12 @@
     <Reference Include="Syncfusion.SfChart.XForms.Android">
       <HintPath>C:\Program Files\Syncfusion\Essential Studio\12.4.0.24\lib\android\Syncfusion.SfChart.XForms.Android.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="BugSense.Xamarin.Android">
+      <HintPath>..\packages\BugSense.Xamarin.Android.3.6.7.0\lib\MonoAndroid\BugSense.Xamarin.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseUrlAndroid.cs" />
@@ -113,6 +119,7 @@
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
+    <None Include="BugSense\BugSense - SDK License Agreement.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

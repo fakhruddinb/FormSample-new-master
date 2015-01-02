@@ -7,6 +7,8 @@ using Android.Widget;
 using Android.OS;
 using FormSample.Helpers;
 using Xamarin.Forms;
+using BugSense;
+using BugSense.Model;
 
 namespace FormSample.Droid
 {
@@ -22,9 +24,12 @@ namespace FormSample.Droid
         {
 
             base.OnCreate(bundle);
+		
+			BugSenseHandler.Instance.InitAndStartSession (new ExceptionManager(), ApplicationContext, "000a57a1");
 			this.ActionBar.SetDisplayUseLogoEnabled (true);
 
             Xamarin.Forms.Forms.Init(this, bundle);
+		 
 			// SetPage(App.GetMainPage());
 
 			var metrics = Resources.DisplayMetrics;

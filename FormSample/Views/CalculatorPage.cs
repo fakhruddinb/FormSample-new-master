@@ -279,7 +279,7 @@ namespace FormSample.Views
 		//private void CalculatePayTableData()
 		private async Task CalculatePayTableData()
 		{
-			progressiveService.Show ();
+			//progressiveService.Show ();
 			FormSample.PayTableDatabase d = new PayTableDatabase();
 			var dailyRate = Convert.ToInt32(this.txtDailyRate.Text);
 			var weeklyExpense = Convert.ToInt32(this.txtWeeklyExpense.Text);

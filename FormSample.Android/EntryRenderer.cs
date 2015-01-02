@@ -1,7 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using FormSample.Droid;
+using FormSample;
 
+[assembly: ExportRenderer(typeof(MyEntry), typeof(MyEntryRenderer))]
 namespace FormSample.Droid
 {
 	using Android.Text;
