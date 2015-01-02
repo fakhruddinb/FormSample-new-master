@@ -9,10 +9,6 @@ using System.Collections.ObjectModel;
 
 namespace FormSample.Views
 {
-	using OxyPlot;
-	using OxyPlot.Axes;
-	using OxyPlot.Series;
-	using OxyPlot.XamarinForms;
 	using Xamarin.Forms;
 
 	public class CalculatorPage: ContentPage
@@ -32,10 +28,10 @@ namespace FormSample.Views
 		Label labelAfterChart;
 		DataModel limitedCompanyModel;
 		DataModel umbrellaCompanyModel;
-
+		IProgressService progressiveService;
 		public CalculatorPage()
 		{
-
+			progressiveService = DependencyService.Get<IProgressService> ();
 			chart1 = new SfChart();
 			chart2 = new SfChart();
 			takeHomePayLimitedLabel = new Label(){ XAlign = TextAlignment.Center};
@@ -44,10 +40,9 @@ namespace FormSample.Views
 			takeHomePayumbrellaLabel = new Label{XAlign = TextAlignment.Center};
 			percentageumbrellaLabel =  new Label{BackgroundColor = Color.Gray, XAlign = TextAlignment.Center };
 
-			//this.BackgroundColor = Color.White;
 			labelAfterChart = new Label(){ TextColor = Color.Black};
 
-			var label = new Label
+			var label = new Label  
 			{ 
 				Text = "Take home pay calculator", BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
@@ -80,13 +75,13 @@ namespace FormSample.Views
 			};
 
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += delegate
+			downloadButton.Clicked += async (object sender, EventArgs e) => 
 			{
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-			contactUsButton.Clicked += delegate
+			contactUsButton.Clicked += async (object sender, EventArgs e) => 
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
@@ -94,7 +89,6 @@ namespace FormSample.Views
 			var layout = new StackLayout
 			{
 				Orientation = StackOrientation.Vertical,
-				// Padding = new Thickness(0, 0, 0, 0)
 			};
 
 			layout.Children.Add(label);
@@ -103,14 +97,24 @@ namespace FormSample.Views
 			layout.Children.Add(new ScrollView
 				{
 					Content = chartGrid,
+					Orientation = ScrollOrientation.Vertical,
 					VerticalOptions = LayoutOptions.FillAndExpand,
 					HorizontalOptions = LayoutOptions.FillAndExpand
 				});
 			layout.Children.Add(this.takeHomeGridBelowChart);
 			layout.Children.Add(labelAfterChart);
-			layout.Children.Add(downloadButton);
-			layout.Children.Add(contactUsButton);
+			layout.Children.Add (new StackLayout
+				{
+					Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+					Orientation = StackOrientation.Vertical,
+					HorizontalOptions = LayoutOptions.Fill,
+					VerticalOptions = LayoutOptions.Fill,
+					Children = {downloadButton,contactUsButton}
+				});
 
+			//NOTU
+			CalculatePayTableData();
+			//
 			Content = new ScrollView { Content = layout };
 
 		}
@@ -156,7 +160,7 @@ namespace FormSample.Views
 			};
 			this.txtWeeklyExpense = new Entry
 			{
-				Text = "0",
+				Text = "25",
 				TextColor = Color.White,
 				BackgroundColor = Color.Green,
 				WidthRequest = 100,
@@ -182,18 +186,20 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtDailyRate.Text) >= 100 && Convert.ToInt32(txtDailyRate.Text) < 1200)
 				{
-					takeHomePayLimitedLabel.Text = string.Empty;
+					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtDailyRate.Text = (Convert.ToInt32(txtDailyRate.Text) + 100).ToString();
-					await CalculatePayTableData();
+					//await CalculatePayTableData();
+					CalculatePayTableData();
 				}
 			};
 			downButton.Clicked += async (object sender, EventArgs e) =>  
 			{
 				if (Convert.ToInt32(txtDailyRate.Text) > 100)
 				{
-					takeHomePayLimitedLabel.Text = string.Empty;
+					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtDailyRate.Text = (Convert.ToInt32(txtDailyRate.Text) - 100).ToString();
-					await CalculatePayTableData();
+					//await CalculatePayTableData();
+					CalculatePayTableData();
 				}
 			};
 			var upWeeklyButton = new Button()
@@ -217,9 +223,17 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtWeeklyExpense.Text) >= 0 && Convert.ToInt32(txtWeeklyExpense.Text) < 750)
 				{
-					takeHomePayLimitedLabel.Text = string.Empty;
+					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtWeeklyExpense.Text = (Convert.ToInt32(txtWeeklyExpense.Text) + 25).ToString();
-					await CalculatePayTableData();
+					try
+					{
+					//await CalculatePayTableData();
+						CalculatePayTableData();
+					}
+					catch(Exception ex)
+					{
+						DisplayAlert("Message",ex.Message,"OK");
+					}
 
 				}
 			};
@@ -227,9 +241,10 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtWeeklyExpense.Text) > 25)
 				{
-					takeHomePayLimitedLabel.Text = string.Empty;
+					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtWeeklyExpense.Text = (Convert.ToInt32(txtWeeklyExpense.Text) - 25).ToString();
-					await CalculatePayTableData();
+					//await CalculatePayTableData();
+					CalculatePayTableData();
 				}
 			};
 			var layout1 = new StackLayout()
@@ -261,10 +276,10 @@ namespace FormSample.Views
 			return grid;
 		}
 
-
+		//private void CalculatePayTableData()
 		private async Task CalculatePayTableData()
 		{
-
+			progressiveService.Show ();
 			FormSample.PayTableDatabase d = new PayTableDatabase();
 			var dailyRate = Convert.ToInt32(this.txtDailyRate.Text);
 			var weeklyExpense = Convert.ToInt32(this.txtWeeklyExpense.Text);
@@ -273,23 +288,16 @@ namespace FormSample.Views
 			var allData = d.GetPayTables().ToList();
 
 			var payData = d.GetPayTableTaxablePay(taxablePay); //TODO: replace it with taxablePay variable.
-
 		if (payData != null)
 			{
-//			var netPay = 0.00;
-//			if (payData != null) {
-//				netPay = payData.TakeHomeLimited;
-//			}
+
 			var netPay = payData.TakeHomeLimited;
 				var takeHomePayLimited = netPay + weeklyExpense;
 				var percentLimited = (takeHomePayLimited / grossPay) * 100;
 				var expense = 100 - percentLimited;
-			//var expenseLimited = 100 - percentLimited;
-
 				limitedCompanyModel = new DataModel();
 				limitedCompanyModel.SetLimitedCompanyData("Take home", percentLimited);
 				limitedCompanyModel.SetLimitedCompanyData("Expense", expense);
-			//limitedCompanyModel.SetLimitedCompanyData("Expense", expenseLimited);	
 			GenerateSyncFusionchartLimited("Pay break down - Limited Company");
 
 
@@ -331,12 +339,11 @@ namespace FormSample.Views
 				percentageumbrellaLabel.Text = percentUmbrella.ToString("F") + " %";
 
 
-				this.takeHomeGridBelowChart.Children.Add(umbrellaCompany, 2, 1);
+ 				this.takeHomeGridBelowChart.Children.Add(umbrellaCompany, 2, 1);
 				this.takeHomeGridBelowChart.Children.Add(takeHomePayumbrellaLabel, 2, 2);
 				this.takeHomeGridBelowChart.Children.Add(percentageumbrellaLabel, 2, 3);
 				labelAfterChart.Text = "These figures are based on average contracting terms. They ALL include " + weeklyExpense.ToString("C") + " expenses as you specified.";
 			}
-
 
 		}
 
@@ -402,7 +409,7 @@ namespace FormSample.Views
 				{
 					ItemsSource = umbrellaCompanyModel.umbrallaCompanyTax,
 					DataMarker = new ChartDataMarker (){ShowLabel  =true },
-					IsVisibleOnLegend =true  ,
+					IsVisibleOnLegend =true
 					// ExplodeAll=true
 				});
 

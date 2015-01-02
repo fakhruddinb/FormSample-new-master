@@ -201,7 +201,9 @@ namespace FormSample
 			Icon = "menu_icon";
             var itemList = new List<string> 
             { "Home", "Refer a contractor", "My contractors","Amend my details","Terms and conditions",
-                "About us","Contact us","Take home pay calculator","Weekly pay chart","Log out"};
+                "About us","Contact us","Take home pay calculator","Weekly pay chart",
+				"Log out"
+			};
             Menu = new ListView() { ItemsSource = itemList };
 
 			var headerImage = new Image
@@ -210,7 +212,7 @@ namespace FormSample
 			};
 			var headerContentView = new ContentView
 			{
-				Content = headerImage
+				Content = headerImage,
 			};
 
             Content = new StackLayout

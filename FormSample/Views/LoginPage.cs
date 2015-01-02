@@ -116,36 +116,44 @@ namespace FormSample.Views
 			password.SetBinding(Entry.TextProperty, LoginViewModel.PasswordPropertyName);
 			password.IsPassword = true;
 
-			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
-			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
+//			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
+//			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
 
-			var loginButton = new Button { Text = "Sign In",BackgroundColor = Color.FromHex("22498a"),};
+			var loginButton = new Button { Text = "Sign In",BackgroundColor = Color.FromHex("22498a")};
 			loginButton.SetBinding(Button.CommandProperty, LoginViewModel.LoginCommandPropertyName);
 
 			var registerButton = new Button { Text = "I don't have a recruiter account..", BackgroundColor=Color.FromHex("3b73b9")};
 			registerButton.SetBinding(Button.CommandProperty, LoginViewModel.GoToRegisterCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d")};
-			downloadButton.Clicked += delegate {
+			downloadButton.Clicked += async (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
-			//downloadButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoDownloadCommandPropertyName);
 
-			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
-			contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);
+//			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
+//			contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);
 
 			var controlStakeLayout = new StackLayout (){ 
-				Padding = new Thickness(10, 0, 10, 0),
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
-				Children = {userNameLabel,username,passwordLabel,password,forgotPassword,loginButton,registerButton,downloadButton,contactUsButton}
+				Children = {userNameLabel,username,passwordLabel,password}
+			};
+
+			var buttonStakeLayout = new StackLayout (){ 
+
+				Orientation = StackOrientation.Vertical,
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0, Device.OnPlatform(5, 5, 5), 0) ,//new Thickness(5,0, 5,0)
+				Children= { loginButton,registerButton,downloadButton}
 			};
 
 			layout.Children.Add(labelStakeLayout);
 			layout.Children.Add (controlStakeLayout);
+			layout.Children.Add (buttonStakeLayout);
 
-			Content = new ScrollView { Content = layout };
+			Content = new StackLayout { Children = {layout} };
 
 		}
 

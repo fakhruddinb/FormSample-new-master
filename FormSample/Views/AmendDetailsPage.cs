@@ -113,7 +113,7 @@ namespace FormSample
 //			//agentObj =  BindAgent ();
 //		}
 
-		public ScrollView AssignValues()
+		public StackLayout AssignValues()
 		{
 			//BindingContext = new AgentViewModel (Navigation);
 
@@ -129,9 +129,6 @@ namespace FormSample
 				YAlign = TextAlignment.Center, // Center the text in the blue box.
 			};
 
-			var labelStakeLayout = new StackLayout (){ 
-				Children= {label}
-			};
 
 			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			firstNameLabel.Text = "First Name";
@@ -182,7 +179,10 @@ namespace FormSample
 			//  btnUpdate.SetBinding(Button.CommandProperty, AgentViewModel.UpdateCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
-			downloadButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoDownloadCommandPropertyName);
+			downloadButton.Clicked += async (object sender, EventArgs e) => 
+			{
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+			};
 
 			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
 			//contactUsButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoContactUsCommandPropertyName);
@@ -192,22 +192,40 @@ namespace FormSample
 				App.RootPage.NavigateTo("Contact us");
 			};
 
+			var labelStakeLayout = new StackLayout (){ 
+				Children= {label}
+			};
+
 			var controlStakeLayout = new StackLayout (){ 
-				Padding = new Thickness(10, 0, 10, 0),
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
 				Children = 
 				{emailLabel, email, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, 
-					agencyName, phoneLabel, phone, btnUpdate, downloadButton, contactUsButton }
+					agencyName, phoneLabel, phone}
+			};
+
+			var scrollableContentLayout = new ScrollView (){ 
+				Content = controlStakeLayout,
+				Orientation = ScrollOrientation.Vertical,
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				Orientation = StackOrientation.Vertical,
+				Children= {btnUpdate, downloadButton, contactUsButton}
 			};
 
 			var nameLayout = new StackLayout()
 			{
 				Children = 
-				{ labelStakeLayout, controlStakeLayout}
+				{ labelStakeLayout, scrollableContentLayout,buttonLayout}
 			};
-			return new ScrollView{Content= nameLayout};
+			return new StackLayout{Children= {nameLayout}};
 			//agentObj =  BindAgent ();
 		}
 
@@ -236,17 +254,17 @@ namespace FormSample
 
 				if (string.IsNullOrWhiteSpace(this.firstName.Text))
 				{
-					errorMessage = errorMessage + "Firstname is required.\n";
+					errorMessage = errorMessage + Utility.FIRSTNAMEMESSAGE;
 				}
 
 				if (string.IsNullOrWhiteSpace(this.lastName.Text))
 				{
-					errorMessage = errorMessage + "Lastname is required.\n";
+					errorMessage = errorMessage + Utility.LASTNAMEMESSAGE;
 				}
 
 				if (string.IsNullOrWhiteSpace(this.agencyName.Text))
 				{
-					errorMessage = errorMessage + "Agency name is required.\n";
+					errorMessage = errorMessage + Utility.AGENCYMESSAGE;
 				}
 
 				if (!string.IsNullOrEmpty(errorMessage))
@@ -280,6 +298,8 @@ namespace FormSample
 				}
 			}
 			catch {
+
+				 this.DisplayAlert("Message", Utility.SERVERERRORMESSAGE, "OK");
 			}
 		}
 		private void UpdateAgent(Agent agentToUpdate)

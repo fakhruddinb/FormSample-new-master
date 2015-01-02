@@ -105,30 +105,30 @@ namespace FormSample.ViewModel
 
                 if (string.IsNullOrWhiteSpace(this.Email))
                 {
-                    errorMessage = errorMessage + "Email is required.\n";
+                    errorMessage = errorMessage + Utility.EAMAILMESSAGE;
                 }
                 else if (!Utility.IsValidEmailAddress(this.Email))
                 {
-                    errorMessage = errorMessage + "Please enter valid email address.\n";
+                    errorMessage = errorMessage + Utility.INVALIDEMAILMESSAGE;
                 }
 
                 if (string.IsNullOrWhiteSpace(this.FirstName))
                 {
-                    errorMessage = errorMessage + "Firstname is required.\n";
+                    errorMessage = errorMessage + Utility.FIRSTNAMEMESSAGE;
                 }
 
                 if (string.IsNullOrWhiteSpace(this.LastName))
                 {
-                    errorMessage = errorMessage + "Lastname is required.\n";
+                    errorMessage = errorMessage + Utility.LASTNAMEMESSAGE;
                 }
 
                 if (string.IsNullOrWhiteSpace(this.AgencyName))
                 {
-                    errorMessage = errorMessage + "Agency name is required.\n";
+                    errorMessage = errorMessage + Utility.AGENCYMESSAGE;
                 }
                 if (!this.IsChecked)
                 {
-                    errorMessage = errorMessage + "terms & condition must be checked.";
+					errorMessage = errorMessage + Utility.TERMSANDCONDITIONMESSAGE;
                 }
 
                 if (!string.IsNullOrEmpty(errorMessage))
@@ -143,12 +143,12 @@ namespace FormSample.ViewModel
 					if(!x)
 					{
 						this.progressService.Dismiss();
-						MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
+						MessagingCenter.Send(this, "msg", Utility.NOINTERNETMESSAGE);
 					}
 					else if (await this.dataService.GetAgent(this.Email)!=null)
                     {
 						this.progressService.Dismiss();
-                        MessagingCenter.Send(this, "msg", "Email already exist.");
+                        MessagingCenter.Send(this, "msg", Utility.EMAILALREADYEXISTMESSAGE);
                     }
                     else
                     {
@@ -165,22 +165,23 @@ namespace FormSample.ViewModel
                         var result = await dataService.AddAgent(a);
 						if (result != null && !string.IsNullOrWhiteSpace(this.Email))
                         {
-                            this.CreateDatabase(result);
-                            Settings.GeneralSettings = this.Email;
+							Settings.GeneralSettings = this.Email;
+							this.AddAgentToLocalDatabase(result);
 							await uploadService.UpdatePaytableDataFromService();
                         }
 						// var p = new MainPage();
 
 						//await navigation.PushAsync(new MainPage());
 						//App.RootPage.NavigateTo("Home");
-						this.progressService.Dismiss();
+						//this.progressService.Dismiss();
 						ilm.ShowMainPage();
                     }
                 }
             }
             catch (Exception ex)
             {
-				MessagingCenter.Send(this, "msg", "Something went wrong while creating account. please try after sometime..");
+				progressService.Dismiss();
+				MessagingCenter.Send(this, "msg", Utility.SERVERERRORMESSAGE);
             }
           
         }
@@ -221,7 +222,7 @@ namespace FormSample.ViewModel
         {
             try
             {
-				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+				 DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
             }
             catch
             {
@@ -315,12 +316,15 @@ namespace FormSample.ViewModel
         /// The execute submit command.
         /// </summary>
         /// <returns> The <see cref="Task"/>. </returns>
-        private void CreateDatabase(Agent responseFromServer)
-        {
-            FormSample.AgentDatabase d = new AgentDatabase();
-            //var t = d.GetAgents();
-            d.SaveItem(responseFromServer); ;
-        }
+		private void AddAgentToLocalDatabase(Agent responseFromServer)
+		{
+			FormSample.AgentDatabase d = new AgentDatabase();
+			var existingAgent = d.GetAgentByEmail(responseFromServer.Email);
+			if(existingAgent==null)
+			{ 
+				d.SaveItem(responseFromServer); 
+			}
+		}
 
     }
 

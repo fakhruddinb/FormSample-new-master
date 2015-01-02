@@ -63,16 +63,16 @@ namespace FormSample.ViewModel
 				string errorMessage = string.Empty;
 				if(string.IsNullOrWhiteSpace(this.Username))
 				{
-					errorMessage = errorMessage + "Email is required.\n";
+					errorMessage = errorMessage + Utility.EAMAILMESSAGE;
 
 				}
 				else if (!Utility.IsValidEmailAddress(this.Username))
 				{
-					errorMessage = errorMessage + "Please enter valid email address.\n";
+					errorMessage = errorMessage + Utility.INVALIDEMAILMESSAGE;
 				}
 				else if (await this.dataService.GetAgent(this.Username) == null)
 				{
-					  errorMessage = "Invalid user.";
+					errorMessage = errorMessage + Utility.INVALIDUSERMESSAGE;
 				}
 				if(!string.IsNullOrEmpty(errorMessage))
 				{
@@ -82,7 +82,16 @@ namespace FormSample.ViewModel
 
 				else
 				{
-					//true hoy to data service thi password sent karvano
+					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
+					if (!x)
+					{
+						MessagingCenter.Send(this,"msg",Utility.NOINTERNETMESSAGE);
+					}
+					else
+					{
+						var result = await dataService.ForgotPassword(this.Username);
+						//method chalti nathi
+					}
 				}
 			}
 			catch {
@@ -102,23 +111,23 @@ namespace FormSample.ViewModel
         {
             try
             {
-				this.progressService.Show();
+
 				bool isValid = true;
 				string errorMessage = string.Empty;
 				if(string.IsNullOrWhiteSpace(this.Username))
 				{
-					errorMessage = errorMessage + "Username is required.\n";
+					errorMessage = errorMessage + Utility.USERNAMEMESSAGE;
 
 				}
 
 				else if (!Utility.IsValidEmailAddress(this.Username))
 				{
-					errorMessage = errorMessage + "Please enter valid email address.\n";
+					errorMessage = errorMessage + Utility.INVALIDEMAILMESSAGE;
 				}
 
 				if(string.IsNullOrWhiteSpace(this.Password))
 				{
-					errorMessage = errorMessage + "Password is required.";
+					errorMessage = errorMessage + Utility.PASSWORDMESSAGE;
 
 				}
 				if(string.IsNullOrEmpty(errorMessage))
@@ -127,25 +136,24 @@ namespace FormSample.ViewModel
 					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
 					if (!x)
 					{
-						progressService.Dismiss();
-                        MessagingCenter.Send(this, "msg", "Could not connect to the internet.");
+                        MessagingCenter.Send(this, "msg", Utility.NOINTERNETMESSAGE);
                     }
 					else
 					{
-					var agent = await this.dataService.GetAgent(this.Username);
+					var agent = await this.dataService.IsValidUser(this.Username, this.Password);
 					if (agent == null)
 					{
-						progressService.Dismiss();
-						MessagingCenter.Send(this, "msg", "Invalid user.");
+						MessagingCenter.Send(this, "msg", Utility.INVALIDUSERMESSAGE);
 					}
 					 
                     else
                     {
+						this.progressService.Show();
                         Settings.GeneralSettings = this.Username;
 						this.AddAgentToLocalDatabase(agent);
 						await uploadService.UpdatePaytableDataFromService();
-						progressService.Dismiss();
 						ilm.ShowMainPage();
+						//progressService.Dismiss();
 						//await navigation.PopModalAsync();
                     }
 					}
@@ -161,6 +169,7 @@ namespace FormSample.ViewModel
             catch (Exception ex)
             {
 				progressService.Dismiss();
+				MessagingCenter.Send(this,"msg",Utility.SERVERERRORMESSAGE);
             }
         }
 

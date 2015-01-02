@@ -50,7 +50,6 @@
     <Compile Include="Views\CalculatorPage.cs" />
     <Compile Include="Views\ContactUsPage.cs" />
     <Compile Include="Views\ContractorPage.cs" />
-    <Compile Include="PlotView.cs" />
     <Compile Include="Views\MenuPage.cs" />
     <Compile Include="Views\MyContractorPage.cs" />
     <Compile Include="Views\RegisterPage.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="Views\ContractorCell.cs" />
     <Compile Include="Views\MainPage.cs" />
     <Compile Include="Views\ChartPage.cs" />
-    <Compile Include="Views\ColumnChartPage.cs" />
     <Compile Include="Views\AmendDetailsPage.cs" />
     <Compile Include="Database\PayTableDatabase.cs" />
     <Compile Include="Services\PayTableDataService.cs" />
@@ -105,14 +103,8 @@
     <Reference Include="Xamarin.Forms.Labs">
       <HintPath>..\packages\Xamarin.Forms.Labs.1.2.0\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\Xamarin.Forms.Labs.dll</HintPath>
     </Reference>
-    <Reference Include="OxyPlot">
-      <HintPath>..\packages\OxyPlot.Core.2014.1.546\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
-    </Reference>
-    <Reference Include="OxyPlot.XamarinForms">
-      <HintPath>..\packages\OxyPlot.XamarinForms.2014.1.546\lib\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\OxyPlot.XamarinForms.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.SfChart.XForms">
-      <HintPath>..\Components\SyncfusionEssentialStudio-12.3.0.38-trial\lib\pcl\Syncfusion.SfChart.XForms.dll</HintPath>
+      <HintPath>C:\Program Files\Syncfusion\Essential Studio\12.4.0.24\lib\android\Syncfusion.SfChart.XForms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

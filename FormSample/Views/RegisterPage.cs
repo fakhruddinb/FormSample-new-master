@@ -98,10 +98,9 @@ namespace FormSample
 //            return new ScrollView{Content= nameLayout};
 //        }
 
-		public ScrollView AssignValues()
+		public StackLayout AssignValues()
 		{
 			BindingContext = new AgentViewModel(Navigation,this.ilm);
-
 
 			var label = new Label
 			{
@@ -111,44 +110,39 @@ namespace FormSample
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
-				YAlign = TextAlignment.Center, // Center the text in the blue box.
+				YAlign = TextAlignment.Center // Center the text in the blue box.
 			};
-
-			var lableStakelayout = new StackLayout()
-			{
-
-				Children = {label}
-			};
-			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
-			firstNameLabel.Text = "First Name";
-
-			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
-			lastNameLabel.Text = "Last Name";
-
-			var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-			firstName.SetBinding(Entry.TextProperty, AgentViewModel.FirstNamePropertyName);
-
-			var lastName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-			lastName.SetBinding(Entry.TextProperty, AgentViewModel.LastNamePropertyName);
 
 			var emailLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			emailLabel.Text = "Email";
 
-			var emailText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-			emailText.SetBinding(Entry.TextProperty, AgentViewModel.AgentEmailPropertyName);
+			var emailText = new MyEntry() { HorizontalOptions = LayoutOptions.FillAndExpand};
+			emailText.SetBinding(MyEntry.TextProperty, AgentViewModel.AgentEmailPropertyName);
 			emailText.Keyboard = Keyboard.Email;
+
+			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
+			firstNameLabel.Text = "First Name";
+
+			var firstName = new MyEntry(){HorizontalOptions = LayoutOptions.FillAndExpand};
+			firstName.SetBinding(MyEntry.TextProperty, AgentViewModel.FirstNamePropertyName);
+
+			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
+			lastNameLabel.Text = "Last Name";
+
+			var lastName = new MyEntry() { HorizontalOptions = LayoutOptions.FillAndExpand};
+			lastName.SetBinding(MyEntry.TextProperty, AgentViewModel.LastNamePropertyName);
 
 			var agencyLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			agencyLabel.Text = "Agency";
 
-			var agencyText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
-			agencyText.SetBinding(Entry.TextProperty, AgentViewModel.AgencyNamePropertyName);
+			var agencyText = new MyEntry() { HorizontalOptions = LayoutOptions.FillAndExpand };
+			agencyText.SetBinding(MyEntry.TextProperty, AgentViewModel.AgencyNamePropertyName);
 
 			var phoneLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			phoneLabel.Text = "Phone number";
 
-			var phoneText = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-			phoneText.SetBinding(Entry.TextProperty, AgentViewModel.PhonePropertyName);
+			var phoneText = new MyEntry() { HorizontalOptions = LayoutOptions.FillAndExpand};
+			phoneText.SetBinding(MyEntry.TextProperty, AgentViewModel.PhonePropertyName);
 			phoneText.Keyboard = Keyboard.Telephone;
 
 			var chkInvite = new CheckBox();
@@ -170,24 +164,46 @@ namespace FormSample
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
 			downloadButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoDownloadCommandPropertyName);
 
-			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-			contactUsButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoContactUsCommandPropertyName);
+//			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
+//			contactUsButton.SetBinding (Button.CommandProperty, AgentViewModel.GotoContactUsCommandPropertyName);
+
+			var lableStakelayout = new StackLayout()
+			{
+				Children = {label},
+				Orientation = StackOrientation.Vertical
+			};
 
 			var controlLayout = new StackLayout () {
-				Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
-				Children = {emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, chkInvite, btnRegister, loginButton, downloadButton, contactUsButton },
+				Children = {emailLabel, emailText, firstNameLabel, firstName, lastNameLabel, lastName, agencyLabel, agencyText, phoneLabel, phoneText, chkInvite}
+			};
+
+			var scrollableContentLayout = new ScrollView (){ 
+				Content = controlLayout,
+				Orientation = ScrollOrientation.Vertical,
+				HorizontalOptions = LayoutOptions.Fill,
+				VerticalOptions = LayoutOptions.FillAndExpand
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				HorizontalOptions = LayoutOptions.Fill,
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				Orientation = StackOrientation.Vertical,
+				Children= {btnRegister, loginButton, downloadButton}
 			};
 
 			var nameLayout = new StackLayout()
 			{
-				Padding = 0,
-				Children = {lableStakelayout,controlLayout}
-				//BackgroundColor = Color.Gray
+				HorizontalOptions = LayoutOptions.Fill,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				Orientation = StackOrientation.Vertical,
+				Children = {lableStakelayout,scrollableContentLayout,buttonLayout}
 			};
-			return new ScrollView{Content= nameLayout};
+			return new StackLayout{Children= {nameLayout}};
 		}
 
         protected override void OnAppearing()
@@ -198,8 +214,12 @@ namespace FormSample
 
         protected override void OnDisappearing()
         {
-				base.OnDisappearing();
+			base.OnDisappearing();
             MessagingCenter.Unsubscribe<AgentViewModel, string>(this, "msg");
         }
     }
+
+	public class MyEntry : Entry
+	{
+	}
 }

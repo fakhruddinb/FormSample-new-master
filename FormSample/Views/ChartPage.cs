@@ -2,13 +2,11 @@
 using System.Collections.ObjectModel;
 using Syncfusion.SfChart.XForms;
 using FormSample.Helpers;
+using System;
 
 namespace FormSample
 {
-	using OxyPlot;
-	using OxyPlot.Axes;
-	using OxyPlot.Series;
-	using OxyPlot.XamarinForms;
+
 	using Xamarin.Forms;
 	public class ChartPage : ContentPage
 	{
@@ -56,23 +54,38 @@ namespace FormSample
 			chart1= new SfChart();
 
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += delegate
+			downloadButton.Clicked += async (object sender, EventArgs e) => 
 			{
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-			contactUsButton.Clicked += delegate
+			contactUsButton.Clicked += async (object sender, EventArgs e) => 
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
 
 			GenerateChart();
 
+			var headerStackLayout = new StackLayout (){ 
+				Children = {header},
+				Orientation = StackOrientation.Vertical
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				Orientation = StackOrientation.Vertical,
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				VerticalOptions = LayoutOptions.FillAndExpand, 
+				HorizontalOptions = LayoutOptions.Fill,
+				Children= { downloadButton,contactUsButton}
+			};
+
 			var layout = new StackLayout
 			{
-				Children = { header, description,grid, list, chart1,downloadButton,contactUsButton },
+				Children = {headerStackLayout, description,grid, list, chart1,buttonLayout},
 				VerticalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.Fill,
 				//BackgroundColor = Color.Gray
 
 			};

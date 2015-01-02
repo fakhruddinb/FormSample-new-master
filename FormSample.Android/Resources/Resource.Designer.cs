@@ -63,7 +63,6 @@ namespace FormSample.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::FormSample.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
-			global::OxyPlot.XamarinFormsAndroid.Resource.String.library_name = global::FormSample.Droid.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::FormSample.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::FormSample.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Labs.Droid.Resource.Color.calendar_active_month_bg = global::FormSample.Droid.Resource.Color.calendar_active_month_bg;

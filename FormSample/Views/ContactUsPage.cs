@@ -1,4 +1,5 @@
 ﻿using FormSample.Helpers;
+using System;
 
 namespace FormSample.Views
 {
@@ -145,6 +146,7 @@ namespace FormSample.Views
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
 				YAlign = TextAlignment.Center
+
 			};
 
 			Label label = new Label() { Text = "To speak with a member of our dedicated team:" };
@@ -269,20 +271,22 @@ namespace FormSample.Views
 			grid.Children.Add (linkdinText, 0, 4);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += delegate {
+			downloadButton.Clicked += async (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
 			var labelStakeLayout = new StackLayout ()
 			{
-				Children = {lblTitle}
-			};
+				Children = {lblTitle},
+				Orientation = StackOrientation.Vertical
 
+			};
 
 			var labelBeforeGridLayout = new StackLayout (){ 
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
+				Orientation = StackOrientation.Vertical,
 				Children = {label}
 			};
 
@@ -297,7 +301,8 @@ namespace FormSample.Views
 
 			var layout = new StackLayout
 			{
-				Children = { labelStakeLayout,labelBeforeGridLayout,controlStakeLayout}
+				Children = { labelStakeLayout,labelBeforeGridLayout,controlStakeLayout},
+				Orientation = StackOrientation.Vertical
 			};
 
 			return new StackLayout { Children = {layout} };

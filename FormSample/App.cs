@@ -15,7 +15,6 @@ namespace FormSample
     {
 
         public static INavigation Navigation { get; private set; }
-
         public static Color NavTint
         {
             get

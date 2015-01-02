@@ -97,9 +97,7 @@ namespace FormSample
 				YAlign = TextAlignment.Center
 			};
 
-			var labelStakeLayout = new StackLayout (){ 
-				Children = {label}
-			};
+
 
 			listView = new ListView
 			{
@@ -116,7 +114,7 @@ namespace FormSample
 			btnClearAllContractor.SetBinding (Button.CommandProperty, ContractorViewModel.GotoDeleteAllContractorCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
-			downloadButton.Clicked += delegate {
+			downloadButton.Clicked += async (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
@@ -126,23 +124,37 @@ namespace FormSample
 				App.RootPage.NavigateTo("Contact us");
 			};
 
+			var labelStakeLayout = new StackLayout (){ 
+				Children = {label}
+			};
+
 			var controlStakeLayout = new StackLayout (){ 
-				Padding = new Thickness(10, 0, 10, 0),
+				//Padding = new Thickness(10, 0, 10, 0),
+				Orientation = StackOrientation.Vertical,
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Children = { grid, listView, btnClearAllContractor, downloadButton, contactUsButton }
+				Children = { grid, listView}
+
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				Orientation = StackOrientation.Vertical,
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				Children= { downloadButton, contactUsButton}
 			};
 
 			var nameLayOut = new StackLayout
 			{
-				//                Orientation = StackOrientation.Vertical,
+				               Orientation = StackOrientation.Vertical,
 				//                Children = { btnClearAllContractor, downloadButton, contactUsButton }
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				Children = {labelStakeLayout,controlStakeLayout}
+				Children = {labelStakeLayout,controlStakeLayout,buttonLayout}
 			};
 
-			Content = new ScrollView
+			Content = new StackLayout
 			{
-				Content = nameLayOut
+				Children ={ nameLayOut}
 			};
 
 			listView.ItemTapped += async (sender, args) =>
@@ -173,7 +185,7 @@ namespace FormSample
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
+			progressService.Show ();
 			try
 			{
 			var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
@@ -181,7 +193,7 @@ namespace FormSample
 				progressService.Dismiss ();
 				await DisplayAlert ("Message", "Could not connect to the internet.", "OK");
 			} else {
-				progressService.Show ();
+					//progressService.Dismiss();
 				await this.contractorViewModel.BindContractor ();
 				listView.ItemTemplate = new DataTemplate (typeof(ContractorCell));
 				listView.ItemsSource = this.contractorViewModel.contractorList;

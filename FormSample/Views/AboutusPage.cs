@@ -1,4 +1,5 @@
 ﻿using FormSample.Helpers;
+using System;
 
 
 namespace FormSample
@@ -35,17 +36,28 @@ namespace FormSample
             browser.VerticalOptions = LayoutOptions.FillAndExpand;
             // Content = browser;
 			var downloadButton = new Button{Text = "Download terms and conditions",BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += delegate
-			{
-				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
-				//downloadButton.Text = string.Format("Thanks! {0} clicks.", count++);
+			downloadButton.Clicked += async (object sender, EventArgs e) => {
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button{Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White};
 
-			contactUsButton.Clicked += delegate
+			contactUsButton.Clicked += async(object sender, EventArgs e)=>
 			{
 				App.RootPage.NavigateTo("Contact us");
+			};
+
+			var labelStakeLayout = new StackLayout (){ 
+				Children = {lblTitle},
+				Orientation = StackOrientation.Vertical,
+			};
+
+			var buttonLayout = new StackLayout (){ 
+				Orientation = StackOrientation.Vertical,
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				//VerticalOptions = LayoutOptions.FillAndExpand, 
+				Children= { downloadButton, contactUsButton}
 			};
 
             var layout = new StackLayout()
@@ -53,10 +65,11 @@ namespace FormSample
                 VerticalOptions = LayoutOptions.Fill,
                 HorizontalOptions = LayoutOptions.Fill,
                 Orientation = StackOrientation.Vertical,
-				Children = { lblTitle,browser, downloadButton, contactUsButton },
+				Children = { labelStakeLayout,browser,buttonLayout},
                 WidthRequest = 200,
                 HeightRequest = 200
             };
+
             Content = layout;
 		}
 

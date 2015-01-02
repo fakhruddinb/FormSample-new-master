@@ -12,7 +12,6 @@ namespace FormSample.Views
 
     public class HomePage : ContentPage
     {
-
         int count = 1;
 
 //        public HomePage()
@@ -190,17 +189,18 @@ namespace FormSample.Views
 //            layout.Children.Add(contactUsButton);
 //            Content = layout;
 //        }
-
+		private IProgressService progressService;
 		public HomePage()
 		{
+			progressService = DependencyService.Get<IProgressService> ();
 			BindingContext = new HomeViewModel();
 			var Layout = this.AssignValues();
 			this.Content = Layout;
 		}
 
-		public ScrollView AssignValues()
+		public StackLayout AssignValues()
 		{
-				Label lblTitle = new Label{Text = "Home",BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
+			Label lblTitle = new Label(){Text = "Home",BackgroundColor = Color.Black, Font = Font.SystemFontOfSize(NamedSize.Large),
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
@@ -245,6 +245,7 @@ namespace FormSample.Views
 				WidthRequest = width,
 				HeightRequest = height,
 				Aspect = Aspect.AspectFill
+
 			};
 			imgReferContractor.Source = ImageSource.FromFile("homeheader.jpg");
 			Button referContractorButton = new Button()
@@ -256,9 +257,9 @@ namespace FormSample.Views
 			};
 			Image imgMyContractor = new Image()
 			{
-				Aspect = Aspect.AspectFill,
 				WidthRequest = width,
-				HeightRequest = height
+				HeightRequest = height,
+				Aspect = Aspect.AspectFill
 			};
 			imgMyContractor.Source = ImageSource.FromFile("MyContractors.jpg");
 			Button myContractorButton = new Button()
@@ -273,6 +274,7 @@ namespace FormSample.Views
 				WidthRequest = width,
 				HeightRequest = height,
 				Aspect = Aspect.AspectFill
+
 			};
 			imgAboutUs.Source = ImageSource.FromFile("aboutus.jpg");
 			Button aboutUsButton = new Button()
@@ -338,52 +340,72 @@ namespace FormSample.Views
 			grid.Children.Add(payCalcButton, 1, 2);
 
 			var tapGestureRecognizer = new TapGestureRecognizer();
-			tapGestureRecognizer.Tapped += (sender, e) =>
+			tapGestureRecognizer.Tapped +=  async (object sender, EventArgs e) =>
 			{
 				App.RootPage.NavigateTo("Refer a contractor");
 				//this.Navigation.PushAsync(new ContractorPage());
 			};
 			imgReferContractor.GestureRecognizers.Add(tapGestureRecognizer);
+			referContractorButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("Refer a contractor");
+			};
 
 			var myContractorGestureRecognizer = new TapGestureRecognizer();
-			myContractorGestureRecognizer.Tapped += (sender, e) => 
+			myContractorGestureRecognizer.Tapped +=  async (object sender, EventArgs e) => 
 			{
 				App.RootPage.NavigateTo("My contractors");
 				//this.Navigation.PushAsync(new MyContractorPage());
 			};
 			imgMyContractor.GestureRecognizers.Add(myContractorGestureRecognizer);
+			myContractorButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("My contractors");
+			};
 
 			var aboutUsGestureRecognizer = new TapGestureRecognizer ();
-			aboutUsGestureRecognizer.Tapped += (sender, e) => {
+			aboutUsGestureRecognizer.Tapped +=  async (object sender, EventArgs e) => {
 				App.RootPage.NavigateTo("About us");
 				//this.Navigation.PushAsync(new AboutusPage());
 			};
 			imgAboutUs.GestureRecognizers.Add (aboutUsGestureRecognizer);
+			aboutUsButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("About us");
+			};
+
+			var amendDetailsGestureRecognizer = new TapGestureRecognizer ();
+			amendDetailsGestureRecognizer.Tapped +=  async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("Amend my details");
+			};
+			imgAmendDetail.GestureRecognizers.Add (amendDetailsGestureRecognizer);
+			amendDetailButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("Amend my details");
+			};
 
 			var payCalculatorGestureRecognizer = new TapGestureRecognizer ();
-			payCalculatorGestureRecognizer.Tapped += (sender, e) => {
+			payCalculatorGestureRecognizer.Tapped +=  async (object sender, EventArgs e) => {
 				App.RootPage.NavigateTo("Take home pay calculator");
 				//this.Navigation.PushAsync(new CalculatorPage());
 			};
 			imgPayCalc.GestureRecognizers.Add (payCalculatorGestureRecognizer);
+			payCalcButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("Take home pay calculator");
+			};;
 
 			var payChartGestureReconizer = new TapGestureRecognizer ();
-			payChartGestureReconizer.Tapped += (sender, e) => {
+			payChartGestureReconizer.Tapped +=  async (object sender, EventArgs e) => {
 				App.RootPage.NavigateTo("Weekly pay chart");
 				//this.Navigation.PushAsync(new ChartPage());
 			};
 			imgPayChart.GestureRecognizers.Add (payChartGestureReconizer);
-
-			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += delegate
-			{
-				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
-				//downloadButton.Text = string.Format("Thanks! {0} clicks.", count++);
+			payChartButton.Clicked += async (object sender, EventArgs e) => {
+				App.RootPage.NavigateTo("Weekly pay chart");
 			};
 
-//			downloadButton.Clicked += (object sender, EventArgs e) => {
-//
-//			};
+			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
+			downloadButton.Clicked += async (object sender, EventArgs e) => 
+			{
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+			};
+
 			var contactUsButton = new Button { Text = "Contact us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
 			contactUsButton.SetBinding (Button.CommandProperty, HomeViewModel.GotoContactUsCommandPropertyName);
 //			contactUsButton.Clicked += (object sender, EventArgs e) => 
@@ -394,26 +416,42 @@ namespace FormSample.Views
 
 			var labelStakeLayout = new StackLayout (){ 
 				//Children = {lblTitle,new ScrollView { VerticalOptions = LayoutOptions.FillAndExpand, HorizontalOptions = LayoutOptions.Fill, Content = grid }}
-				Children = {lblTitle}
+				Children = {lblTitle},
+				Orientation = StackOrientation.Vertical
 			};
 
-			var controlStakeLayout = new StackLayout () {
-				//Padding = new Thickness(padding,0,padding,0),
+			var controlStakeLayout = new ScrollView () {
 				//Padding = new Thickness(10, 0, 10, 0),
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
+				Orientation = ScrollOrientation.Vertical,
+				Content = grid
+					};
+
+			var buttonLayout = new StackLayout (){ 
+				//Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				HorizontalOptions = LayoutOptions.Fill,
+				VerticalOptions = LayoutOptions.FillAndExpand, 
 				Orientation = StackOrientation.Vertical,
-				Children = {grid,downloadButton,contactUsButton }
+				Children= {downloadButton,contactUsButton }
 			};
 
 			var layout = new StackLayout
 			{
 				//Padding = new Thickness(5,0,5,0),
-				Children = {labelStakeLayout,controlStakeLayout}
+				Children = {labelStakeLayout,controlStakeLayout,buttonLayout},
+				Orientation = StackOrientation.Vertical
 			};
+			return new StackLayout{ Children= {layout}};
 
-			return new ScrollView{ Content= layout};
+		}
+
+		protected override async void OnAppearing()
+		{
+			base.OnAppearing ();
+			progressService.Show ();
 		}
     }
 }

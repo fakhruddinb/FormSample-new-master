@@ -15,11 +15,27 @@ namespace FormSample.Helpers
 		public static string EMAIL = "agency@churchill-knight.co.uk";
 		public static string GOOGLEPLUSURL = "https://plus.google.com/u/0/+Churchill-Knight/about";
 		public static string LINKEDINURL = "http://www.linkedin.com/company/churchill-knight-&-associates-ltd?trk=hb_tab_compy_id_1398435";
-		public static string PDFURL = "http://www.sandypointrv.ca/uploads/content/maps/documents/phase-1-lot-plans.pdf";
-		public static string LATITUDE = "51.5000";
-		public static string LONGITUDE = "0.1167";
+		public static string PDFURL = "http://www.churchill-knight.co.uk/assets/tandc.pdf";
+		public static string LATITUDE = "51.696975";
+		public static string LONGITUDE = "-0.191415";
 		public static int DEVICEWIDTH;
 		public static int DEVICEHEIGHT;
+
+		#region custome messages
+		public static string EAMAILMESSAGE = "Email is required.\n";
+		public static string INVALIDEMAILMESSAGE = "Please enter valid email address.\n";
+		public static string FIRSTNAMEMESSAGE = "Firstname is required.\n";
+		public static string LASTNAMEMESSAGE = "Lastname is required.\n";
+		public static string AGENCYMESSAGE = "Agency name is required.\n"; 
+		public static string TERMSANDCONDITIONMESSAGE = "You must agree to our Terms & Condition. Please check checkbox below to agree.";
+		public static string NOINTERNETMESSAGE = "Could not connect to the internet.";
+		public static string EMAILALREADYEXISTMESSAGE = "Email already exist.";
+		public static string SERVERERRORMESSAGE = "Something went wrong. please try again letter...";
+		public static string USERNAMEMESSAGE = "Username is required.\n";
+		public static string PASSWORDMESSAGE = "Password is required.";
+		public static string INVALIDUSERMESSAGE = "Invalid user.";
+
+		#endregion
 
         public static bool IsValidEmailAddress(string email)
         {
@@ -52,5 +68,10 @@ namespace FormSample.Helpers
 		{
 			void OpenMap ();
 		}
+
+//		public interface IpdfService
+//		{
+//			void OpnePdf (string url);
+//		}
     }
 }

@@ -110,11 +110,11 @@ namespace FormSample.ViewModel
        {
            get
            {
-               return submitCommand ?? (submitCommand = new Command(async () => await ExecuteSubmitCommand1()));
+               return submitCommand ?? (submitCommand = new Command(async () => await ExecuteSubmitCommand()));
            }
        }
 
-       protected async Task ExecuteSubmitCommand1()
+       protected async Task ExecuteSubmitCommand()
        {
            try
            {
@@ -124,25 +124,25 @@ namespace FormSample.ViewModel
 
                if (string.IsNullOrEmpty(this.ContractorEmail))
                {
-                   errorMessage = errorMessage + "Email is required.\n";
+                   errorMessage = errorMessage +Utility.EAMAILMESSAGE;
                }
                else if (!Utility.IsValidEmailAddress(this.ContractorEmail))
                {
-                   errorMessage = errorMessage + "Please enter valid email address.\n";
+                   errorMessage = errorMessage + Utility.INVALIDEMAILMESSAGE;
                }
 
                if (string.IsNullOrEmpty(this.ContractorFirstName))
                {
-                   errorMessage = errorMessage + "Firstname is required.\n";
+                   errorMessage = errorMessage + Utility.FIRSTNAMEMESSAGE;
                }
                if (string.IsNullOrEmpty(this.ContractorFirstName))
                {
-                   errorMessage = errorMessage + "Lastname is required.\n";
+                   errorMessage = errorMessage + Utility.LASTNAMEMESSAGE;
                }
 
 				if (!this.IsCheckedProperty)
                {
-                   errorMessage = errorMessage + "terms & condition must be checked.";
+					errorMessage = errorMessage + Utility.TERMSANDCONDITIONMESSAGE;
                }
 
                if (!string.IsNullOrEmpty(errorMessage))
@@ -163,7 +163,7 @@ namespace FormSample.ViewModel
                        Email = this.ContractorEmail,
                        Phone = this.ContractorPhone,
                        AdditionalInformation = this.ContractorAdditionalInfo,
-						InsertDate = DateTime.Now
+					   InsertDate = DateTime.Now
                    };
 					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
 					if(!x)
@@ -177,7 +177,7 @@ namespace FormSample.ViewModel
 					var result= await contractorDataService.AddContractor(obj);
 					if (result != null)
 					{
-							progressService.Dismiss();
+							//progressService.Dismiss();
 							App.RootPage.NavigateTo("Home");
 					}
 					}
@@ -186,6 +186,7 @@ namespace FormSample.ViewModel
            catch (Exception ex)
            {
 				progressService.Dismiss();
+				MessagingCenter.Send(this, "msg", Utility.SERVERERRORMESSAGE);
            }
        }
 
@@ -205,7 +206,7 @@ namespace FormSample.ViewModel
 			{
 				progressService.Show();
 				var result = await contractorDataService.DeleteAllContractor(Settings.GeneralSettings);
-				progressService.Dismiss();
+				//progressService.Dismiss();
 				App.RootPage.NavigateTo("Home");
 				//navigation.PushAsync(new HomePage());
 			}
@@ -232,7 +233,7 @@ namespace FormSample.ViewModel
         {
             // var customerList = await this.ds.GetCustomers();
 			var contractorList =  await  contractorDataService.GetContractors(Settings.GeneralSettings);
-			var list =  contractorList.Where (c => c.DeleteDate == null).ToList ();
+			var list =  contractorList.Where (c => c.DeleteDate == null).OrderByDescending(a=>a.InsertDate).ToList ();
 			this.contractorList = new ObservableCollection<Contractor>(list);
         }
     }

@@ -2,6 +2,7 @@
 using FormSample.Droid;
 using Xamarin.Forms;
 using Android.Net;
+using System;
 
 [assembly: Dependency(typeof(EmailService))]
 namespace FormSample.Droid
@@ -10,10 +11,15 @@ namespace FormSample.Droid
 	{
 		public void OpenEmail(string email)
 		{
+			try
+			{
 			var intent = new Intent (Intent.ActionView);
-			Uri data = Uri.Parse("mailto:"+ email);
+			Android.Net.Uri data = Android.Net.Uri.Parse("mailto:"+ email);
 			intent.SetData(data);
 			Forms.Context.StartActivity(intent);
+			}
+			catch(Exception ex) {
+			}
 //			intent.SetType ("message/rfc822");
 //			intent.PutExtra (Intent.ActionSendto,email);
 //			Forms.Context.StartActivity (Intent.CreateChooser (intent, "Send email"));

@@ -28,15 +28,17 @@ namespace FormSample
 		{
 			var nameLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			nameLabel.SetBinding(Label.TextProperty, new Binding("FirstName"));
-			nameLabel.WidthRequest = 100;
+			nameLabel.WidthRequest = 200;
 			nameLabel.TextColor = Color.Black;
 
 			var referDateLabel = new Label { HorizontalOptions = LayoutOptions.FillAndExpand };
 			referDateLabel.SetBinding(Label.TextProperty, new Binding("InsertDate"));
+			referDateLabel.WidthRequest = 200;
 			referDateLabel.TextColor = Color.Black;
 
 			var contractorIdLabel = new Label ();
 			contractorIdLabel.SetBinding(Label.TextProperty, new Binding("Id"));
+			contractorIdLabel.WidthRequest = 0;
 			contractorIdLabel.IsVisible = false;
 
 			var nameLayout = new StackLayout()

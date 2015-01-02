@@ -120,19 +120,14 @@ namespace FormSample.Views
 				TextColor = Color.White,
 				VerticalOptions = LayoutOptions.Center,
 				XAlign = TextAlignment.Center, // Center the text in the blue box.
-				YAlign = TextAlignment.Center // Center the text in the blue box.
-			};
-
-			var labelStakeLayout = new StackLayout () {
-				Children = { label }
+				YAlign = TextAlignment.Center, // Center the text in the blue box.
 			};
 
 			var firstNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill };
 			firstNameLabel.Text = "First Name";
 
-			var firstName = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand };
+			var firstName = new Entry() { HorizontalOptions = LayoutOptions.FillAndExpand };
 			firstName.SetBinding (Entry.TextProperty, ContractorViewModel.ContractorFirstNamePropertyName);
-			//firstName.Text = contractor.FirstName;
 
 			var lastNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			lastNameLabel.Text = "Last Name";
@@ -178,42 +173,50 @@ namespace FormSample.Views
 			btnSubmitContractor.SetBinding(Button.CommandProperty,ContractorViewModel.SubmitCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor =  Color.FromHex("f7941d"), TextColor = Color.White };
-			downloadButton.Clicked += delegate {
+			downloadButton.Clicked += async (object sender, EventArgs e) =>  {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-
-			contactUsButton.Clicked += delegate
+			contactUsButton.Clicked += async (object sender, EventArgs e) =>
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
 
+			var labelStakeLayout = new StackLayout () {
+				Children = { label },
+				Orientation = StackOrientation.Vertical
+			};
+
 			var cotrolStakeLayout = new StackLayout () {
-				//WidthRequest = 320,
-				Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
 				Orientation = StackOrientation.Vertical,
-				//HorizontalOptions = LayoutOptions.Fill,
-				//Orientation = StackOrientation.Vertical,
 				Children = { firstNameLabel, firstName, lastNameLabel, lastName, phoneNoLabel, phoneNo, emailLabel, email, additionalInfoLabel, additionalInfo, chkInvite}
 			};
 
 			var scrollableContentLayout = new ScrollView (){ 
-				Content = cotrolStakeLayout
+				Content = cotrolStakeLayout,
+				Orientation = ScrollOrientation.Vertical,
+				HorizontalOptions = LayoutOptions.Fill,
+				VerticalOptions = LayoutOptions.FillAndExpand
 			};
 
 			var buttonLayout = new StackLayout (){ 
-				Padding = new Thickness(10, 0, 10, 0),
+				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
+				HorizontalOptions = LayoutOptions.Fill,
 				VerticalOptions = LayoutOptions.FillAndExpand, 
-				Children= {btnSubmitContractor, downloadButton, contactUsButton }
+				Orientation = StackOrientation.Vertical,
+				Children= {btnSubmitContractor, downloadButton, contactUsButton}
 			};
 
 			var nameLayout = new StackLayout()
 			{
+				HorizontalOptions = LayoutOptions.Fill,
 				VerticalOptions = LayoutOptions.FillAndExpand, 
-				Children = {labelStakeLayout,scrollableContentLayout,buttonLayout }
+				Orientation = StackOrientation.Vertical,
+				Children = {labelStakeLayout,scrollableContentLayout,buttonLayout}
 			};
 			return new StackLayout{Children= {nameLayout}};
 		}
@@ -230,4 +233,6 @@ namespace FormSample.Views
             MessagingCenter.Unsubscribe<ContractorViewModel, string>(this, "msg");
         }
     }
+
+
 }

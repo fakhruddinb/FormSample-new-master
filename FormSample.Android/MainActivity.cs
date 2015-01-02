@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using FormSample.Helpers;
+using Xamarin.Forms;
 
 namespace FormSample.Droid
 {
@@ -13,13 +14,15 @@ namespace FormSample.Droid
 
     using Xamarin.Forms.Platform.Android;
 
-	[Activity(Label = "Mobile Recruiter", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
+	//[Activity(Label = "Mobile Recruiter", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity( MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : AndroidActivity,ILoginManager
     {
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);
 
+            base.OnCreate(bundle);
+			this.ActionBar.SetDisplayUseLogoEnabled (true);
 
             Xamarin.Forms.Forms.Init(this, bundle);
 			// SetPage(App.GetMainPage());
@@ -38,6 +41,13 @@ namespace FormSample.Droid
 				SetPage(App.GetMainPage(this));
 			}
         }
+
+		public override ActionBar ActionBar {
+			get {
+				base.ActionBar.SetDisplayUseLogoEnabled (true);
+				return base.ActionBar;
+			}
+		}
 
 		private int ConvertPixelsToDp(float pixelValue)
 		{
@@ -62,6 +72,20 @@ namespace FormSample.Droid
 		{
 			SetPage (App.GetLoginPage (this)); 
 		}
+//
+//		public override bool OnKeyDown(Keycode keyCode, KeyEvent e) {
+//
+//			if (e.KeyCode == Keycode.Back) {
+//				// Back
+//				MoveTaskToBack(true);
+//				return true;
+//			}
+//			else {
+//				// Return
+//				return base.OnKeyDown(keyCode, e);
+//			}
+//		}
+
     }
 }
 

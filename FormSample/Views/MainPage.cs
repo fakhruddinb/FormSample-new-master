@@ -38,7 +38,8 @@ namespace FormSample
 
 		public void NavigateTo(string item)
 		{
-			Page page = new HomePage();
+			//Page page = new HomePage();
+			Page page = new Page();
 			menuPage.Menu.SelectedItem = item;
 			switch (item)
 			{
@@ -55,7 +56,8 @@ namespace FormSample
 				    break;
 
 			case "Terms and conditions":
-				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
+				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
+				page = new HomePage ();
 				break;
 
 			case "About us":
@@ -75,7 +77,7 @@ namespace FormSample
 				App.Logout ();
 				break;
 			default:
-				menuPage.Menu.SelectedItem = item;
+				//menuPage.Menu.SelectedItem = item;
 				page = new HomePage();
 				break;
 
