@@ -79,6 +79,9 @@
     <Reference Include="SQLite.Net">
       <HintPath>..\lib\SQLite.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfChart.XForms">
+      <HintPath>..\packages\Static_Syncfusion\PCL\Syncfusion.SfChart.XForms.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
     </Reference>
@@ -102,9 +105,6 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Labs">
       <HintPath>..\packages\Xamarin.Forms.Labs.1.2.0\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\Xamarin.Forms.Labs.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfChart.XForms">
-      <HintPath>C:\Program Files\Syncfusion\Essential Studio\12.4.0.24\lib\android\Syncfusion.SfChart.XForms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

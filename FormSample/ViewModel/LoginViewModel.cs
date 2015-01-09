@@ -59,12 +59,10 @@ namespace FormSample.ViewModel
 		{
 			try
 			{
-				bool isValid = true;
 				string errorMessage = string.Empty;
 				if(string.IsNullOrWhiteSpace(this.Username))
 				{
 					errorMessage = errorMessage + Utility.EAMAILMESSAGE;
-
 				}
 				else if (!Utility.IsValidEmailAddress(this.Username))
 				{
@@ -76,10 +74,8 @@ namespace FormSample.ViewModel
 				}
 				if(!string.IsNullOrEmpty(errorMessage))
 				{
-					isValid = false;
 					MessagingCenter.Send(this,"msg",errorMessage);
 				}
-
 				else
 				{
 					var x = DependencyService.Get<FormSample.Helpers.Utility.INetworkService>().IsReachable();
@@ -90,13 +86,20 @@ namespace FormSample.ViewModel
 					else
 					{
 						var result = await dataService.ForgotPassword(this.Username);
-						//method chalti nathi
+						if(result != null)
+						{
+							MessagingCenter.Send(this,"msg","Password has been sent to your email..");
+						}
+
 					}
 				}
 			}
-			catch {
+			catch(Exception) {
+				progressService.Dismiss();
+				MessagingCenter.Send(this,"msg",Utility.SERVERERRORMESSAGE);
 			}
 		}
+
         private Command loginCommand;
         public const string LoginCommandPropertyName = "LoginCommand";
         public Command LoginCommand
@@ -111,8 +114,6 @@ namespace FormSample.ViewModel
         {
             try
             {
-
-				bool isValid = true;
 				string errorMessage = string.Empty;
 				if(string.IsNullOrWhiteSpace(this.Username))
 				{
@@ -140,33 +141,31 @@ namespace FormSample.ViewModel
                     }
 					else
 					{
-					var agent = await this.dataService.IsValidUser(this.Username, this.Password);
-					if (agent == null)
-					{
-						MessagingCenter.Send(this, "msg", Utility.INVALIDUSERMESSAGE);
-					}
-					 
-                    else
-                    {
-						this.progressService.Show();
-                        Settings.GeneralSettings = this.Username;
-						this.AddAgentToLocalDatabase(agent);
-						await uploadService.UpdatePaytableDataFromService();
-						ilm.ShowMainPage();
-						//progressService.Dismiss();
-						//await navigation.PopModalAsync();
-                    }
+                    var encryptedPassword = DependencyService.Get<FormSample.Helpers.Utility.IpasswordConverter>().ConvertPasswordIntoMd5(this.Password);
+                    var response = await this.dataService.IsValidUser(this.Username, encryptedPassword);// just emailid and password return kare 6
+						//var response = await this.dataService.GetAgent(this.Username);
+						if(response != null && response.Email != null )
+						{
+							//this.progressService.Show();
+							Settings.GeneralSettings = this.Username;
+							this.AddAgentToLocalDatabase(response);
+							await uploadService.UpdatePaytableDataFromService();
+							ilm.ShowMainPage();
+						}
+						else 
+						{
+							MessagingCenter.Send(this, "msg", Utility.INCORRECTUSERNAMEORPASSWORD);
+						}
 					}
 				}
 				else
 				{
-					isValid = false;
 					progressService.Dismiss();
 					MessagingCenter.Send(this,"msg",errorMessage);
 				}
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 				progressService.Dismiss();
 				MessagingCenter.Send(this,"msg",Utility.SERVERERRORMESSAGE);
@@ -187,55 +186,12 @@ namespace FormSample.ViewModel
         {
             try
             {
-				//await navigation.PushModalAsync(new RegisterPage());
-                //await navigation.PushAsync(new RegisterPage());
 				MessagingCenter.Send(this, "Create");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
-
-		private Command gotoDownloadCommand;
-		public const string GotoDownloadCommandPropertyName = "GotoDownloadCommand";
-		public Command GotoDownloadCommand
-		{
-			get{ 
-				return gotoDownloadCommand ?? (gotoDownloadCommand = new Command (async() => await ExecuteDownLoadCommand ()));
-			} 
-
-		}
-
-		protected async Task ExecuteDownLoadCommand()
-		{
-			try
-			{
-
-			}
-			catch {
-			}
-		}
-
-		private Command gotoContactUsCommand;
-		public const string GotoContactUsCommandPropertyName = "GotoContactUsCommand";
-		public Command GotoContactUsCommand
-		{
-			get{ 
-				return gotoContactUsCommand ?? (gotoContactUsCommand = new Command(async()=> await ExecuteContactUsCommand()));
-			}
-		}
-
-		protected async Task ExecuteContactUsCommand()
-		{
-			try{
-				 App.RootPage.NavigateTo("Contact us");
-				//await navigation.PopModalAsync();
-				//await navigation.PushModalAsync(new ContactUsPage());
-				//await navigation.PushAsync(new ContactUsPage());
-			}
-			catch {
-			}
-		}
 
 		private void AddAgentToLocalDatabase(Agent responseFromServer)
 		{

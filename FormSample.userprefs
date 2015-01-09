@@ -1,20 +1,12 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.MonoForAndroid_API19" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FormSample\Views\CalculatorPage.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.MonoForAndroid_API19" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FormSample\Views\RegisterPage.cs">
     <Files>
-      <File FileName="FormSample\Helpers\Utility.cs" Line="2" Column="2" />
-      <File FileName="FormSample.Android\Services\NetworkReceiver.cs" Line="4" Column="4" />
-      <File FileName="FormSample\Views\CalculatorPage.cs" Line="45" Column="45" />
+      <File FileName="FormSample\Views\RegisterPage.cs" Line="57" Column="57" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="D:\FormSample-new-master\FormSample\Views\HomePage.cs" line="143" column="11" />
-      <Breakpoint file="D:\FormSample-new-master\FormSample\Database\ContractorDatabase.cs" line="64" column="1" />
-      <Breakpoint file="D:\FormSample-new-master\FormSample\Database\ContractorDatabase.cs" line="68" column="1" />
-      <Breakpoint file="D:\FormSample-new-master\FormSample.Android\ButtonFixRenderer.cs" line="12" column="1" />
-      <Breakpoint file="D:\FormSample-new-master\FormSample.Android\ButtonFixRenderer.cs" line="10" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="FormSample\Services\DataService.cs" line="52" offsetX="431" offsetY="816" expression="cust" liveUpdate="False" />

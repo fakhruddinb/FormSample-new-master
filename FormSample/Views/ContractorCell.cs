@@ -6,14 +6,6 @@ namespace FormSample
 	{
 		public ContractorCell()
 		{
-//			var image = new Image
-//			{
-//				HorizontalOptions = LayoutOptions.Start
-//			};
-//			image.SetBinding(Image.SourceProperty, new Binding("ProfilePicture"));
-//			image.WidthRequest = image.HeightRequest = 40;
-//			var checkBox = new CheckBox();
-//			checkBox.TextColor = Color.White;
 			var nameLayout = CreateLayout();
 			var viewLayout = new StackLayout()
 			{
@@ -49,17 +41,5 @@ namespace FormSample
 			};
 			return nameLayout;
 		}
-//		protected override void OnTapped()
-//		{
-//			base.OnTapped();
-//			var entry = (BindingContext as Contractor);
-//			var dataService = new ContractorDataService ();
-//
-//			//TODO: Show confirm dialog
-//			var result =  dataService.DeleteContractor (entry.Id, entry.AgentId);
-//			//TODO: refresh page grid
-//			App.Navigation.PushAsync(new MyContractorPage());
-//			// App.Navigation.PushAsync(new ChartPage());
-//		}
 	}
 }

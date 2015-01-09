@@ -10,12 +10,9 @@ namespace FormSample
 {
     public class DataService
     {
-        //private string url = "http://192.168.170.32:8099/api/customer";
 
-        //private string postDataUrl = "http://192.168.170.32:8099/customer/submit";
-
-        private string agentDataUrl = "http://134.213.136.240:1081/api/agents";
-		private string passwordUrl = "http://134.213.136.240:1081/api/password/";
+        private string agentDataUrl = "http://134.213.136.240:1082/api/agents";
+		private string passwordUrl = "http://134.213.136.240:1082/api/password";
 
         public List<Agent> filteredCustomerList { get; set; }
         
@@ -24,22 +21,6 @@ namespace FormSample
             filteredCustomerList = new List<Agent>();
           
         }
-
-//        public async Task<bool> IsuserAlreadyExist(string email)
-//        {
-//            HttpClient client = new HttpClient();
-//            try
-//            {
-//                var result = await client.GetAsync(agentDataUrl + "/" + email);
-//                var json = await result.Content.ReadAsStringAsync();
-//                var response = JsonConvert.DeserializeObject<bool>(json);
-//                return response;
-//            }
-//            catch
-//            {
-//                return false;
-//            }
-//        }
 
         public async Task<List<Agent>> GetAgents()
         {
@@ -67,12 +48,13 @@ namespace FormSample
 
         }
 
+		//public async Task<Agent> IsValidUser(string agentEmail, string password)
 		public async Task<Agent> IsValidUser(string agentEmail, string password)
 		{
 			HttpClient client = new HttpClient();
 			try
 			{
-				var result = await client.GetAsync(agentDataUrl+ agentEmail+ "?password=" +password);
+                var result = await client.GetAsync(passwordUrl + "?id=" + agentEmail + "&apikey=" + password);
 				var json = await result.Content.ReadAsStringAsync();
 				var response = JsonConvert.DeserializeObject<Agent>(json);
 				return response;
@@ -120,7 +102,7 @@ namespace FormSample
 			HttpClient client = new HttpClient();
 			try
 			{
-				var result = await client.GetAsync(passwordUrl + agentEmail+"?agent="+agentEmail);
+				var result = await client.PutAsync(passwordUrl+"/" + agentEmail+"?agent="+agentEmail,null);
 				var json = await result.Content.ReadAsStringAsync();
 				var response = JsonConvert.DeserializeObject<Agent>(json);
 				return response;

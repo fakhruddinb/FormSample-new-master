@@ -21,16 +21,13 @@ namespace FormSample.ViewModel
        private ContractorDataService contractorDataService;
        public ObservableCollection<Contractor> contractorList { get; set; }
        private ContractorDatabase db;
-       private INavigation navigation;
 
        public ContractorViewModel()
        {
-          // this.navigation = navigation;
            this.contractorDataService = new ContractorDataService();
 			progressService = DependencyService.Get<IProgressService> ();
            db = new ContractorDatabase();
            contractorList = new ObservableCollection<Contractor>();
-           // BindContractor();
        }
 
        public const string IdPropertyName = "Id";
@@ -118,9 +115,18 @@ namespace FormSample.ViewModel
        {
            try
            {
-               bool isValid = true;
+             
                string errorMessage = string.Empty;
 				this.progressService.Show();
+
+				if (string.IsNullOrEmpty(this.ContractorFirstName))
+				{
+					errorMessage = errorMessage + Utility.FIRSTNAMEMESSAGE;
+				}
+				if (string.IsNullOrEmpty(this.ContractorLastName))
+				{
+					errorMessage = errorMessage + Utility.LASTNAMEMESSAGE;
+				}
 
                if (string.IsNullOrEmpty(this.ContractorEmail))
                {
@@ -131,15 +137,6 @@ namespace FormSample.ViewModel
                    errorMessage = errorMessage + Utility.INVALIDEMAILMESSAGE;
                }
 
-               if (string.IsNullOrEmpty(this.ContractorFirstName))
-               {
-                   errorMessage = errorMessage + Utility.FIRSTNAMEMESSAGE;
-               }
-               if (string.IsNullOrEmpty(this.ContractorFirstName))
-               {
-                   errorMessage = errorMessage + Utility.LASTNAMEMESSAGE;
-               }
-
 				if (!this.IsCheckedProperty)
                {
 					errorMessage = errorMessage + Utility.TERMSANDCONDITIONMESSAGE;
@@ -147,7 +144,6 @@ namespace FormSample.ViewModel
 
                if (!string.IsNullOrEmpty(errorMessage))
                {
-                   isValid = false;
 					this.progressService.Dismiss();
                    MessagingCenter.Send(this, "msg", errorMessage);
                }
@@ -177,13 +173,12 @@ namespace FormSample.ViewModel
 					var result= await contractorDataService.AddContractor(obj);
 					if (result != null)
 					{
-							//progressService.Dismiss();
 							App.RootPage.NavigateTo("Home");
 					}
 					}
                }
            }
-           catch (Exception ex)
+           catch (Exception)
            {
 				progressService.Dismiss();
 				MessagingCenter.Send(this, "msg", Utility.SERVERERRORMESSAGE);
@@ -206,12 +201,12 @@ namespace FormSample.ViewModel
 			{
 				progressService.Show();
 				var result = await contractorDataService.DeleteAllContractor(Settings.GeneralSettings);
-				//progressService.Dismiss();
 				App.RootPage.NavigateTo("Home");
-				//navigation.PushAsync(new HomePage());
 			}
 			catch
 			{
+				progressService.Dismiss();
+				MessagingCenter.Send(this, "msg", Utility.SERVERERRORMESSAGE);
 			}
 		}
 
@@ -224,14 +219,11 @@ namespace FormSample.ViewModel
         public async Task DeleteContractor(int id)
         {
             db.DeleteContractor(id);
-            //var deletedCustomer = await this.ds.DeleteCustomer(id);
-            //var tmp = deletedCustomer;
             await this.BindContractor();
         }
 
 		public  async Task BindContractor()
         {
-            // var customerList = await this.ds.GetCustomers();
 			var contractorList =  await  contractorDataService.GetContractors(Settings.GeneralSettings);
 			var list =  contractorList.Where (c => c.DeleteDate == null).OrderByDescending(a=>a.InsertDate).ToList ();
 			this.contractorList = new ObservableCollection<Contractor>(list);

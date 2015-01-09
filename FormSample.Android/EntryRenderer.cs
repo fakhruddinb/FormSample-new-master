@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using FormSample.Droid;
-using FormSample;
+using FormSample.Views;
 
 [assembly: ExportRenderer(typeof(MyEntry), typeof(MyEntryRenderer))]
 namespace FormSample.Droid
@@ -20,7 +20,7 @@ namespace FormSample.Droid
 			{
 				Control.ImeOptions = ImeAction.Next;
 				Control.InputType = InputTypes.TextFlagNoSuggestions | InputTypes.TextVariationVisiblePassword;
-				Control.SetBackgroundColor(global::Android.Graphics.Color.DarkGray);
+				//Control.SetBackgroundColor(global::Android.Graphics.Color.DarkGray);
 			}
 		}
 	}

@@ -34,6 +34,7 @@ namespace FormSample.Helpers
 		public static string USERNAMEMESSAGE = "Username is required.\n";
 		public static string PASSWORDMESSAGE = "Password is required.";
 		public static string INVALIDUSERMESSAGE = "Invalid user.";
+		public static string INCORRECTUSERNAMEORPASSWORD = "Username or password is incorrect.";
 
 		#endregion
 
@@ -69,9 +70,9 @@ namespace FormSample.Helpers
 			void OpenMap ();
 		}
 
-//		public interface IpdfService
-//		{
-//			void OpnePdf (string url);
-//		}
+        public interface IpasswordConverter
+        {
+            string ConvertPasswordIntoMd5(string password);
+        }
     }
 }

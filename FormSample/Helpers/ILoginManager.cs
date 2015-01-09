@@ -14,7 +14,7 @@ namespace FormSample
 
 	public class LoginModalPage : CarouselPage
 	{
-		ContentPage login, create,contactUs;
+		ContentPage login, create;
 		public LoginModalPage (ILoginManager ilm)
 		{
 			login = new LoginPage (ilm);
@@ -31,11 +31,6 @@ namespace FormSample
 			MessagingCenter.Subscribe<LoginViewModel> (this, "Create", (sender) => {
 				this.SelectedItem = create;
 			});
-			//			MessagingCenter.Subscribe<LoginViewModel> (this, "ContactUs", (sender) => {
-			//				Settings.PageName = "ContactUs";
-			//				this.SelectedItem = contactUs;
-			//
-			//			});
 		}
 	}
 }

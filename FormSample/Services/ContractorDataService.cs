@@ -11,7 +11,7 @@ namespace FormSample
    public class ContractorDataService
     {
        private string contractorDataUrl = "http://134.213.136.240:1082/api/contractors";
-//TODO Add connect and read timeout for web service communication
+		//private string deleteAllContractorUrl = "http://134.213.136.240:1082/api/contractors/0?agent=";
        public List<Contractor> filteredContractorList { get; set; }
 
        public ContractorDataService()
@@ -61,8 +61,6 @@ namespace FormSample
 
         public async Task<Contractor> DeleteContractor(int contractorId, string agentId)
         {
-            // var requestJson = JsonConvert.SerializeObject(agent, Formatting.Indented);
-
             HttpClient client = new HttpClient();
             var result = await client.DeleteAsync(contractorDataUrl + "/" + contractorId + "?agent=" + agentId);
             var json = await result.Content.ReadAsStringAsync();
@@ -70,13 +68,13 @@ namespace FormSample
             return response;
         }
 
-		public async Task<Contractor> DeleteAllContractor(string agendId) // baki data service mathi
+		public async Task<string> DeleteAllContractor(string agendId) 
 		{
 			HttpClient client = new HttpClient ();
-			var result = await client.DeleteAsync (contractorDataUrl + "/?agent=" + agendId);
-			var json = await result.Content.ReadAsStringAsync ();
-			var response = JsonConvert.DeserializeObject<Contractor> (json);
-			return response;
+			var result = await client.DeleteAsync (contractorDataUrl+"/0?agent=" + agendId);
+			//			var json = await result.Content.ReadAsStringAsync ();
+			//			var response = JsonConvert.DeserializeObject<Agent> (json);
+			return result.ToString();
 		}
     }
 }

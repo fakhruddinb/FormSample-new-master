@@ -7,18 +7,26 @@ namespace FormSample
 {
 	public class MainPage : MasterDetailPage
 	{
+		bool isFirstTime=true;
 		MenuPage menuPage;
 		public MainPage()
 		{
-			this.ShowLoginPage ();
+			 
 			//var menuPage = new MenuPage ();
 			menuPage = new MenuPage ();
-				menuPage.Menu.ItemSelected += (sender, e) => {
-					NavigateTo (e.SelectedItem as string);
-				};
-				Master = menuPage;
-				this.NavigateTo ("Home");
 
+			Master = menuPage;
+			this.NavigateTo ("Home");
+
+				menuPage.Menu.ItemSelected += (sender, e) => {
+				if(isFirstTime && (e.SelectedItem as string) == "Home")
+				{
+				}
+				else
+				{
+					NavigateTo (e.SelectedItem as string);
+				}
+				};
 		}
 
 		protected override void OnAppearing ()
@@ -26,21 +34,11 @@ namespace FormSample
 			base.OnAppearing ();
 		}
 
-		public async void ShowLoginPage()
-		{
-			if (string.IsNullOrWhiteSpace(Settings.GeneralSettings))
-			{
-				App.Logout ();
-//				var page = new LoginPage();
-//				await Navigation.PushModalAsync(page);
-			}
-		}
-
 		public void NavigateTo(string item)
 		{
-			//Page page = new HomePage();
 			Page page = new Page();
 			menuPage.Menu.SelectedItem = item;
+
 			switch (item)
 			{
 
@@ -58,6 +56,7 @@ namespace FormSample
 			case "Terms and conditions":
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 				page = new HomePage ();
+				menuPage.Menu.SelectedItem = "Home";
 				break;
 
 			case "About us":
@@ -72,10 +71,10 @@ namespace FormSample
             case "Weekly pay chart":
                 page = new ChartPage();
                 break;
-			case "Log out":
-				Settings.GeneralSettings = string.Empty;
-				App.Logout ();
-				break;
+//			case "Log out":
+//				Settings.GeneralSettings = string.Empty;
+//				App.Logout ();
+//				break;
 			default:
 				//menuPage.Menu.SelectedItem = item;
 				page = new HomePage();
@@ -84,7 +83,9 @@ namespace FormSample
 			}
 			this.Detail = new NavigationPage(page);
 			this.IsPresented = false;
+			isFirstTime = false;
 		}
 	}
+
 }
 

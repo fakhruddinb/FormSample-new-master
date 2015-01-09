@@ -59,6 +59,12 @@
     <Reference Include="SQLite.Net.Platform.XamarinAndroid">
       <HintPath>..\packages\SQLite.Net.Platform.XamarinAndroid.2.4.1\lib\MonoAndroid\SQLite.Net.Platform.XamarinAndroid.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfChart.Android">
+      <HintPath>..\packages\Static_Syncfusion\Android\Syncfusion.SfChart.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfChart.XForms.Android">
+      <HintPath>..\packages\Static_Syncfusion\Android\Syncfusion.SfChart.XForms.Android.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -84,12 +90,6 @@
     <Reference Include="AndHUD">
       <HintPath>..\Components\AndHUD-1.3.1\lib\android\AndHUD.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfChart.Android">
-      <HintPath>C:\Program Files\Syncfusion\Essential Studio\12.4.0.24\lib\android\Syncfusion.SfChart.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfChart.XForms.Android">
-      <HintPath>C:\Program Files\Syncfusion\Essential Studio\12.4.0.24\lib\android\Syncfusion.SfChart.XForms.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="BaseUrlAndroid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PasswordConverter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqLiteAndroid.cs" />
@@ -183,14 +184,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-ldpi\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\drawable-xxhdpi\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <XamarinComponentReference Include="AndHUD">
       <Version>1.3.1</Version>

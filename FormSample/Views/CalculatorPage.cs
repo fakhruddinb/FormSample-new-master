@@ -75,13 +75,13 @@ namespace FormSample.Views
 			};
 
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += async (object sender, EventArgs e) => 
+			downloadButton.Clicked += (object sender, EventArgs e) => 
 			{
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-			contactUsButton.Clicked += async (object sender, EventArgs e) => 
+			contactUsButton.Clicked +=  (object sender, EventArgs e) => 
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
@@ -112,17 +112,13 @@ namespace FormSample.Views
 					Children = {downloadButton,contactUsButton}
 				});
 
-			//NOTU
-			CalculatePayTableData();
-			//
 			Content = new ScrollView { Content = layout };
-
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			//this.GetDataFromService();
+			CalculatePayTableData();
 		}
 
 		private Grid SetDailyGrid()
@@ -143,7 +139,7 @@ namespace FormSample.Views
 			};
 			this.txtDailyRate = new Entry
 			{
-				Text = "100",
+				Text = "200",
 				TextColor = Color.White,
 				BackgroundColor = Color.Green,
 				HorizontalOptions = LayoutOptions.End,
@@ -160,7 +156,7 @@ namespace FormSample.Views
 			};
 			this.txtWeeklyExpense = new Entry
 			{
-				Text = "25",
+				Text = "0",
 				TextColor = Color.White,
 				BackgroundColor = Color.Green,
 				WidthRequest = 100,
@@ -186,9 +182,7 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtDailyRate.Text) >= 100 && Convert.ToInt32(txtDailyRate.Text) < 1200)
 				{
-					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtDailyRate.Text = (Convert.ToInt32(txtDailyRate.Text) + 100).ToString();
-					//await CalculatePayTableData();
 					CalculatePayTableData();
 				}
 			};
@@ -196,9 +190,7 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtDailyRate.Text) > 100)
 				{
-					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtDailyRate.Text = (Convert.ToInt32(txtDailyRate.Text) - 100).ToString();
-					//await CalculatePayTableData();
 					CalculatePayTableData();
 				}
 			};
@@ -223,12 +215,10 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtWeeklyExpense.Text) >= 0 && Convert.ToInt32(txtWeeklyExpense.Text) < 750)
 				{
-					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtWeeklyExpense.Text = (Convert.ToInt32(txtWeeklyExpense.Text) + 25).ToString();
 					try
 					{
-					//await CalculatePayTableData();
-						CalculatePayTableData();
+						await CalculatePayTableData();
 					}
 					catch(Exception ex)
 					{
@@ -241,10 +231,8 @@ namespace FormSample.Views
 			{
 				if (Convert.ToInt32(txtWeeklyExpense.Text) > 25)
 				{
-					//takeHomePayLimitedLabel.Text = string.Empty;
 					txtWeeklyExpense.Text = (Convert.ToInt32(txtWeeklyExpense.Text) - 25).ToString();
-					//await CalculatePayTableData();
-					CalculatePayTableData();
+                    await CalculatePayTableData();
 				}
 			};
 			var layout1 = new StackLayout()
@@ -276,10 +264,10 @@ namespace FormSample.Views
 			return grid;
 		}
 
-		//private void CalculatePayTableData()
 		private async Task CalculatePayTableData()
 		{
-			//progressiveService.Show ();
+			progressiveService.Show ();
+            
 			FormSample.PayTableDatabase d = new PayTableDatabase();
 			var dailyRate = Convert.ToInt32(this.txtDailyRate.Text);
 			var weeklyExpense = Convert.ToInt32(this.txtWeeklyExpense.Text);
@@ -338,33 +326,12 @@ namespace FormSample.Views
 				takeHomePayumbrellaLabel.Text = takeHomeUmbrella.ToString("C");
 				percentageumbrellaLabel.Text = percentUmbrella.ToString("F") + " %";
 
-
  				this.takeHomeGridBelowChart.Children.Add(umbrellaCompany, 2, 1);
 				this.takeHomeGridBelowChart.Children.Add(takeHomePayumbrellaLabel, 2, 2);
 				this.takeHomeGridBelowChart.Children.Add(percentageumbrellaLabel, 2, 3);
 				labelAfterChart.Text = "These figures are based on average contracting terms. They ALL include " + weeklyExpense.ToString("C") + " expenses as you specified.";
-			}
-
+            }
 		}
-
-//		private async Task GetDataFromService()
-//		{
-//			var service = new PayTableDataService ();
-//			var  result = await service.GetPayTableData (Settings.GeneralSettings);
-//			var p = result.ToList ();
-//			if (p != null) {
-//				AddPayData (p);
-//			}
-//		}
-//
-//		private void AddPayData(List<PayTable> payDataList)
-//		{
-//			FormSample.PayTableDatabase d = new PayTableDatabase ();
-//			foreach (var payData in payDataList) {
-//				d.SaveItem (payData);
-//			}
-//		}
-
 
 		private void GenerateSyncFusionchartLimited(string title)
 		{
@@ -401,7 +368,6 @@ namespace FormSample.Views
 
 			chart2.Title=new ChartTitle() { Text=title};
 			chart2.Title.Font = Font.OfSize("Arial", 10);
-			//            chart.WidthRequest = 200;
 			chart2.HeightRequest = 200;
 
 			//Adding Series to the chart 

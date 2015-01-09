@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FormSample.Helpers;
 
-namespace FormSample.Views
+namespace FormSample
 {
     using FormSample.ViewModel;
     using Xamarin.Forms;
@@ -13,76 +13,10 @@ namespace FormSample.Views
     public class LoginPage : ContentPage
     {
 
-//        public LoginPage()
-//        {
-//            //Contractor c = new Contractor();
-//            BindingContext = new LoginViewModel(Navigation);
-//
-//			BackgroundColor = Color.Gray;
-//
-//            var layout = new StackLayout { Padding = 5 };
-//
-//            var label = new Label
-//                            {
-//                                Text = "Sign in",
-//				BackgroundColor = Color.Gray,
-//                                Font = Font.SystemFontOfSize(NamedSize.Large),
-//								TextColor = Color.White,
-//                                VerticalOptions = LayoutOptions.Center,
-//                                XAlign = TextAlignment.Center, // Center the text in the blue box.
-//                                YAlign = TextAlignment.Center, // Center the text in the blue box.
-//                            };
-//
-//            layout.Children.Add(label);
-//			var userNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.FromHex("373737")};
-//			userNameLabel.Text = "Email";
-//
-//			var username = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
-//            username.SetBinding(Entry.TextProperty, LoginViewModel.UsernamePropertyName);
-//            username.Keyboard = Keyboard.Email;
-//          
-//
-//			var passwordLabel = new Label { HorizontalOptions = LayoutOptions.Fill, TextColor=Color.FromHex("373737")};
-//			passwordLabel.Text = "Password";
-//
-//			var password = new Entry {HorizontalOptions = LayoutOptions.FillAndExpand };
-//            password.SetBinding(Entry.TextProperty, LoginViewModel.PasswordPropertyName);
-//            password.IsPassword = true;
-//         
-//
-//			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
-//			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
-//
-//			var button = new Button { Text = "Sign In",BackgroundColor = Color.FromHex("22498a"),};
-//            button.SetBinding(Button.CommandProperty, LoginViewModel.LoginCommandPropertyName);
-//
-//			var registerButton = new Button { Text = "I don't have a recruiter account..", BackgroundColor=Color.FromHex("3b73b9")};
-//            registerButton.SetBinding(Button.CommandProperty, LoginViewModel.GoToRegisterCommandPropertyName);
-//
-//			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d")};
-//            downloadButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoDownloadCommandPropertyName);
-//
-//			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
-//            contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);
-//
-//			layout.Children.Add (userNameLabel);
-//			layout.Children.Add(username);
-//			layout.Children.Add (passwordLabel);
-//			layout.Children.Add(password);
-//            layout.Children.Add(forgotPassword);
-//            layout.Children.Add(button);
-//            layout.Children.Add(registerButton);
-//            layout.Children.Add(downloadButton);
-//            layout.Children.Add(contactUsButton);
-//            Content = new ScrollView { Content = layout, BackgroundColor = Color.Gray };
-//
-//        }
-
 		ILoginManager ilm;
 		public LoginPage(ILoginManager ilm)
 		{
 			this.ilm = ilm;
-			//Contractor c = new Contractor();
 			BindingContext = new LoginViewModel(Navigation,ilm);
 
 			var layout = new StackLayout { };
@@ -105,19 +39,19 @@ namespace FormSample.Views
 			var userNameLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			userNameLabel.Text = "Email";
 
-			var username = new Entry { HorizontalOptions = LayoutOptions.FillAndExpand};
+			var username = new Entry() { HorizontalOptions = LayoutOptions.FillAndExpand};
 			username.SetBinding(Entry.TextProperty, LoginViewModel.UsernamePropertyName);
 			username.Keyboard = Keyboard.Email;
 
 			var passwordLabel = new Label { HorizontalOptions = LayoutOptions.Fill};
 			passwordLabel.Text = "Password";
 
-			var password = new Entry {HorizontalOptions = LayoutOptions.FillAndExpand };
+			var password = new Entry() {HorizontalOptions = LayoutOptions.FillAndExpand };
 			password.SetBinding(Entry.TextProperty, LoginViewModel.PasswordPropertyName);
 			password.IsPassword = true;
 
-//			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
-//			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
+			var forgotPassword = new Button { Text = "I have forgotton my password", BackgroundColor=Color.FromHex("3b73b9")};
+			forgotPassword.SetBinding (Button.CommandProperty, LoginViewModel.ForgotPasswordCommandPropertyName);
 
 			var loginButton = new Button { Text = "Sign In",BackgroundColor = Color.FromHex("22498a")};
 			loginButton.SetBinding(Button.CommandProperty, LoginViewModel.LoginCommandPropertyName);
@@ -126,15 +60,11 @@ namespace FormSample.Views
 			registerButton.SetBinding(Button.CommandProperty, LoginViewModel.GoToRegisterCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d")};
-			downloadButton.Clicked += async (object sender, EventArgs e) => {
+			downloadButton.Clicked += (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
-//			var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00") };
-//			contactUsButton.SetBinding(Button.CommandProperty, LoginViewModel.GotoContactUsCommandPropertyName);
-
 			var controlStakeLayout = new StackLayout (){ 
-				//Padding = new Thickness(10, 0, 10, 0),
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
@@ -146,7 +76,7 @@ namespace FormSample.Views
 
 				Orientation = StackOrientation.Vertical,
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0, Device.OnPlatform(5, 5, 5), 0) ,//new Thickness(5,0, 5,0)
-				Children= { loginButton,registerButton,downloadButton}
+				Children= {forgotPassword,loginButton,registerButton,downloadButton}
 			};
 
 			layout.Children.Add(labelStakeLayout);
@@ -169,4 +99,6 @@ namespace FormSample.Views
             MessagingCenter.Unsubscribe<LoginViewModel, string>(this, "msg");
         }
     }
+
+
 }

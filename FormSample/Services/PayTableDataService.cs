@@ -8,7 +8,7 @@ namespace FormSample
 {
 	public class PayTableDataService
 	{
-		private string payDataUrl = "http://134.213.136.240:1081/api/paydata/";
+		private string payDataUrl = "http://134.213.136.240:1082/api/paydata/";
 
 		public PayTableDataService ()
 		{

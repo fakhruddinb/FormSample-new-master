@@ -18,7 +18,6 @@ namespace FormSample
 		}
 
 		public IEnumerable<Contractor> GetContractors (string agentEmail) {
-			//return (from i in database.Table<Contractor>() select i).ToList();
 			return database.Table<Contractor> ().Where (x => x.AgentId == agentEmail).ToList ();
 		}
 

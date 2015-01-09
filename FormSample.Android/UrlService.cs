@@ -16,26 +16,11 @@ namespace FormSample.Droid
 			var intent = new Intent (Intent.ActionView, uri);
 			Forms.Context.StartActivity(intent);
 			}
-			catch(Exception ex) {
+			catch(Exception) {
 			}
 		}
 
 
-//		public void OpnePdf(string url)
-//		{
-//			var uri = Android.Net.Uri.Parse (url);
-//			Intent intent = new Intent (Intent.ActionView);
-//			intent.SetDataAndType(uri, "application/pdf");
-//			intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
-//			try
-//			{
-//				Xamarin.Forms.Forms.Context.StartActivity(intent);
-//			}
-//			catch (Exception)
-//			{
-//				Toast.MakeText(Xamarin.Forms.Forms.Context, "No Application Available to View PDF", ToastLength.Short).Show();
-//			}
-//		}
 	}
 }
 

@@ -13,79 +13,11 @@ namespace FormSample
         private ContractorViewModel contractorViewModel;
 		private ContractorDataService dataService = new ContractorDataService();
         private ListView listView;
-       
-//		public MyContractorPage()
-//        {
-//			contractorViewModel = new ContractorViewModel();
-//            counter = 1;
-//
-//          
-//
-//			var label = new Label{ Text = "My contractor",BackgroundColor = Color.Gray,Font = Font.SystemFontOfSize(NamedSize.Medium),
-//				TextColor = Color.White,
-//				VerticalOptions = LayoutOptions.Center,
-//				XAlign = TextAlignment.Center, // Center the text in the blue box.
-//				YAlign = TextAlignment.Center
-//			};
-//            listView = new ListView
-//            {
-//                RowHeight = 40
-//            };
-//            var grid = new Grid
-//            {
-//                ColumnSpacing = 200
-//            };
-//            grid.Children.Add(new Label { Text = "Contractor", TextColor=Color.Red }, 0, 0); // Left, First element
-//			grid.Children.Add(new Label { Text = "Date refered" ,TextColor=Color.Red}, 1, 0);
-//
-//            var btnClearAllContractor = new Button { Text = "Clear all contractor", BackgroundColor = Color.FromHex("3b73b9"), TextColor = Color.White };
-//			btnClearAllContractor.SetBinding (Button.CommandProperty, ContractorViewModel.GotoDeleteAllContractorCommandPropertyName);
-//
-//            var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
-//
-//            var contactUsButton = new Button { Text = "Contact Us", BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-//			contactUsButton.SetBinding (Button.CommandProperty, ContractorViewModel.GotoContactUsCommandPropertyName);
-//
-//            var nameLayOut = new StackLayout
-//            {
-////                Orientation = StackOrientation.Vertical,
-////                Children = { btnClearAllContractor, downloadButton, contactUsButton }
-//					VerticalOptions = LayoutOptions.FillAndExpand,
-//				Children = {label, grid, listView, btnClearAllContractor, downloadButton, contactUsButton }
-//            };
-//
-//            Content = new ScrollView
-//            {
-//				Content = nameLayOut
-//            };
-//
-//            listView.ItemTapped += async (sender, args) =>
-//            {
-//                var contractor = args.Item as Contractor;
-//                if (contractor == null)
-//                {
-//                    return;
-//                }
-//
-//                var answer = await DisplayAlert("Confirm", "Do you wish to clear this item", "Yes", "No");
-//                if (answer)
-//                {
-//					var result = await dataService.DeleteContractor(contractor.Id, Settings.GeneralSettings);
-//					if(result != null)
-//					{
-//                   await this.contractorViewModel.DeleteContractor(contractor.Id);
-//						listView.ItemsSource = this.contractorViewModel.contractorList;
-//					}
-//                }
-//
-//                listView.SelectedItem = null;
-//            };
-//
-//        }
-
 		private IProgressService progressService;
+
 		public MyContractorPage()
 		{
+			BindingContext = new ContractorViewModel ();
 			progressService = DependencyService.Get<IProgressService> ();
 			contractorViewModel = new ContractorViewModel();
 			counter = 1;
@@ -110,11 +42,12 @@ namespace FormSample
 			grid.Children.Add(new Label { Text = "Contractor", TextColor=Color.Red }, 0, 0); // Left, First element
 			grid.Children.Add(new Label { Text = "Date refered" ,TextColor=Color.Red}, 1, 0);
 
+			//TODO clear all contractor
 			var btnClearAllContractor = new Button { Text = "Clear all contractor", BackgroundColor = Color.FromHex("3b73b9"), TextColor = Color.White };
 			btnClearAllContractor.SetBinding (Button.CommandProperty, ContractorViewModel.GotoDeleteAllContractorCommandPropertyName);
 
 			var downloadButton = new Button { Text = "Download Terms and Conditions", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White };
-			downloadButton.Clicked += async (object sender, EventArgs e) => {
+			downloadButton.Clicked += (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
@@ -129,7 +62,6 @@ namespace FormSample
 			};
 
 			var controlStakeLayout = new StackLayout (){ 
-				//Padding = new Thickness(10, 0, 10, 0),
 				Orientation = StackOrientation.Vertical,
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -139,15 +71,13 @@ namespace FormSample
 
 			var buttonLayout = new StackLayout (){ 
 				Orientation = StackOrientation.Vertical,
-				//Padding = new Thickness(10, 0, 10, 0),
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
-				Children= { downloadButton, contactUsButton}
+				Children= {btnClearAllContractor,downloadButton, contactUsButton}
 			};
 
 			var nameLayOut = new StackLayout
 			{
-				               Orientation = StackOrientation.Vertical,
-				//                Children = { btnClearAllContractor, downloadButton, contactUsButton }
+				Orientation = StackOrientation.Vertical,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				Children = {labelStakeLayout,controlStakeLayout,buttonLayout}
 			};
@@ -164,7 +94,6 @@ namespace FormSample
 				{
 					return;
 				}
-
 				var answer = await DisplayAlert("Confirm", "Do you wish to clear this item", "Yes", "No");
 				if (answer)
 				{
@@ -182,9 +111,11 @@ namespace FormSample
 			};
 
 		}
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+			MessagingCenter.Subscribe<ContractorViewModel,string> (this, "msg", async(sender, args) => await this.DisplayAlert ("Confirm", args, "Yes", "No"));
 			progressService.Show ();
 			try
 			{
@@ -193,19 +124,22 @@ namespace FormSample
 				progressService.Dismiss ();
 				await DisplayAlert ("Message", "Could not connect to the internet.", "OK");
 			} else {
-					//progressService.Dismiss();
 				await this.contractorViewModel.BindContractor ();
 				listView.ItemTemplate = new DataTemplate (typeof(ContractorCell));
 				listView.ItemsSource = this.contractorViewModel.contractorList;
-				//progressService.Dismiss ();
 				}
 			}
-			catch(Exception ex) {
+			catch(Exception) {
 				progressService.Dismiss ();
 				DisplayAlert ("Message", "Something went wrong. please try again letter...", "OK");
 			}
         }
 
+		protected override async void OnDisappearing()
+		{
+			base.OnDisappearing ();
+			MessagingCenter.Unsubscribe<ContractorViewModel, string>(this, "msg");
+		}
        
     }
 }

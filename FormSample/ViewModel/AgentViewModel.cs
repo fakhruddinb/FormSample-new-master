@@ -100,7 +100,6 @@ namespace FormSample.ViewModel
             try
             {
 				this.progressService.Show();
-                bool isValid = true;
                 string errorMessage = string.Empty;
 
                 if (string.IsNullOrWhiteSpace(this.Email))
@@ -133,7 +132,6 @@ namespace FormSample.ViewModel
 
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    isValid = false;
 					this.progressService.Dismiss();
                     MessagingCenter.Send(this, "msg", errorMessage);
                 }
@@ -169,16 +167,11 @@ namespace FormSample.ViewModel
 							this.AddAgentToLocalDatabase(result);
 							await uploadService.UpdatePaytableDataFromService();
                         }
-						// var p = new MainPage();
-
-						//await navigation.PushAsync(new MainPage());
-						//App.RootPage.NavigateTo("Home");
-						//this.progressService.Dismiss();
 						ilm.ShowMainPage();
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 				progressService.Dismiss();
 				MessagingCenter.Send(this, "msg", Utility.SERVERERRORMESSAGE);
@@ -200,122 +193,11 @@ namespace FormSample.ViewModel
         {
             try
             {
-				//await navigation.PushModalAsync(new LoginPage());
-               // await navigation.PushAsync(new LoginPage());
 				MessagingCenter.Send (this, "Login");
             }
             catch { }
         }
 
-        private Command gotoDownloadCommand;
-        public const string GotoDownloadCommandPropertyName = "GotoDownloadCommand";
-        public Command GotoDownloadCommand
-        {
-            get
-            {
-                return gotoDownloadCommand ?? (gotoDownloadCommand = new Command(async () => await ExecuteDownLoadCommand()));
-            }
-
-        }
-
-        protected async Task ExecuteDownLoadCommand()
-        {
-            try
-            {
-				 DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
-            }
-            catch
-            {
-            }
-        }
-
-        private Command gotoContactUsCommand;
-        public const string GotoContactUsCommandPropertyName = "GotoContactUsCommand";
-        public Command GotoContactUsCommand
-        {
-            get
-            {
-                return gotoContactUsCommand ?? (gotoContactUsCommand = new Command(async () => await ExecuteContactUsCommand()));
-            }
-        }
-
-        protected async Task ExecuteContactUsCommand()
-        {
-            try
-            {
-                await navigation.PushAsync(new ContactUsPage());
-            }
-            catch
-            {
-            }
-        }
-//
-//		private Command updateCommand;
-//		public const string UpdateCommandPropertyName = "UpdateCommand";
-//		public Command UpdateCommand
-//		{
-//			get{ 
-//				return updateCommand ?? (updateCommand = new Command (async() => await ExecuteUpdateCommand ()));
-//			}
-//		}
-//
-//		protected async Task ExecuteUpdateCommand()
-//		{
-//			try{
-//
-//				bool isValid = true;
-//				string errorMessage = string.Empty;
-//
-//				if (string.IsNullOrWhiteSpace(this.FirstName))
-//				{
-//					errorMessage = errorMessage + "Firstname is required.\n";
-//				}
-//
-//				if (string.IsNullOrWhiteSpace(this.LastName))
-//				{
-//					errorMessage = errorMessage + "Lastname is required.\n";
-//				}
-//
-//				if (string.IsNullOrWhiteSpace(this.AgencyName))
-//				{
-//					errorMessage = errorMessage + "Agency name is required.\n";
-//				}
-//
-//				if (!string.IsNullOrEmpty(errorMessage))
-//				{
-//					isValid = false;
-//					MessagingCenter.Send(this, "msg", errorMessage);
-//				}
-//				else
-//				{
-//						var a = new Agent()
-//						{
-//							Id = this.Id,
-//							Email = this.Email,
-//							FirstName = this.FirstName,
-//							LastName = this.LastName,
-//							Phone = this.Phone,
-//							AgencyName = this.AgencyName
-//						};
-//
-//						var result = await dataService.UpdateAgent(a);
-//						if (result != null && !string.IsNullOrWhiteSpace(this.Email))
-//						{
-//							//this.CreateDatabase(result);
-//							Settings.GeneralSettings = this.Email;
-//
-//						}
-//						await navigation.PopAsync();
-//				}
-//			}
-//			catch {
-//			}
-//		}
-
-        /// <summary>
-        /// The execute submit command.
-        /// </summary>
-        /// <returns> The <see cref="Task"/>. </returns>
 		private void AddAgentToLocalDatabase(Agent responseFromServer)
 		{
 			FormSample.AgentDatabase d = new AgentDatabase();

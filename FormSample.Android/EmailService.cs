@@ -18,11 +18,8 @@ namespace FormSample.Droid
 			intent.SetData(data);
 			Forms.Context.StartActivity(intent);
 			}
-			catch(Exception ex) {
+			catch(Exception) {
 			}
-//			intent.SetType ("message/rfc822");
-//			intent.PutExtra (Intent.ActionSendto,email);
-//			Forms.Context.StartActivity (Intent.CreateChooser (intent, "Send email"));
 		}
 	}
 }

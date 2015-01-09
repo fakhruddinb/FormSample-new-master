@@ -32,31 +32,10 @@ namespace FormSample
 
 		public static MainPage RootPage{ get; set;}
 
-
-//		public static async Task gotoLogin ()
-//		{
-//			await Navigation.PushModalAsync (new LoginPage ());
-//		}
-//
-//        public static Page GetMainPage()
-//        {
-//			Page page = null;
-//            try
-//            {
-//			RootPage= new MainPage();
-//				page  = RootPage;
-//				//page = new NavigationPage(new StepperDemoPage()); 
-//            }
-//            catch (Exception ex)
-//            {
-//            }
-//            return page;
-//        }
 		static ILoginManager loginManager;
 		public static Page GetLoginPage (ILoginManager ilm)
 		{	
 			loginManager = ilm;
-			//			return new LoginPage (ilm);
 			return new LoginModalPage (ilm);
 		}
 

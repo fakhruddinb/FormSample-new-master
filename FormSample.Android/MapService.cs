@@ -21,7 +21,7 @@ namespace FormSample.Droid
 			{
 			Forms.Context.StartActivity (mapIntent);
 			}
-			catch(Exception ex) {
+			catch(Exception) {
 				Toast.MakeText(Xamarin.Forms.Forms.Context, "No Application Available to View Map", ToastLength.Short).Show();
 			}
 		}

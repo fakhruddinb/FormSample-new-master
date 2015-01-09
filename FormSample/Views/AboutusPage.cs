@@ -14,7 +14,6 @@ namespace FormSample
     {
 		public AboutusPage()
 		{
-            //this.Title = "About Churchill Knight & Associate Ltd.";
 			var lblTitle = new Label {
 				Text = "About Churchill Knight & Associate Ltd.",
 				BackgroundColor = Color.Black,
@@ -34,15 +33,14 @@ namespace FormSample
             }
             browser.Source = htmlSource;
             browser.VerticalOptions = LayoutOptions.FillAndExpand;
-            // Content = browser;
 			var downloadButton = new Button{Text = "Download terms and conditions",BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += async (object sender, EventArgs e) => {
+			downloadButton.Clicked +=  (object sender, EventArgs e) => {
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService> ().OpenUrl (Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button{Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White};
 
-			contactUsButton.Clicked += async(object sender, EventArgs e)=>
+			contactUsButton.Clicked += (object sender, EventArgs e)=>
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
@@ -54,9 +52,7 @@ namespace FormSample
 
 			var buttonLayout = new StackLayout (){ 
 				Orientation = StackOrientation.Vertical,
-				//Padding = new Thickness(10, 0, 10, 0),
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
-				//VerticalOptions = LayoutOptions.FillAndExpand, 
 				Children= { downloadButton, contactUsButton}
 			};
 

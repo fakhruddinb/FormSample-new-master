@@ -16,8 +16,6 @@ namespace FormSample
 
 		public ChartPage ()
 		{
-			//this.BackgroundColor = Color.White;
-
 			dailyRate = new List<DailyRateCalcuationTable>();
 			model = new DailyRateDataModel();
 
@@ -54,13 +52,13 @@ namespace FormSample
 			chart1= new SfChart();
 
 			var downloadButton = new Button { Text = "Download terms and condition", BackgroundColor = Color.FromHex("f7941d"), TextColor = Color.White};
-			downloadButton.Clicked += async (object sender, EventArgs e) => 
+			downloadButton.Clicked += (object sender, EventArgs e) => 
 			{
 				DependencyService.Get<FormSample.Helpers.Utility.IUrlService>().OpenUrl(Utility.PDFURL);
 			};
 
 			var contactUsButton = new Button { Text = "Contact us",BackgroundColor = Color.FromHex("0d9c00"), TextColor = Color.White };
-			contactUsButton.Clicked += async (object sender, EventArgs e) => 
+			contactUsButton.Clicked +=  (object sender, EventArgs e) => 
 			{
 				App.RootPage.NavigateTo("Contact us");
 			};
@@ -74,7 +72,6 @@ namespace FormSample
 
 			var buttonLayout = new StackLayout (){ 
 				Orientation = StackOrientation.Vertical,
-				//Padding = new Thickness(10, 0, 10, 0),
 				Padding = new Thickness(Device.OnPlatform(5, 5, 5),0 , Device.OnPlatform(5, 5, 5), 0), //new Thickness(5,0,5,0),
 				VerticalOptions = LayoutOptions.FillAndExpand, 
 				HorizontalOptions = LayoutOptions.Fill,
@@ -86,8 +83,6 @@ namespace FormSample
 				Children = {headerStackLayout, description,grid, list, chart1,buttonLayout},
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.Fill,
-				//BackgroundColor = Color.Gray
-
 			};
 			Content = layout;
 		}
